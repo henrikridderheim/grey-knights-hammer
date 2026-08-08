@@ -1,5 +1,5 @@
 import { makeRng } from "./dice";
-import { simulateEngagement, type RerollFlags } from "./attackSequence";
+import { simulateEngagement, simulateUnitPhase, type RerollFlags } from "./attackSequence";
 import type { AttackContext, SimulationSummary } from "./types";
 
 export interface RunOptions {
@@ -32,32 +32,18 @@ function stdDev(values: number[], avg: number): number {
   return Math.sqrt(variance);
 }
 
-export function runSimulation(ctx: AttackContext, options: RunOptions): SimulationSummary {
-  const iterations = options.iterations ?? 10000;
-  const rng = makeRng(options.seed ?? 12345);
-
-  const damages: number[] = [];
-  const modelsKilledList: number[] = [];
-  const woundsRemainingList: number[] = [];
-  let kills = 0;
-  let wipes = 0;
-
-  for (let i = 0; i < iterations; i++) {
-    const result = simulateEngagement(ctx, rng, options.rerolls);
-    damages.push(result.damageDealt);
-    modelsKilledList.push(result.modelsKilled);
-    woundsRemainingList.push(result.woundsRemaining);
-    if (result.unitWiped) {
-      kills += 1;
-      wipes += 1;
-    }
-  }
-
+function summarize(
+  label: string,
+  iterations: number,
+  damages: number[],
+  modelsKilledList: number[],
+  woundsRemainingList: number[],
+  wipes: number
+): SimulationSummary {
   const sortedDamage = [...damages].sort((a, b) => a - b);
   const avgDamage = mean(damages);
-
   return {
-    label: options.label,
+    label,
     iterations,
     meanDamage: avgDamage,
     medianDamage: median(sortedDamage),
@@ -66,9 +52,57 @@ export function runSimulation(ctx: AttackContext, options: RunOptions): Simulati
     p25: percentile(sortedDamage, 25),
     p75: percentile(sortedDamage, 75),
     p90: percentile(sortedDamage, 90),
-    killProbability: kills / iterations,
+    killProbability: wipes / iterations,
     meanModelsKilled: mean(modelsKilledList),
     meanWoundsRemaining: mean(woundsRemainingList),
     wipeProbability: wipes / iterations,
   };
+}
+
+/** Run a single weapon vs. a target across N Monte Carlo iterations. */
+export function runSimulation(ctx: AttackContext, options: RunOptions): SimulationSummary {
+  const iterations = options.iterations ?? 10000;
+  const rng = makeRng(options.seed ?? 12345);
+
+  const damages: number[] = [];
+  const modelsKilledList: number[] = [];
+  const woundsRemainingList: number[] = [];
+  let wipes = 0;
+
+  for (let i = 0; i < iterations; i++) {
+    const result = simulateEngagement(ctx, rng, options.rerolls);
+    damages.push(result.damageDealt);
+    modelsKilledList.push(result.modelsKilled);
+    woundsRemainingList.push(result.woundsRemaining);
+    if (result.unitWiped) wipes += 1;
+  }
+
+  return summarize(options.label, iterations, damages, modelsKilledList, woundsRemainingList, wipes);
+}
+
+/** Run a full unit's combined weapons (shared target pool) across N Monte Carlo iterations. */
+export function runUnitPhaseSimulation(
+  engagements: { ctx: AttackContext; rerolls?: RerollFlags }[],
+  options: RunOptions
+): SimulationSummary & { meanDamageByWeapon: number[] } {
+  const iterations = options.iterations ?? 10000;
+  const rng = makeRng(options.seed ?? 12345);
+
+  const damages: number[] = [];
+  const modelsKilledList: number[] = [];
+  const woundsRemainingList: number[] = [];
+  const damageByWeaponSum: number[] = new Array(engagements.length).fill(0);
+  let wipes = 0;
+
+  for (let i = 0; i < iterations; i++) {
+    const result = simulateUnitPhase(engagements, rng);
+    damages.push(result.damageDealt);
+    modelsKilledList.push(result.modelsKilled);
+    woundsRemainingList.push(result.woundsRemaining);
+    if (result.unitWiped) wipes += 1;
+    result.damageByWeapon.forEach((d, idx) => (damageByWeaponSum[idx] += d));
+  }
+
+  const summary = summarize(options.label, iterations, damages, modelsKilledList, woundsRemainingList, wipes);
+  return { ...summary, meanDamageByWeapon: damageByWeaponSum.map((d) => d / iterations) };
 }

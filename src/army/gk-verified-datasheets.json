@@ -1,0 +1,290 @@
+{
+  "_source": {
+    "file": "Imperium - Grey Knights.json",
+    "url": "https://raw.githubusercontent.com/BSData/wh40k-11e/main/Imperium%20-%20Grey%20Knights.json",
+    "catalogueId": "see root 'id' field of GreyKnights11e.json",
+    "note": "All data below extracted directly from the BattleScribe catalogue JSON via targeted python parsing. IDs quoted are BattleScribe selectionEntry/profile ids from that file."
+  },
+
+  "units": {
+    "castellan_crowe": {
+      "id": "9ddb-760d-8cf7-1c8a",
+      "name": "Castellan Crowe",
+      "type": "model",
+      "points": 100,
+      "statline": { "M": "6\"", "T": "4", "Sv": "2+", "InvSv": "4+", "W": "5", "Ld": "6+", "OC": "1" },
+      "keywords": ["Castellan Crowe", "Faction: Grey Knights", "Psyker", "Imperium", "Epic Hero", "Infantry", "Character", "Leader"],
+      "wargear": [
+        {
+          "name": "Black Blade of Antwyr",
+          "id": "9bcc-8f6e-67ea-6c75",
+          "type": "Melee Weapons",
+          "profile": { "Range": "Melee", "A": "5", "WS": "2+", "S": "6", "AP": "-2", "D": "2", "Keywords": ["Devastating Wounds", "Precision"] }
+        },
+        {
+          "name": "Purifying Flame",
+          "id": "ba75-d1eb-5347-28b3",
+          "type": "Ranged Weapons",
+          "profile": { "Range": "18\"", "A": "3", "BS": "2+", "S": "4", "AP": "-2", "D": "1", "Keywords": ["Anti-Infantry 2+", "Ignores Cover", "Psychic"] }
+        },
+        {
+          "name": "Storm bolter",
+          "id": "18c1-d4b5-0ff0-4808",
+          "type": "Ranged Weapons",
+          "profile": { "Range": "24\"", "A": "2", "BS": "2+", "S": "4", "AP": "0", "D": "1", "Keywords": ["Rapid Fire 2"] }
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Champion of the Order of Purifiers (Psychic)",
+          "text": "While this model is leading a unit, add 1 to the Attacks characteristic of Purifying Flame weapons equipped by that unit."
+        },
+        {
+          "name": "Foesight (Psychic)",
+          "text": "Each time this model makes an attack that targets a Character unit, you can re-roll the Hit roll.",
+          "note": "Verified spelling in the source data is 'Foesight', not 'Foresight' as claimed. This appears to be the official published name (a play on 'Foe' + 'sight'), not a typo in the catalogue -- flagged as a naming discrepancy from the claim."
+        },
+        {
+          "name": "Leader",
+          "text": "This model can be attached to the following unit:\n■ Purifier Squad",
+          "note": "Confirms Crowe can ONLY lead/attach to Purifier Squad. No other unit is listed."
+        }
+      ],
+      "leaderConstraint": {
+        "canAttachTo": ["Purifier Squad"],
+        "verified": true
+      }
+    },
+
+    "purifier_squad": {
+      "id": "8865-df22-1629-bf02",
+      "name": "Purifier Squad",
+      "type": "unit",
+      "pointsClaimed": 280,
+      "pointsVerified": 280,
+      "pointsBreakdown": "Base cost snaps to 260pts once the unit has 6+ models (modifier: 'atLeast 6 selections of type model -> set pts=260'); + 4x Purifier w/ psycannon upgrade at +5pts each = +20pts. Total 260+20 = 280pts for a 10-model squad with 4 psycannons. MATCHES claim exactly.",
+      "statline": { "M": "6\"", "T": "4", "Sv": "2+", "InvSv": null, "W": "2", "Ld": "6+", "OC": "1" },
+      "composition": {
+        "mandatory": "1x Knight of the Flame (id d27-4455-b0d4-3250)",
+        "group": "4-9 Purifiers (min 4, max 9) -- of which up to 4 (raised from a normal max of 2 once the unit is 10 models) may take the 'Heavy Weapons' sub-group (incinerator / psilencer / psycannon)",
+        "verifiedFor10Models": "1 Knight of the Flame + 9 Purifiers (5 default-loadout + 4 heavy-weapon-loadout) = 10 models total. Matches claim of 1 Knight of the Flame + 9 Purifiers."
+      },
+      "wargear": {
+        "default_6_models": {
+          "appliesTo": "Knight of the Flame + 5 default-loadout Purifiers (6 models)",
+          "items": [
+            { "name": "Nemesis force weapon", "id": "8194-61a0-7d96-61e2", "type": "Melee Weapons", "profile": { "Range": "Melee", "A": "3", "WS": "3+", "S": "6", "AP": "-2", "D": "2", "Keywords": ["Psychic"] } },
+            { "name": "Purifying Flame", "id": "5734-ebde-ab2c-8796", "type": "Ranged Weapons", "profile": { "Range": "18\"", "A": "1", "BS": "3+", "S": "4", "AP": "-2", "D": "1", "Keywords": ["Anti-Infantry 2+", "Ignores Cover", "Psychic"] } },
+            { "name": "Storm bolter", "id": "be2a-878d-7003-2f51", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "2", "BS": "3+", "S": "4", "AP": "0", "D": "1", "Keywords": ["Rapid Fire 2"] } }
+          ]
+        },
+        "heavy_weapon_4_models": {
+          "appliesTo": "4x Purifier w/ psycannon (+5pts each)",
+          "items": [
+            { "name": "Close combat weapon", "id": "d0e-7460-ee7b-660f", "type": "Melee Weapons", "profile": { "Range": "Melee", "A": "3", "WS": "3+", "S": "4", "AP": "0", "D": "1", "Keywords": [] } },
+            { "name": "Purifying Flame", "id": "5734-ebde-ab2c-8796", "type": "Ranged Weapons", "profile": { "Range": "18\"", "A": "1", "BS": "3+", "S": "4", "AP": "-2", "D": "1", "Keywords": ["Anti-Infantry 2+", "Ignores Cover", "Psychic"] } },
+            { "name": "Psycannon", "id": "e520-9c7-d10c-897d", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "3", "BS": "3+", "S": "8", "AP": "-1", "D": "2", "Keywords": ["Psychic"] }, "costPerModel": 5 }
+          ]
+        },
+        "otherAvailableHeavyOptions": [
+          { "name": "Incinerator", "id": "17ed-2f7b-bf3a-3c94", "profile": { "Range": "12\"", "A": "D6", "BS": "N/A (auto-hit)", "S": "6", "AP": "-1", "D": "1", "Keywords": ["Ignores Cover", "Torrent"] }, "costPerModel": 0 },
+          { "name": "Psilencer", "id": "d526-d040-807c-34f6", "profile": { "Range": "24\"", "A": "6", "BS": "3+", "S": "5", "AP": "0", "D": "1", "Keywords": ["Precision", "Psychic", "Sustained Hits 1"] }, "costPerModel": 0 }
+        ]
+      },
+      "abilities": [
+        { "name": "Sanctity of Purpose", "text": "Each time a model in this unit makes an attack, re-roll a Wound roll of 1. If the target is within range of an objective marker, you can re-roll the Wound roll instead." }
+      ]
+    },
+
+    "grand_master_nemesis_dreadknight": {
+      "id": "3625-f9f1-122b-bf9d",
+      "name": "Grand Master in Nemesis Dreadknight",
+      "type": "model",
+      "pointsClaimed": [255, 245, 245],
+      "pointsVerified": {
+        "baseCost": 200,
+        "wargearUsedInClaim": ["Nemesis daemon greathammer (free swap from default 'Dreadfists')", "Fragstorm grenade launcher (mandatory, free)", "Heavy psycannon (+15pts)", "Sublimator (+15pts)"],
+        "computedSingleModelCost": 230,
+        "note": "Directly-attached costs sum to 200 + 15 (Heavy psycannon) + 15 (Sublimator) = 230pts for one model with this loadout. None of the three claimed values (255/245/245) equals 230 outright. The catalogue also contains a conditional +15pts 'repeat selection' modifier that applies to additional copies of this datasheet in the same roster (structure: appears to trigger once at least 2 prior selections of this same unit exist before it, i.e. likely the 3rd copy), plus the army's own Enhancements (Tome of Forbidden Ways +25pts, Purity of Purpose +15pts) could independently be assigned to one or more of these models. 230+15=245 matches two of the three claimed values, and 230+25=255 would match the third IF that copy carries Tome of Forbidden Ways. This cannot be conclusively verified from static JSON inspection alone (it requires replaying BattleScribe's full roster-level cost-modifier engine, including which enhancement is on which model) -- flagged as UNRESOLVED rather than a clean MATCH or MISMATCH. Recommend re-checking in an actual list-building tool (e.g. NewRecruit) or confirming enhancement assignment."
+      },
+      "statline": { "M": "8\"", "T": "8", "Sv": "2+", "InvSv": "4+", "W": "13", "Ld": "6+", "OC": "4" },
+      "wargear": [
+        { "name": "Fragstorm grenade launcher", "id": "4cf7-61b6-ad2e-09f6", "type": "Ranged Weapons", "profile": { "Range": "18\"", "A": "D6", "BS": "3+", "S": "4", "AP": "0", "D": "1", "Keywords": ["Blast"] } },
+        { "name": "Heavy psycannon", "id": "5a07-33e2-89ab-4bd5", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "6", "BS": "3+", "S": "10", "AP": "-2", "D": "3", "Keywords": ["Ignores Cover", "Psychic"] }, "cost": 15 },
+        { "name": "Nemesis daemon greathammer", "id": "fa77-59f9-10a7-74c0", "type": "Melee Weapons", "profile": { "Range": "Melee", "A": "5", "WS": "3+", "S": "14", "AP": "-3", "D": "D6+1", "Keywords": ["Psychic"] } },
+        { "name": "Sublimator", "id": "0280-324e-2b4a-ef77", "type": "Ranged Weapons", "profile": { "Range": "18\"", "A": "2", "BS": "3+", "S": "9", "AP": "-4", "D": "D6", "Keywords": ["Melta 4", "Psychic", "Twin-linked"] }, "cost": 15 }
+      ],
+      "abilities": [
+        { "name": "Surge of Wrath (Psychic)", "text": "Each time this model makes a melee attack that targets a Monster or Vehicle unit, you can re-roll the Hit roll, you can re-roll the Wound roll and you can re-roll the Damage roll." },
+        { "name": "Warrior Strategist", "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP." }
+      ],
+      "otherWeaponOptionsNotUsedInClaim": {
+        "melee": ["Nemesis mace (default)", "Nemesis flail", "Dreadfists (catalogue default)", "Nemesis greatsword"],
+        "ranged": ["Gatling psilencer (free)", "Heavy incinerator (free)"]
+      },
+      "maxCopiesInForce": 3
+    },
+
+    "brotherhood_terminator_squad": {
+      "id": "a037-a89c-f59f-8b1e",
+      "name": "Brotherhood Terminator Squad",
+      "type": "unit",
+      "pointsClaimed": 140,
+      "pointsVerified": 140,
+      "pointsBreakdown": "Base cost 140pts for the minimum composition of 4 models (mandatory Justicar + minimum 3 from the '3-9 Terminators' group). MATCHES claim exactly.",
+      "keywords_confirming_battleline": true,
+      "statline": { "M": "5\"", "T": "5", "Sv": "2+", "InvSv": "4+", "W": "3", "Ld": "6+", "OC": "2" },
+      "composition": {
+        "mandatory": "1x Justicar (id 9151-d4f-9296-22cd)",
+        "group": "3-9 Terminators (min 3, max 9): Terminator (plain), Terminator with Ancient's Banner (max 1), Terminator with Narthecium (max 1), Terminator with Heavy Weapon",
+        "verifiedFor4Models": "Justicar + Terminator with Ancient's Banner + Terminator with Narthecium + Terminator (plain) = 4 models. Matches claim of Justicar, 2 Terminator, Ancient (one Terminator carrying the Narthecium)."
+      },
+      "wargear": {
+        "allModels": [
+          { "name": "Nemesis force weapon", "id": "95b1-f5f8-e3fc-d771", "type": "Melee Weapons", "profile": { "Range": "Melee", "A": "4", "WS": "3+", "S": "6", "AP": "-2", "D": "2", "Keywords": ["Psychic"] } }
+        ],
+        "mostModels": [
+          { "name": "Storm bolter", "id": "be2a-878d-7003-2f51", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "2", "BS": "3+", "S": "4", "AP": "0", "D": "1", "Keywords": ["Rapid Fire 2"] } }
+        ],
+        "ancientModel": {
+          "weapon": { "name": "Incinerator", "id": "17ed-2f7b-bf3a-3c94", "type": "Ranged Weapons", "profile": { "Range": "12\"", "A": "D6", "BS": "N/A (auto-hit)", "S": "6", "AP": "-1", "D": "1", "Keywords": ["Ignores Cover", "Torrent"] } },
+          "wargearItem": { "name": "Ancient's Banner", "id": "55ab-530-9b32-a5d0", "text": "Add 1 to the Objective Control characteristic of models in the bearer's unit." }
+        },
+        "narthecium": { "name": "Apothecary's narthecium", "id": "65d9-e2ef-776d-f579", "text": "In your Command phase, if the bearer is not destroyed, you can return 1 destroyed model (excluding Characters) to the bearer's unit." }
+      },
+      "abilities": [
+        { "name": "Force Edge (Psychic)", "text": "Each time a model in this unit makes a melee attack that targets a unit (excluding Vehicles or Monsters), improve the Armour Penetration characteristic of that attack by 1." }
+      ]
+    },
+
+    "strike_squad": {
+      "id": "d81f-c9ac-e338-ba37",
+      "name": "Strike Squad",
+      "type": "unit",
+      "pointsClaimed": 115,
+      "pointsVerified": 115,
+      "pointsBreakdown": "Base cost 115pts for the minimum composition of 5 models (mandatory Justicar + minimum 4 from '4-9 Grey Knights' group), no upgrades. MATCHES claim exactly. Applies identically to both copies in the list.",
+      "keywords_confirming_battleline": true,
+      "statline": { "M": "6\"", "T": "4", "Sv": "2+", "InvSv": null, "W": "2", "Ld": "6+", "OC": "2" },
+      "composition": {
+        "mandatory": "1x Justicar",
+        "group": "4-9 Grey Knights (min 4, max 9)",
+        "verifiedFor5Models": "Justicar + 4 Grey Knight = 5 models, matches claim."
+      },
+      "wargear": {
+        "allModelsIdentical": [
+          { "name": "Nemesis force weapon", "id": "8194-61a0-7d96-61e2", "type": "Melee Weapons", "profile": { "Range": "Melee", "A": "3", "WS": "3+", "S": "6", "AP": "-2", "D": "2", "Keywords": ["Psychic"] } },
+          { "name": "Storm bolter", "id": "be2a-878d-7003-2f51", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "2", "BS": "3+", "S": "4", "AP": "0", "D": "1", "Keywords": ["Rapid Fire 2"] } }
+        ]
+      },
+      "abilities": [
+        { "name": "Sanctifying Ritual (Psychic)", "text": "At the end of your Command phase, if this unit is within range of an objective marker that you control, that objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase.", "note": "Not mentioned in the claim, included here for completeness -- no discrepancy since nothing was claimed about this unit's ability." }
+      ]
+    },
+
+    "purgation_squad": {
+      "id": "e8ad-bd40-5952-6859",
+      "name": "Purgation Squad",
+      "type": "unit",
+      "statline": { "M": "6\"", "T": "4", "Sv": "2+", "InvSv": null, "W": "2", "Ld": "6+", "OC": "1" },
+      "composition": {
+        "mandatory": "1x Justicar",
+        "group": "4-9 Purgators (min 4, max 9), of which up to 4 may take the 'Heavy Weapons' sub-group (incinerator / psilencer / psycannon)"
+      },
+      "wargear": {
+        "default": [
+          { "name": "Nemesis force weapon", "id": "8194-61a0-7d96-61e2", "type": "Melee Weapons", "profile": { "Range": "Melee", "A": "3", "WS": "3+", "S": "6", "AP": "-2", "D": "2", "Keywords": ["Psychic"] } },
+          { "name": "Storm bolter", "id": "be2a-878d-7003-2f51", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "2", "BS": "3+", "S": "4", "AP": "0", "D": "1", "Keywords": ["Rapid Fire 2"] } }
+        ],
+        "heavyWeaponModels": [
+          { "name": "Close combat weapon", "id": "d0e-7460-ee7b-660f", "type": "Melee Weapons", "profile": { "Range": "Melee", "A": "3", "WS": "3+", "S": "4", "AP": "0", "D": "1", "Keywords": [] } },
+          { "name": "Psycannon", "id": "e520-9c7-d10c-897d", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "3", "BS": "3+", "S": "8", "AP": "-1", "D": "2", "Keywords": ["Psychic"] }, "costPerModel": 5 },
+          { "name": "Psilencer", "id": "d526-d040-807c-34f6", "type": "Ranged Weapons", "profile": { "Range": "24\"", "A": "6", "BS": "3+", "S": "5", "AP": "0", "D": "1", "Keywords": ["Precision", "Psychic", "Sustained Hits 1"] }, "costPerModel": 0 },
+          { "name": "Incinerator", "id": "17ed-2f7b-bf3a-3c94", "type": "Ranged Weapons", "profile": { "Range": "12\"", "A": "D6", "BS": "N/A (auto-hit)", "S": "6", "AP": "-1", "D": "1", "Keywords": ["Ignores Cover", "Torrent"] }, "costPerModel": 0 }
+        ]
+      },
+      "abilities": [
+        { "name": "Righteous Persecution", "text": "In your Shooting phase, after this unit has shot, select one enemy unit (excluding Monsters or Vehicles) hit by one or more of those attacks; until the start of your next turn, that enemy unit is pinned. While a unit is pinned, subtract 2 from that unit's Move characteristic and subtract 2 from Charge rolls made for it." }
+      ],
+      "variants": {
+        "purgation_a": {
+          "pointsClaimed": 240,
+          "pointsVerified": 240,
+          "pointsBreakdown": "6+ model squads snap to a flat base of 220pts (modifier: 'atLeast 6 models -> set pts=220'), + 4x Psycannon at +5pts = +20. Total 220+20=240. MATCHES claim exactly.",
+          "models": 10,
+          "composition": "Justicar + 5x (Nemesis force weapon + Storm bolter) + 4x (Close combat weapon + Psycannon)",
+          "enhancement": "Boons of Deimos (Fires of Purgation, +20pts, tracked separately from the 240pts unit cost -- see enhancements section)"
+        },
+        "purgation_b": {
+          "pointsClaimed": 130,
+          "pointsVerified": 130,
+          "pointsBreakdown": "Base 5-model cost 110pts + 4x Psycannon at +5pts = 130. MATCHES claim exactly.",
+          "models": 5,
+          "composition": "Justicar + Storm bolter (default Nemesis force weapon implied) + 4x (Close combat weapon + Psycannon)"
+        },
+        "purgation_c": {
+          "pointsClaimed": 135,
+          "pointsVerified": 135,
+          "pointsBreakdown": "Base 5-model cost 110pts + 1x Psilencer (+0pts, Psilencer carries no listed points cost in this catalogue) + 3x Psycannon at +5pts (+15) = 125pts from directly-attached item costs alone. This is 10pts short of the claimed 135. HOWEVER the catalogue also carries a conditional +10pts 'repeat selection' modifier for additional copies of the Purgation Squad datasheet within the same roster (triggers once at least 2 same-datasheet selections precede this one, i.e. consistent with this being the 3rd Purgation Squad taken in the list). 125+10=135, which matches the claim exactly if this is indeed the 3rd Purgation Squad unit in build order. MATCHES claim, with the repeat-copy surcharge explaining the extra 10pts -- flagged for transparency since it depends on list order, not a flat per-model cost.",
+          "models": 5,
+          "composition": "Justicar + Storm bolter (default Nemesis force weapon implied) + 1x (Close combat weapon + Psilencer) + 3x (Close combat weapon + Psycannon)"
+        }
+      }
+    }
+  },
+
+  "detachmentAbilities": {
+    "brotherhood_strike_fury_of_titan": {
+      "detachment": "Brotherhood Strike",
+      "name": "Fury of Titan",
+      "id": "5845-81f6-ba0d-3357",
+      "text": "Each time a unit from your army is set up using the Deep Strike rule, until the end of the turn, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.",
+      "verified": "EXACT MATCH to claimed verbatim text.",
+      "cpCost": "None -- this is a passive, always-on detachment rule, not a Stratagem. No CP cost."
+    },
+    "fires_of_purgation_searing_soulflame": {
+      "detachment": "Fires of Purgation",
+      "name": "Searing Soulflame",
+      "id": "5ed8-b76b-eadc-a7a8",
+      "text": "When you select a unit to be pinned by a friendly PURGATION SQUAD unit's Righteous Persecution ability, that enemy unit makes a battle-shock roll, with -1 to that battle-shock roll.",
+      "verified": "Present and confirmed as claimed (full text extracted; user had only confirmed presence, not full text before).",
+      "cpCost": "None -- passive detachment rule, no CP cost."
+    }
+  },
+
+  "enhancements": {
+    "purity_of_purpose": {
+      "detachment": "Brotherhood Strike",
+      "name": "Purity of Purpose",
+      "id": "981f-93de-3614-8ab7",
+      "pointsClaimed": 15,
+      "pointsVerified": 15,
+      "text": "Grey Knights model only. Each time the bearer's unit is set up using the Deep Strike ability, until the end of the turn, you can re-roll Charge rolls made for the bearer's unit.",
+      "verified": "MATCH exactly on points."
+    },
+    "tome_of_forbidden_ways": {
+      "detachment": "Brotherhood Strike",
+      "name": "Tome of Forbidden Ways",
+      "id": "9e5e-7b9a-9ccb-9ec9",
+      "pointsClaimed": 25,
+      "pointsVerified": 25,
+      "text": "Grey Knights model only. While the bearer is on the battlefield or in Strategic Reserves, add 1 to the number of units from your army that you can select for the Gate of Infinity rule.",
+      "verified": "MATCH exactly on points."
+    },
+    "boons_of_deimos": {
+      "detachment": "Fires of Purgation",
+      "name": "Boons of Deimos",
+      "id": "60d0-a740-bd53-857b",
+      "pointsClaimed": 20,
+      "pointsVerified": 20,
+      "text": "PURGATION SQUAD unit only. This unit's ranged attacks have +2 S.",
+      "verified": "MATCH exactly on points and text (claimed text '+2 S to this unit's ranged attacks' is a paraphrase of the verbatim rule)."
+    }
+  },
+
+  "stratagemCheck": {
+    "searched": ["Truesilver Channelling", "Purgation Pattern", "Focused Immolation", "Spiritsear", "Soul-Locked", "Command Re-roll"],
+    "result": "0 occurrences of any of these exact stratagem names anywhere in the raw catalogue JSON text. The word 'Stratagem' itself appears only 11 times, exclusively inside generic ability text (e.g. Warrior Strategist's 'when its unit is targeted with a Stratagem, reduce the CP cost by 1CP') -- never as a stratagem card definition.",
+    "conclusion": "CONFIRMED: This BattleScribe catalogue does not include stratagem card text. This is expected/standard for BSData catalogues, which only carry list-building data (units, wargear, points, enhancements, detachment abilities), not stratagems."
+  }
+}

@@ -10,6 +10,9 @@ export interface WeaponProfile {
   ap: number; // positive number representing how much it worsens the save, e.g. AP2 = -2
   damage: DiceSpec;
   keywords: WeaponKeywords;
+  /** [PSYCHIC] tag — not a damage-math keyword itself, but gates eligibility for
+   * stratagems like Truesilver Channelling (Devastating Wounds for psychic weapons). */
+  isPsychic?: boolean;
 }
 
 export interface WeaponKeywords {
