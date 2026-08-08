@@ -27,7 +27,7 @@ export interface Stratagem {
 }
 
 export type StratagemDamageEffect =
-  | { kind: "grant-devastating-wounds"; appliesTo: "psychic-melee" }
+  | { kind: "grant-devastating-wounds"; appliesTo: "psychic-melee" | "purgation-squad-shooting" }
   | { kind: "grant-sustained-hits"; value: number; appliesTo: "purgation-squad-shooting" }
   | { kind: "mortal-wounds-on-battleshocked"; value: { dice: "D3"; flat: number } };
 
