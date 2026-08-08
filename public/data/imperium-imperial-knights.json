@@ -1,0 +1,2046 @@
+{
+  "faction": "Imperial Knights",
+  "slug": "imperium-imperial-knights",
+  "units": [
+    {
+      "id": "tech-priest-manipulus",
+      "name": "Tech-Priest Manipulus",
+      "faction": "Imperial Knights",
+      "factionKeyword": "Adeptus Mechanicus",
+      "points": 60,
+      "composition": "1 model",
+      "statline": {
+        "move": "6\"",
+        "toughness": 4,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 4,
+        "leadership": "7+",
+        "oc": 1
+      },
+      "keywords": [
+        "Manipulus",
+        "Imperium",
+        "Tech-Priest",
+        "Character",
+        "Infantry",
+        "Cult Mechanicus"
+      ],
+      "weapons": [
+        {
+          "name": "Omnissian staff",
+          "isMelee": true,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Magnarail lance",
+          "isMelee": false,
+          "range": 36,
+          "attacks": 1,
+          "skill": 3,
+          "strength": 7,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {},
+          "rawKeywords": [
+            "Heavy"
+          ]
+        },
+        {
+          "name": "Transonic cannon",
+          "isMelee": false,
+          "range": 12,
+          "attacks": {
+            "dice": "D6"
+          },
+          "skill": 0,
+          "strength": 4,
+          "ap": 0,
+          "damage": 2,
+          "keywords": {
+            "devastatingWounds": true,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "TL-409",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 3,
+          "skill": 2,
+          "strength": 11,
+          "ap": 2,
+          "damage": {
+            "dice": "D3",
+            "flat": 2
+          },
+          "keywords": {
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "Digital Cannon",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 3,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Electro-fire Implants",
+          "isMelee": false,
+          "range": 12,
+          "attacks": {
+            "dice": "D6",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 4,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 4,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Assault",
+            "Anti-Infantry 4+",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "Neural Jammer",
+          "isMelee": false,
+          "range": 18,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 4,
+          "ap": 2,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true,
+            "precision": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol",
+            "Precision"
+          ]
+        },
+        {
+          "name": "Nanoshard Projector",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 3,
+          "skill": 3,
+          "strength": 5,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "lethalHits": true
+          },
+          "rawKeywords": [
+            "Lethal Hits",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Arc Annulus",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 7,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "antiKeyword": "VEHICLE",
+            "antiThreshold": 3
+          },
+          "rawKeywords": [
+            "Anti-Vehicle 3+",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Electro-fused Vambraces",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 3,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "sustainedHits": 2
+          },
+          "rawKeywords": [
+            "Pistol",
+            "Sustained Hits 2"
+          ]
+        },
+        {
+          "name": "Syntaxik Charger",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 2,
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Anti-Infantry 2+",
+            "Devastating Wounds",
+            "One Shot",
+            "Sonic Devastation"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Leader",
+          "text": "This model can be attached to the following units:\n■ Corpuscarii Electro-Priests\n■ Fulgurite Electro-Priests\n■ Kataphron Breachers\n■ Kataphron Destroyers\n■ Skitarii Rangers\n■ Skitarii Vanguard"
+        },
+        {
+          "name": "Galvanic Field",
+          "text": "While this model is leading a unit, weapons equipped by models in that unit have the [Lethal Hits] ability."
+        },
+        {
+          "name": "Defend the Divine Work",
+          "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the  end of the phase, all models in this model’s unit have a 4+ invulnerable save."
+        },
+        {
+          "name": "Cantic Thrallnet",
+          "text": "At the start of the battle round, you can select one friendly SKITARII unit within 12\" of the bearer. Until the start of the next battle round, the Protector Imperative and the Conqueror Imperative are both active for that unit."
+        },
+        {
+          "name": "Clandestine Infiltrator",
+          "text": "The bearer, and models in any unit they are leading, have the Infiltrators and Scouts 6\" abilities."
+        },
+        {
+          "name": "Veiled Hunter",
+          "text": "After both players have deployed their armies, you can select up to three SKITARII INFANTRY units from your army and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        },
+        {
+          "name": "Battle-Sphere Uplink",
+          "text": "In your Shooting phase, after the bearer’s unit has shot, if it is not within Engagement Range of one or more enemy units, that unit can make a Normal move of up to 6\". If it does, until the end of the turn, that unit is not eligible to declare a charge."
+        },
+        {
+          "name": "Radial Suffusion",
+          "text": "From the second battle round onwards, when resolving the Fallout effect of the Rad-bombardment Detachment rule, if the bearer is on the battlefield, roll one D6 for each enemy unit within 6\" of your opponent’s deployment zone, in addition to those that are within your opponent’s deployment zone."
+        },
+        {
+          "name": "Malphonic Susurrus",
+          "text": "While the bearer is leading a unit, models in that unit have the Stealth ability."
+        },
+        {
+          "name": "Peerless Eradicator",
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability."
+        },
+        {
+          "name": "Autoclavic Denounciation",
+          "text": "Ranged weapons equipped by the bearer have the [ANTI-INFANTRY 2+] and [ANTI-MONSTER 4+] abilities."
+        },
+        {
+          "name": "Magos",
+          "text": "At the end of your Command phase, if the bearer is within range of your Acquisition objective marker, roll one D6: on a 4+, you gain 1CP."
+        },
+        {
+          "name": "Genetor",
+          "text": "While the bearer is leading a unit that is within range of your Acquisition objective marker, models in that unit have a 4+ invulnerable save."
+        },
+        {
+          "name": "Logis",
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack that targets a unit within range of your Acquisition objective marker, add 1 to the Hit roll."
+        },
+        {
+          "name": "Artisan",
+          "text": "While the bearer is leading a unit that is within range of your Acquisition objective marker, once per phase, you can change the result of one Hit roll, one Wound roll or one saving throw made for that unit to an unmodified 6."
+        },
+        {
+          "name": "Mechanicus Locum",
+          "text": "The bearer has a Leadership characteristic of 6+ and, once per battle, at the start of any phase, you can select one friendly CULT MECHANICUS unit that is Battle-shocked and within 12\" of the bearer. That unit is no longer Battle-shocked."
+        },
+        {
+          "name": "Mantle of the Gnosticarch",
+          "text": "Each time an attack is allocated to the bearer, change the Damage characteristic of that attack to 1."
+        },
+        {
+          "name": "Data-blessed Autosermon",
+          "text": "Once per battle, at the start of your Command phase, you can select the Benediction of the Omnissiah you did not select at the start of the first battle round. Until the start of your next Command phase, that Benediction of the Omnissiah is active for the bearer’s unit in addition to the one that is currently active for your army."
+        },
+        {
+          "name": "Temporcopia",
+          "text": "The bearer’s unit has the Fights First ability."
+        },
+        {
+          "name": "Necromechanic",
+          "text": "Once per battle round, when a saving throw made for a friendly **^^Legio Cybernetica^^** or **^^Adeptus Mechanicus Vehicle^^** model within 12\" of the bearer is failed, the bearer can use this Enhancement. If they do, change the Damage characteristic of that attack to 0."
+        },
+        {
+          "name": "Lord of Machines",
+          "text": "Once per turn, at the start of your opponent’s Shooting phase, select one enemy Vehicle unit within 12\" of and visible to the bearer. That unit must take a Leadership test: if that test is passed, until the end of the phase, each time a model in that unit makes an attack, subtract 1 from the Hit roll; if that test is failed, that unit is not eligible to shoot this phase."
+        },
+        {
+          "name": "Emotionless Clarity",
+          "text": "Once per turn, when a friendly LEGIO CYBERNETICA or ADEPTUS MECHANICUS VEHICLE model with the Deadly Demise ability that is within 12\" of the bearer is destroyed, the bearer can use this Enhancement. If it does, do not roll to determine whether any mortal wounds are inflicted as a result of that model’s Deadly Demise ability. Instead, mortal wounds are automatically inflicted."
+        },
+        {
+          "name": "Arch Negator",
+          "text": "Ranged weapons equipped by the bearer have the [ANTI-VEHICLE 4+] ability."
+        },
+        {
+          "name": "Transoracular Dyad Wafers",
+          "text": "CYBERNETICA DATASMITH model only. When the bearer is attached to a Kastelan Robots unit, until the end of the battle, models in that unit gain the Halo Override keyword. That unit cannot be selected when selecting units as part of the Noospheric Transference Detachment rule."
+        },
+        {
+          "name": "Cognitive Reinforcement",
+          "text": "ADEPTUS MECHANICUS model only (excluding CYBERNETICA DATASMITH models). The Conqueror Imperative and Protector Imperative are both active for the bearer’s unit."
+        },
+        {
+          "name": "Santified Ordnance",
+          "text": "ADEPTUS MECHANICUS model only. Add 6\" to the range characteristic of ranged weapons equipped by models in the bearer’s unit and, each time a Hazardous test is taken for that unit, you can re‑roll the result."
+        },
+        {
+          "name": "Inloaded Lethality",
+          "text": "**^^Tech-Priest Dominus^^** or **^^Tech-Priest Manipulus^^** model only. Add 3 to the Attacks characteristic of the bearer’s melee weapons and add 1 to the Damage characteristic of the bearer’s melee weapons."
+        },
+        {
+          "name": "Explorator Dispensation",
+          "text": "This unit has Infiltrators."
+        },
+        {
+          "name": "Vingh's Wafers of Dynamism",
+          "text": "At the start of the first battle round, if this unit is an attached unit, this unit has **MOBILE** until the end of the battle."
+        },
+        {
+          "name": "Electromiasmic Brazier",
+          "text": "This unit has **Stealth**."
+        },
+        {
+          "name": "Voltagheist Reliquary",
+          "text": "Enemy units cannot target this unit with **snap shooting** attacks."
+        },
+        {
+          "name": "Omnicogitator",
+          "text": "**^^Skitarii Marshal^^** model only. The Conqueror Imperative and Protector Imperative are both active for the bearer’s unit."
+        },
+        {
+          "name": "Martial Signatum Amplificator",
+          "text": "**^^Tech‑Priest^^** model only. Models in the bearer’s unit have the **^^Skitarii^^** keyword."
+        },
+        {
+          "name": "Belicosa-class Capacitor Vanes",
+          "text": "**^^Adeptus Mechanicus^^** model only. Add 6\" to the Range characteristic of ranged weapons equipped by models in the bearer’s unit, and add 1 to the Strength characteristic of those weapons."
+        },
+        {
+          "name": "Omnissiah's Fury",
+          "text": "**^^Skitarii Marshal^^** model only. Add 2 to the Attacks characteristic of melee weapons equipped by the bearer, and improve the Armour Penetration and Damage characteristics of those weapons by 1."
+        },
+        {
+          "name": "Magos Questoris",
+          "text": "**TECH-PRIEST** model only. When using this model’s **Sacristan Pledge** ability, the selected **IMPERIAL KNIGHTS** model **heals** 2 additional wounds."
+        },
+        {
+          "name": "Knight of the Opus Machina (Aura)",
+          "text": "**IMPERIAL KNIGHTS** model only. While a friendly **ADEPTUS MECHANICUS** unit is within 6\" of this model, that **ADEPTUS MECHANICUS** unit’s melee attacks have +1 **WS** and **AP**."
+        },
+        {
+          "name": "Technodermis",
+          "text": "Improve the Save and Wounds characteristics of this model by 1."
+        },
+        {
+          "name": "Void Shell",
+          "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, this model has a 2+ invulnerable save."
+        },
+        {
+          "name": "Time Sink",
+          "text": "At the start of the Fight phase, select one enemy unit within Engagement Range of this model and roll one D6: on a 4+, until the end of the turn, reduce the Weapon Skill characteristic of melee weapons equipped by that enemy unit by 1."
+        },
+        {
+          "name": "Arc Implants",
+          "text": "Once per battle, in your opponent's Charge phase, just after this model's unit has been selected as a target of an enemy unit's charge, this model can use this ability. If it does, until the end of the phase, subtract 2 from Charge rolls made for that enemy unit."
+        },
+        {
+          "name": "Conversion Eradicator",
+          "text": "Improve the Strength and Armour Penetration characteristics of ranged weapons equipped by this model by 1."
+        },
+        {
+          "name": "Inverse Power Feeds",
+          "text": "Melee weapons equipped by this model have the **[DEVASTATING WOUNDS]** ability."
+        },
+        {
+          "name": "Hypercircuit",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units (excluding **^^Vehicles^^**) from your Crusade army. Once per battle per selected unit, you can target that unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        },
+        {
+          "name": "Hagioscope",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a ranged attack that targets that enemy unit, you can ignore any or all modifiers to the Hit roll, the Wound roll and the Ballistic Skill characteristic of that attack."
+        },
+        {
+          "name": "Exo-gauntlet",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a melee attack that targets that enemy unit, re-roll a Hit roll of 1."
+        },
+        {
+          "name": "Ferrosanctic Orrery",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units from your Crusade army, then select one objective marker that is not in your deployment zone. While a unit you selected for this ability is within range of that objective market, improve the Leadership and Objective Control characteristics of models in that unit by 1."
+        },
+        {
+          "name": "Obscuroptikon",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Each time an enemy unit makes a ranged attack that targets one of those units, until the end of the phase, models in the targeted unit have a 5+ invulnerable save against ranged attacks."
+        },
+        {
+          "name": "Tri-dimensional Covenant",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Until the end of the battle, add 1 to Advance and Charge rolls made for those units."
+        },
+        {
+          "name": "Augur of the First Reclamation",
+          "text": "Add 2 to the bearer's Objective Control characteristic, and at the end of your Command phase, if the bearer is within range of an objective marker that is not in your deployment zone, you gain 1CP. In addition, at the end of the battle, if the bearer was in your Crusade army and you won that battle, roll one D6: on a 4+, your Crusade force acquires one Archeotech Part."
+        },
+        {
+          "name": "The Doom of Thorantus",
+          "text": "Once per battle, at the end of your Movement phase, select one enemy **^^Vehicle^^** unit within 18\" of and visible to the bearer. Until the start of your next Movement phase, subtract 2 from the Attacks characteristic of ranged weapons equipped by models in that unit, and each time that unit ends a Normal, Advance, Fall Back or Charge move, it suffers D6 mortal wounds."
+        },
+        {
+          "name": "**Baffling Data Screed**",
+          "text": "In your Shooting phase, when this unit is **selected to shoot**, if this unit is not **battle-shocked**, you can use this ability. If you do, roll one D6: \n- On a 2+, select one enemy **VEHICLE** unit within 12\" of this unit. That enemy unit makes a **battle-shock roll**, with -1 to that **battle-shock roll**. A unit cannot be selected for this ability more than once per turn. \n- Or: On 2+, those ranged attacks do not prevent this unit from being **hidden**."
+        },
+        {
+          "name": "Doctrina Imperatives",
+          "text": "At the start of the battle round, you can select one of the Doctrina Imperatives below. Until the end of the battle round, that Doctrina Imperative is active for your army, and all units from your army that have the Doctrina Imperatives ability gain the relevant abilities shown below.\n\nPROTECTOR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [HEAVY] ability.\n■ Improve the Ballistic Skill characteristic of ranged weapons equipped by models in this unit by 1.\n■ Each time a melee attack targets this unit, if this unit has the ^^**Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, subtract 1 from the Hit roll.\n\nCONQUEROR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [ASSAULT] ability.\n■ Improve the Weapon Skill characteristic of melee weapons equipped by models in this unit by 1.\n■ Each time a model in this unit makes an attack, if this unit has the **^^Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, improve the Armour Penetration characteristic of that attack by 1."
+        }
+      ],
+      "isCharacter": true,
+      "canLead": [
+        "Corpuscarii Electro-Priests",
+        "Fulgurite Electro-Priests",
+        "Kataphron Breachers",
+        "Kataphron Destroyers",
+        "Skitarii Rangers",
+        "Skitarii Vanguard"
+      ]
+    },
+    {
+      "id": "skitarii-marshal",
+      "name": "Skitarii Marshal",
+      "faction": "Imperial Knights",
+      "factionKeyword": "Adeptus Mechanicus",
+      "points": 35,
+      "composition": "1 model",
+      "statline": {
+        "move": "6\"",
+        "toughness": 3,
+        "save": 4,
+        "invulnSave": 5,
+        "wounds": 3,
+        "leadership": "6+",
+        "oc": 1
+      },
+      "keywords": [
+        "Marshal",
+        "Imperium",
+        "Skitarii",
+        "Character",
+        "Infantry"
+      ],
+      "weapons": [
+        {
+          "name": "Control stave",
+          "isMelee": true,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Mechanicus pistol",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 6,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "TL-409",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 3,
+          "skill": 2,
+          "strength": 11,
+          "ap": 2,
+          "damage": {
+            "dice": "D3",
+            "flat": 2
+          },
+          "keywords": {
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "Digital Cannon",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 3,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Electro-fire Implants",
+          "isMelee": false,
+          "range": 12,
+          "attacks": {
+            "dice": "D6",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 4,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 4,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Assault",
+            "Anti-Infantry 4+",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "Neural Jammer",
+          "isMelee": false,
+          "range": 18,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 4,
+          "ap": 2,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true,
+            "precision": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol",
+            "Precision"
+          ]
+        },
+        {
+          "name": "Nanoshard Projector",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 3,
+          "skill": 3,
+          "strength": 5,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "lethalHits": true
+          },
+          "rawKeywords": [
+            "Lethal Hits",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Arc Annulus",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 7,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "antiKeyword": "VEHICLE",
+            "antiThreshold": 3
+          },
+          "rawKeywords": [
+            "Anti-Vehicle 3+",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Electro-fused Vambraces",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 3,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "sustainedHits": 2
+          },
+          "rawKeywords": [
+            "Pistol",
+            "Sustained Hits 2"
+          ]
+        },
+        {
+          "name": "Syntaxik Charger",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 2,
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Anti-Infantry 2+",
+            "Devastating Wounds",
+            "One Shot",
+            "Sonic Devastation"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Support",
+          "text": "This model can be attached to the following units:\n- ^^**Skitarii Rangers^^**\n- ^^**Skitarii Vanguard^^**"
+        },
+        {
+          "name": "Control Edict",
+          "text": "While this model is leading a unit, each time a model in that unit makes an attack, you can re-roll the Hit roll."
+        },
+        {
+          "name": "Servo-skull Uplink",
+          "text": "Once per battle, at the start of any phase, you can select one friendly ^^**Skitarii^^** unit that is Battle-shocked and within 6\" of this model. That unit is no longer Battle-shocked."
+        },
+        {
+          "name": "Cantic Thrallnet",
+          "text": "At the start of the battle round, you can select one friendly SKITARII unit within 12\" of the bearer. Until the start of the next battle round, the Protector Imperative and the Conqueror Imperative are both active for that unit."
+        },
+        {
+          "name": "Clandestine Infiltrator",
+          "text": "The bearer, and models in any unit they are leading, have the Infiltrators and Scouts 6\" abilities."
+        },
+        {
+          "name": "Veiled Hunter",
+          "text": "After both players have deployed their armies, you can select up to three SKITARII INFANTRY units from your army and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        },
+        {
+          "name": "Battle-Sphere Uplink",
+          "text": "In your Shooting phase, after the bearer’s unit has shot, if it is not within Engagement Range of one or more enemy units, that unit can make a Normal move of up to 6\". If it does, until the end of the turn, that unit is not eligible to declare a charge."
+        },
+        {
+          "name": "Radial Suffusion",
+          "text": "From the second battle round onwards, when resolving the Fallout effect of the Rad-bombardment Detachment rule, if the bearer is on the battlefield, roll one D6 for each enemy unit within 6\" of your opponent’s deployment zone, in addition to those that are within your opponent’s deployment zone."
+        },
+        {
+          "name": "Malphonic Susurrus",
+          "text": "While the bearer is leading a unit, models in that unit have the Stealth ability."
+        },
+        {
+          "name": "Peerless Eradicator",
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability."
+        },
+        {
+          "name": "Autoclavic Denounciation",
+          "text": "Ranged weapons equipped by the bearer have the [ANTI-INFANTRY 2+] and [ANTI-MONSTER 4+] abilities."
+        },
+        {
+          "name": "Magos",
+          "text": "At the end of your Command phase, if the bearer is within range of your Acquisition objective marker, roll one D6: on a 4+, you gain 1CP."
+        },
+        {
+          "name": "Genetor",
+          "text": "While the bearer is leading a unit that is within range of your Acquisition objective marker, models in that unit have a 4+ invulnerable save."
+        },
+        {
+          "name": "Logis",
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack that targets a unit within range of your Acquisition objective marker, add 1 to the Hit roll."
+        },
+        {
+          "name": "Artisan",
+          "text": "While the bearer is leading a unit that is within range of your Acquisition objective marker, once per phase, you can change the result of one Hit roll, one Wound roll or one saving throw made for that unit to an unmodified 6."
+        },
+        {
+          "name": "Mechanicus Locum",
+          "text": "The bearer has a Leadership characteristic of 6+ and, once per battle, at the start of any phase, you can select one friendly CULT MECHANICUS unit that is Battle-shocked and within 12\" of the bearer. That unit is no longer Battle-shocked."
+        },
+        {
+          "name": "Mantle of the Gnosticarch",
+          "text": "Each time an attack is allocated to the bearer, change the Damage characteristic of that attack to 1."
+        },
+        {
+          "name": "Data-blessed Autosermon",
+          "text": "Once per battle, at the start of your Command phase, you can select the Benediction of the Omnissiah you did not select at the start of the first battle round. Until the start of your next Command phase, that Benediction of the Omnissiah is active for the bearer’s unit in addition to the one that is currently active for your army."
+        },
+        {
+          "name": "Temporcopia",
+          "text": "The bearer’s unit has the Fights First ability."
+        },
+        {
+          "name": "Necromechanic",
+          "text": "Once per battle round, when a saving throw made for a friendly **^^Legio Cybernetica^^** or **^^Adeptus Mechanicus Vehicle^^** model within 12\" of the bearer is failed, the bearer can use this Enhancement. If they do, change the Damage characteristic of that attack to 0."
+        },
+        {
+          "name": "Lord of Machines",
+          "text": "Once per turn, at the start of your opponent’s Shooting phase, select one enemy Vehicle unit within 12\" of and visible to the bearer. That unit must take a Leadership test: if that test is passed, until the end of the phase, each time a model in that unit makes an attack, subtract 1 from the Hit roll; if that test is failed, that unit is not eligible to shoot this phase."
+        },
+        {
+          "name": "Emotionless Clarity",
+          "text": "Once per turn, when a friendly LEGIO CYBERNETICA or ADEPTUS MECHANICUS VEHICLE model with the Deadly Demise ability that is within 12\" of the bearer is destroyed, the bearer can use this Enhancement. If it does, do not roll to determine whether any mortal wounds are inflicted as a result of that model’s Deadly Demise ability. Instead, mortal wounds are automatically inflicted."
+        },
+        {
+          "name": "Arch Negator",
+          "text": "Ranged weapons equipped by the bearer have the [ANTI-VEHICLE 4+] ability."
+        },
+        {
+          "name": "Transoracular Dyad Wafers",
+          "text": "CYBERNETICA DATASMITH model only. When the bearer is attached to a Kastelan Robots unit, until the end of the battle, models in that unit gain the Halo Override keyword. That unit cannot be selected when selecting units as part of the Noospheric Transference Detachment rule."
+        },
+        {
+          "name": "Cognitive Reinforcement",
+          "text": "ADEPTUS MECHANICUS model only (excluding CYBERNETICA DATASMITH models). The Conqueror Imperative and Protector Imperative are both active for the bearer’s unit."
+        },
+        {
+          "name": "Santified Ordnance",
+          "text": "ADEPTUS MECHANICUS model only. Add 6\" to the range characteristic of ranged weapons equipped by models in the bearer’s unit and, each time a Hazardous test is taken for that unit, you can re‑roll the result."
+        },
+        {
+          "name": "Inloaded Lethality",
+          "text": "**^^Tech-Priest Dominus^^** or **^^Tech-Priest Manipulus^^** model only. Add 3 to the Attacks characteristic of the bearer’s melee weapons and add 1 to the Damage characteristic of the bearer’s melee weapons."
+        },
+        {
+          "name": "Explorator Dispensation",
+          "text": "This unit has Infiltrators."
+        },
+        {
+          "name": "Vingh's Wafers of Dynamism",
+          "text": "At the start of the first battle round, if this unit is an attached unit, this unit has **MOBILE** until the end of the battle."
+        },
+        {
+          "name": "Electromiasmic Brazier",
+          "text": "This unit has **Stealth**."
+        },
+        {
+          "name": "Voltagheist Reliquary",
+          "text": "Enemy units cannot target this unit with **snap shooting** attacks."
+        },
+        {
+          "name": "Omnicogitator",
+          "text": "**^^Skitarii Marshal^^** model only. The Conqueror Imperative and Protector Imperative are both active for the bearer’s unit."
+        },
+        {
+          "name": "Martial Signatum Amplificator",
+          "text": "**^^Tech‑Priest^^** model only. Models in the bearer’s unit have the **^^Skitarii^^** keyword."
+        },
+        {
+          "name": "Belicosa-class Capacitor Vanes",
+          "text": "**^^Adeptus Mechanicus^^** model only. Add 6\" to the Range characteristic of ranged weapons equipped by models in the bearer’s unit, and add 1 to the Strength characteristic of those weapons."
+        },
+        {
+          "name": "Omnissiah's Fury",
+          "text": "**^^Skitarii Marshal^^** model only. Add 2 to the Attacks characteristic of melee weapons equipped by the bearer, and improve the Armour Penetration and Damage characteristics of those weapons by 1."
+        },
+        {
+          "name": "Magos Questoris",
+          "text": "**TECH-PRIEST** model only. When using this model’s **Sacristan Pledge** ability, the selected **IMPERIAL KNIGHTS** model **heals** 2 additional wounds."
+        },
+        {
+          "name": "Knight of the Opus Machina (Aura)",
+          "text": "**IMPERIAL KNIGHTS** model only. While a friendly **ADEPTUS MECHANICUS** unit is within 6\" of this model, that **ADEPTUS MECHANICUS** unit’s melee attacks have +1 **WS** and **AP**."
+        },
+        {
+          "name": "Technodermis",
+          "text": "Improve the Save and Wounds characteristics of this model by 1."
+        },
+        {
+          "name": "Void Shell",
+          "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, this model has a 2+ invulnerable save."
+        },
+        {
+          "name": "Time Sink",
+          "text": "At the start of the Fight phase, select one enemy unit within Engagement Range of this model and roll one D6: on a 4+, until the end of the turn, reduce the Weapon Skill characteristic of melee weapons equipped by that enemy unit by 1."
+        },
+        {
+          "name": "Arc Implants",
+          "text": "Once per battle, in your opponent's Charge phase, just after this model's unit has been selected as a target of an enemy unit's charge, this model can use this ability. If it does, until the end of the phase, subtract 2 from Charge rolls made for that enemy unit."
+        },
+        {
+          "name": "Conversion Eradicator",
+          "text": "Improve the Strength and Armour Penetration characteristics of ranged weapons equipped by this model by 1."
+        },
+        {
+          "name": "Inverse Power Feeds",
+          "text": "Melee weapons equipped by this model have the **[DEVASTATING WOUNDS]** ability."
+        },
+        {
+          "name": "Hypercircuit",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units (excluding **^^Vehicles^^**) from your Crusade army. Once per battle per selected unit, you can target that unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        },
+        {
+          "name": "Hagioscope",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a ranged attack that targets that enemy unit, you can ignore any or all modifiers to the Hit roll, the Wound roll and the Ballistic Skill characteristic of that attack."
+        },
+        {
+          "name": "Exo-gauntlet",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a melee attack that targets that enemy unit, re-roll a Hit roll of 1."
+        },
+        {
+          "name": "Ferrosanctic Orrery",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units from your Crusade army, then select one objective marker that is not in your deployment zone. While a unit you selected for this ability is within range of that objective market, improve the Leadership and Objective Control characteristics of models in that unit by 1."
+        },
+        {
+          "name": "Obscuroptikon",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Each time an enemy unit makes a ranged attack that targets one of those units, until the end of the phase, models in the targeted unit have a 5+ invulnerable save against ranged attacks."
+        },
+        {
+          "name": "Tri-dimensional Covenant",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Until the end of the battle, add 1 to Advance and Charge rolls made for those units."
+        },
+        {
+          "name": "Augur of the First Reclamation",
+          "text": "Add 2 to the bearer's Objective Control characteristic, and at the end of your Command phase, if the bearer is within range of an objective marker that is not in your deployment zone, you gain 1CP. In addition, at the end of the battle, if the bearer was in your Crusade army and you won that battle, roll one D6: on a 4+, your Crusade force acquires one Archeotech Part."
+        },
+        {
+          "name": "The Doom of Thorantus",
+          "text": "Once per battle, at the end of your Movement phase, select one enemy **^^Vehicle^^** unit within 18\" of and visible to the bearer. Until the start of your next Movement phase, subtract 2 from the Attacks characteristic of ranged weapons equipped by models in that unit, and each time that unit ends a Normal, Advance, Fall Back or Charge move, it suffers D6 mortal wounds."
+        },
+        {
+          "name": "Doctrina Imperatives",
+          "text": "At the start of the battle round, you can select one of the Doctrina Imperatives below. Until the end of the battle round, that Doctrina Imperative is active for your army, and all units from your army that have the Doctrina Imperatives ability gain the relevant abilities shown below.\n\nPROTECTOR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [HEAVY] ability.\n■ Improve the Ballistic Skill characteristic of ranged weapons equipped by models in this unit by 1.\n■ Each time a melee attack targets this unit, if this unit has the ^^**Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, subtract 1 from the Hit roll.\n\nCONQUEROR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [ASSAULT] ability.\n■ Improve the Weapon Skill characteristic of melee weapons equipped by models in this unit by 1.\n■ Each time a model in this unit makes an attack, if this unit has the **^^Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, improve the Armour Penetration characteristic of that attack by 1."
+        }
+      ],
+      "isCharacter": true,
+      "canLead": []
+    },
+    {
+      "id": "skitarii-rangers",
+      "name": "Skitarii Rangers",
+      "faction": "Imperial Knights",
+      "factionKeyword": "Adeptus Mechanicus",
+      "points": 85,
+      "composition": "9 models",
+      "statline": {
+        "move": "6\"",
+        "toughness": 3,
+        "save": 4,
+        "invulnSave": 5,
+        "wounds": 1,
+        "leadership": "7+",
+        "oc": 2
+      },
+      "keywords": [
+        "Rangers",
+        "Imperium",
+        "Infantry",
+        "Skitarii",
+        "Battleline",
+        "Recon Augury"
+      ],
+      "weapons": [
+        {
+          "name": "Alpha combat weapon",
+          "isMelee": true,
+          "attacks": 2,
+          "skill": 4,
+          "strength": 5,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Galvanic rifle",
+          "isMelee": false,
+          "range": 30,
+          "attacks": 2,
+          "skill": 4,
+          "strength": 4,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Mechanicus pistol",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 6,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Close combat weapon",
+          "isMelee": true,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Transuranic arquebus",
+          "isMelee": false,
+          "range": 36,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 7,
+          "ap": 2,
+          "damage": {
+            "dice": "D3"
+          },
+          "keywords": {
+            "precision": true
+          },
+          "rawKeywords": [
+            "Heavy",
+            "Precision"
+          ]
+        },
+        {
+          "name": "Arc rifle",
+          "isMelee": false,
+          "range": 30,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 8,
+          "ap": 1,
+          "damage": {
+            "dice": "D3"
+          },
+          "keywords": {
+            "antiKeyword": "VEHICLE",
+            "antiThreshold": 4,
+            "devastatingWounds": true,
+            "rapidFire": 1
+          },
+          "rawKeywords": [
+            "Anti-Vehicle 4+",
+            "Devastating Wounds",
+            "Rapid Fire 1"
+          ]
+        },
+        {
+          "name": "➤ Plasma caliver -  supercharge",
+          "isMelee": false,
+          "range": 30,
+          "attacks": 2,
+          "skill": 4,
+          "strength": 8,
+          "ap": 3,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": [
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "➤ Plasma caliver - standard",
+          "isMelee": false,
+          "range": 30,
+          "attacks": 2,
+          "skill": 4,
+          "strength": 7,
+          "ap": 2,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Digital Cannon",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 3,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Electro-fire Implants",
+          "isMelee": false,
+          "range": 12,
+          "attacks": {
+            "dice": "D6",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 4,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 4,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Assault",
+            "Anti-Infantry 4+",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "Neural Jammer",
+          "isMelee": false,
+          "range": 18,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 4,
+          "ap": 2,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true,
+            "precision": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol",
+            "Precision"
+          ]
+        },
+        {
+          "name": "Nanoshard Projector",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 3,
+          "skill": 3,
+          "strength": 5,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "lethalHits": true
+          },
+          "rawKeywords": [
+            "Lethal Hits",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Arc Annulus",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 7,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "antiKeyword": "VEHICLE",
+            "antiThreshold": 3
+          },
+          "rawKeywords": [
+            "Anti-Vehicle 3+",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Electro-fused Vambraces",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 3,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "sustainedHits": 2
+          },
+          "rawKeywords": [
+            "Pistol",
+            "Sustained Hits 2"
+          ]
+        },
+        {
+          "name": "Syntaxik Charger",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 2,
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Anti-Infantry 2+",
+            "Devastating Wounds",
+            "One Shot",
+            "Sonic Devastation"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Objective Scouted",
+          "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        },
+        {
+          "name": "Enhanced data-tether",
+          "text": "Each time you select the bearer’s unit\nas the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
+        },
+        {
+          "name": "Omnispex",
+          "text": "Ranged weapons equipped by models in the bearer’s unit have the IGNORES COVER ability."
+        },
+        {
+          "name": "Technodermis",
+          "text": "Improve the Save and Wounds characteristics of this model by 1."
+        },
+        {
+          "name": "Void Shell",
+          "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, this model has a 2+ invulnerable save."
+        },
+        {
+          "name": "Time Sink",
+          "text": "At the start of the Fight phase, select one enemy unit within Engagement Range of this model and roll one D6: on a 4+, until the end of the turn, reduce the Weapon Skill characteristic of melee weapons equipped by that enemy unit by 1."
+        },
+        {
+          "name": "Arc Implants",
+          "text": "Once per battle, in your opponent's Charge phase, just after this model's unit has been selected as a target of an enemy unit's charge, this model can use this ability. If it does, until the end of the phase, subtract 2 from Charge rolls made for that enemy unit."
+        },
+        {
+          "name": "Conversion Eradicator",
+          "text": "Improve the Strength and Armour Penetration characteristics of ranged weapons equipped by this model by 1."
+        },
+        {
+          "name": "Inverse Power Feeds",
+          "text": "Melee weapons equipped by this model have the **[DEVASTATING WOUNDS]** ability."
+        },
+        {
+          "name": "Hypercircuit",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units (excluding **^^Vehicles^^**) from your Crusade army. Once per battle per selected unit, you can target that unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        },
+        {
+          "name": "Hagioscope",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a ranged attack that targets that enemy unit, you can ignore any or all modifiers to the Hit roll, the Wound roll and the Ballistic Skill characteristic of that attack."
+        },
+        {
+          "name": "Exo-gauntlet",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a melee attack that targets that enemy unit, re-roll a Hit roll of 1."
+        },
+        {
+          "name": "Ferrosanctic Orrery",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units from your Crusade army, then select one objective marker that is not in your deployment zone. While a unit you selected for this ability is within range of that objective market, improve the Leadership and Objective Control characteristics of models in that unit by 1."
+        },
+        {
+          "name": "Obscuroptikon",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Each time an enemy unit makes a ranged attack that targets one of those units, until the end of the phase, models in the targeted unit have a 5+ invulnerable save against ranged attacks."
+        },
+        {
+          "name": "Tri-dimensional Covenant",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Until the end of the battle, add 1 to Advance and Charge rolls made for those units."
+        },
+        {
+          "name": "Augur of the First Reclamation",
+          "text": "Add 2 to the bearer's Objective Control characteristic, and at the end of your Command phase, if the bearer is within range of an objective marker that is not in your deployment zone, you gain 1CP. In addition, at the end of the battle, if the bearer was in your Crusade army and you won that battle, roll one D6: on a 4+, your Crusade force acquires one Archeotech Part."
+        },
+        {
+          "name": "The Doom of Thorantus",
+          "text": "Once per battle, at the end of your Movement phase, select one enemy **^^Vehicle^^** unit within 18\" of and visible to the bearer. Until the start of your next Movement phase, subtract 2 from the Attacks characteristic of ranged weapons equipped by models in that unit, and each time that unit ends a Normal, Advance, Fall Back or Charge move, it suffers D6 mortal wounds."
+        },
+        {
+          "name": "Doctrina Imperatives",
+          "text": "At the start of the battle round, you can select one of the Doctrina Imperatives below. Until the end of the battle round, that Doctrina Imperative is active for your army, and all units from your army that have the Doctrina Imperatives ability gain the relevant abilities shown below.\n\nPROTECTOR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [HEAVY] ability.\n■ Improve the Ballistic Skill characteristic of ranged weapons equipped by models in this unit by 1.\n■ Each time a melee attack targets this unit, if this unit has the ^^**Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, subtract 1 from the Hit roll.\n\nCONQUEROR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [ASSAULT] ability.\n■ Improve the Weapon Skill characteristic of melee weapons equipped by models in this unit by 1.\n■ Each time a model in this unit makes an attack, if this unit has the **^^Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, improve the Armour Penetration characteristic of that attack by 1."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "skitarii-vanguard",
+      "name": "Skitarii Vanguard",
+      "faction": "Imperial Knights",
+      "factionKeyword": "Adeptus Mechanicus",
+      "points": 85,
+      "composition": "9 models",
+      "statline": {
+        "move": "6\"",
+        "toughness": 3,
+        "save": 4,
+        "invulnSave": 5,
+        "wounds": 1,
+        "leadership": "7+",
+        "oc": 2
+      },
+      "keywords": [
+        "Vanguard",
+        "Imperium",
+        "Infantry",
+        "Skitarii",
+        "Battleline"
+      ],
+      "weapons": [
+        {
+          "name": "Alpha combat weapon",
+          "isMelee": true,
+          "attacks": 2,
+          "skill": 4,
+          "strength": 5,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Radium carbine",
+          "isMelee": false,
+          "range": 18,
+          "attacks": 3,
+          "skill": 4,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 4
+          },
+          "rawKeywords": [
+            "Anti-Infantry 4+"
+          ]
+        },
+        {
+          "name": "Mechanicus pistol",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 6,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Close combat weapon",
+          "isMelee": true,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Transuranic arquebus",
+          "isMelee": false,
+          "range": 36,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 7,
+          "ap": 2,
+          "damage": {
+            "dice": "D3"
+          },
+          "keywords": {
+            "precision": true
+          },
+          "rawKeywords": [
+            "Heavy",
+            "Precision"
+          ]
+        },
+        {
+          "name": "Arc rifle",
+          "isMelee": false,
+          "range": 30,
+          "attacks": 1,
+          "skill": 4,
+          "strength": 8,
+          "ap": 1,
+          "damage": {
+            "dice": "D3"
+          },
+          "keywords": {
+            "antiKeyword": "VEHICLE",
+            "antiThreshold": 4,
+            "devastatingWounds": true,
+            "rapidFire": 1
+          },
+          "rawKeywords": [
+            "Anti-Vehicle 4+",
+            "Devastating Wounds",
+            "Rapid Fire 1"
+          ]
+        },
+        {
+          "name": "➤ Plasma caliver -  supercharge",
+          "isMelee": false,
+          "range": 30,
+          "attacks": 2,
+          "skill": 4,
+          "strength": 8,
+          "ap": 3,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": [
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "➤ Plasma caliver - standard",
+          "isMelee": false,
+          "range": 30,
+          "attacks": 2,
+          "skill": 4,
+          "strength": 7,
+          "ap": 2,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Digital Cannon",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 3,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Electro-fire Implants",
+          "isMelee": false,
+          "range": 12,
+          "attacks": {
+            "dice": "D6",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 4,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 4,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Assault",
+            "Anti-Infantry 4+",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "Neural Jammer",
+          "isMelee": false,
+          "range": 18,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 4,
+          "ap": 2,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true,
+            "precision": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol",
+            "Precision"
+          ]
+        },
+        {
+          "name": "Nanoshard Projector",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 3,
+          "skill": 3,
+          "strength": 5,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "lethalHits": true
+          },
+          "rawKeywords": [
+            "Lethal Hits",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Arc Annulus",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 7,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "antiKeyword": "VEHICLE",
+            "antiThreshold": 3
+          },
+          "rawKeywords": [
+            "Anti-Vehicle 3+",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Electro-fused Vambraces",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 3,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "sustainedHits": 2
+          },
+          "rawKeywords": [
+            "Pistol",
+            "Sustained Hits 2"
+          ]
+        },
+        {
+          "name": "Syntaxik Charger",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 2,
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Anti-Infantry 2+",
+            "Devastating Wounds",
+            "One Shot",
+            "Sonic Devastation"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Rad-saturation (Aura)",
+          "text": "While an enemy unit (excluding ^^**Vehicle^^** units) is within 3\" of this unit, subtract 1 from the Objective Control characteristic of models in that unit."
+        },
+        {
+          "name": "Enhanced data-tether",
+          "text": "Each time you select the bearer’s unit as the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
+        },
+        {
+          "name": "Omnispex",
+          "text": "Ranged weapons equipped by models in the bearer’s unit have the IGNORES COVER ability."
+        },
+        {
+          "name": "Technodermis",
+          "text": "Improve the Save and Wounds characteristics of this model by 1."
+        },
+        {
+          "name": "Void Shell",
+          "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, this model has a 2+ invulnerable save."
+        },
+        {
+          "name": "Time Sink",
+          "text": "At the start of the Fight phase, select one enemy unit within Engagement Range of this model and roll one D6: on a 4+, until the end of the turn, reduce the Weapon Skill characteristic of melee weapons equipped by that enemy unit by 1."
+        },
+        {
+          "name": "Arc Implants",
+          "text": "Once per battle, in your opponent's Charge phase, just after this model's unit has been selected as a target of an enemy unit's charge, this model can use this ability. If it does, until the end of the phase, subtract 2 from Charge rolls made for that enemy unit."
+        },
+        {
+          "name": "Conversion Eradicator",
+          "text": "Improve the Strength and Armour Penetration characteristics of ranged weapons equipped by this model by 1."
+        },
+        {
+          "name": "Inverse Power Feeds",
+          "text": "Melee weapons equipped by this model have the **[DEVASTATING WOUNDS]** ability."
+        },
+        {
+          "name": "Hypercircuit",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units (excluding **^^Vehicles^^**) from your Crusade army. Once per battle per selected unit, you can target that unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        },
+        {
+          "name": "Hagioscope",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a ranged attack that targets that enemy unit, you can ignore any or all modifiers to the Hit roll, the Wound roll and the Ballistic Skill characteristic of that attack."
+        },
+        {
+          "name": "Exo-gauntlet",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a melee attack that targets that enemy unit, re-roll a Hit roll of 1."
+        },
+        {
+          "name": "Ferrosanctic Orrery",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units from your Crusade army, then select one objective marker that is not in your deployment zone. While a unit you selected for this ability is within range of that objective market, improve the Leadership and Objective Control characteristics of models in that unit by 1."
+        },
+        {
+          "name": "Obscuroptikon",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Each time an enemy unit makes a ranged attack that targets one of those units, until the end of the phase, models in the targeted unit have a 5+ invulnerable save against ranged attacks."
+        },
+        {
+          "name": "Tri-dimensional Covenant",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Until the end of the battle, add 1 to Advance and Charge rolls made for those units."
+        },
+        {
+          "name": "Augur of the First Reclamation",
+          "text": "Add 2 to the bearer's Objective Control characteristic, and at the end of your Command phase, if the bearer is within range of an objective marker that is not in your deployment zone, you gain 1CP. In addition, at the end of the battle, if the bearer was in your Crusade army and you won that battle, roll one D6: on a 4+, your Crusade force acquires one Archeotech Part."
+        },
+        {
+          "name": "The Doom of Thorantus",
+          "text": "Once per battle, at the end of your Movement phase, select one enemy **^^Vehicle^^** unit within 18\" of and visible to the bearer. Until the start of your next Movement phase, subtract 2 from the Attacks characteristic of ranged weapons equipped by models in that unit, and each time that unit ends a Normal, Advance, Fall Back or Charge move, it suffers D6 mortal wounds."
+        },
+        {
+          "name": "Doctrina Imperatives",
+          "text": "At the start of the battle round, you can select one of the Doctrina Imperatives below. Until the end of the battle round, that Doctrina Imperative is active for your army, and all units from your army that have the Doctrina Imperatives ability gain the relevant abilities shown below.\n\nPROTECTOR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [HEAVY] ability.\n■ Improve the Ballistic Skill characteristic of ranged weapons equipped by models in this unit by 1.\n■ Each time a melee attack targets this unit, if this unit has the ^^**Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, subtract 1 from the Hit roll.\n\nCONQUEROR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [ASSAULT] ability.\n■ Improve the Weapon Skill characteristic of melee weapons equipped by models in this unit by 1.\n■ Each time a model in this unit makes an attack, if this unit has the **^^Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, improve the Armour Penetration characteristic of that attack by 1."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "tech-priest-dominus",
+      "name": "Tech-Priest Dominus",
+      "faction": "Imperial Knights",
+      "factionKeyword": "Adeptus Mechanicus",
+      "points": 65,
+      "composition": "1 model",
+      "statline": {
+        "move": "6\"",
+        "toughness": 4,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 4,
+        "leadership": "7+",
+        "oc": 1
+      },
+      "keywords": [
+        "Dominus",
+        "Imperium",
+        "Tech-Priest",
+        "Character",
+        "Infantry",
+        "Cult Mechanicus"
+      ],
+      "weapons": [
+        {
+          "name": "Omnissian axe",
+          "isMelee": true,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 6,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Macrostubber",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 5,
+          "skill": 3,
+          "strength": 4,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": [
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Phosphor serpenta",
+          "isMelee": false,
+          "range": 18,
+          "attacks": 1,
+          "skill": 3,
+          "strength": 5,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "ignoresCover": true
+          },
+          "rawKeywords": [
+            "Ignores Cover",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "➤ Eradication ray - dissipated",
+          "isMelee": false,
+          "range": 24,
+          "attacks": {
+            "dice": "D3"
+          },
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "➤ Eradication ray - focused",
+          "isMelee": false,
+          "range": 12,
+          "attacks": {
+            "dice": "D3"
+          },
+          "skill": 3,
+          "strength": 6,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Volkite blaster",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 3,
+          "skill": 3,
+          "strength": 5,
+          "ap": 0,
+          "damage": 2,
+          "keywords": {
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds"
+          ]
+        },
+        {
+          "name": "TL-409",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 3,
+          "skill": 2,
+          "strength": 11,
+          "ap": 2,
+          "damage": {
+            "dice": "D3",
+            "flat": 2
+          },
+          "keywords": {
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "Digital Cannon",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 3,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Electro-fire Implants",
+          "isMelee": false,
+          "range": 12,
+          "attacks": {
+            "dice": "D6",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 4,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 4,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Assault",
+            "Anti-Infantry 4+",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "Neural Jammer",
+          "isMelee": false,
+          "range": 18,
+          "attacks": 4,
+          "skill": 3,
+          "strength": 4,
+          "ap": 2,
+          "damage": 1,
+          "keywords": {
+            "devastatingWounds": true,
+            "precision": true
+          },
+          "rawKeywords": [
+            "Devastating Wounds",
+            "Pistol",
+            "Precision"
+          ]
+        },
+        {
+          "name": "Nanoshard Projector",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 3,
+          "skill": 3,
+          "strength": 5,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "lethalHits": true
+          },
+          "rawKeywords": [
+            "Lethal Hits",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Arc Annulus",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 2,
+          "skill": 3,
+          "strength": 7,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "antiKeyword": "VEHICLE",
+            "antiThreshold": 3
+          },
+          "rawKeywords": [
+            "Anti-Vehicle 3+",
+            "Pistol"
+          ]
+        },
+        {
+          "name": "Electro-fused Vambraces",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 3,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "sustainedHits": 2
+          },
+          "rawKeywords": [
+            "Pistol",
+            "Sustained Hits 2"
+          ]
+        },
+        {
+          "name": "Syntaxik Charger",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 3,
+          "ap": 0,
+          "damage": 1,
+          "keywords": {
+            "antiKeyword": "INFANTRY",
+            "antiThreshold": 2,
+            "devastatingWounds": true
+          },
+          "rawKeywords": [
+            "Anti-Infantry 2+",
+            "Devastating Wounds",
+            "One Shot",
+            "Sonic Devastation"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Leader",
+          "text": "This model can be attached to the following units:\n■ Corpuscarii Electro-Priests\n■ Fulgurite Electro-Priests\n■ Kataphron Breachers\n■ Kataphron Destroyers\n■ Skitarii Rangers\n■ Skitarii Vanguard"
+        },
+        {
+          "name": "Lord of the Machine Cult",
+          "text": "While this model is leading a unit, models in that unit have the Feel No Pain 5+ ability. If that unit has the ^^**Electro-Priests^^** keyword, models in that unit have the Feel No Pain 4+ ability instead"
+        },
+        {
+          "name": "Data-spike",
+          "text": "At the start of the Fight phase, you can select one enemy ^^**Vehicle^^** unit within Engagement Range of this model’s unit and roll one D6: on a 4+, that enemy unit suffers D6 mortal wounds and, until the end of the phase, the Weapon Skill characteristic of melee weapons equipped by that enemy unit is worsened by 1."
+        },
+        {
+          "name": "Cantic Thrallnet",
+          "text": "At the start of the battle round, you can select one friendly SKITARII unit within 12\" of the bearer. Until the start of the next battle round, the Protector Imperative and the Conqueror Imperative are both active for that unit."
+        },
+        {
+          "name": "Clandestine Infiltrator",
+          "text": "The bearer, and models in any unit they are leading, have the Infiltrators and Scouts 6\" abilities."
+        },
+        {
+          "name": "Veiled Hunter",
+          "text": "After both players have deployed their armies, you can select up to three SKITARII INFANTRY units from your army and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        },
+        {
+          "name": "Battle-Sphere Uplink",
+          "text": "In your Shooting phase, after the bearer’s unit has shot, if it is not within Engagement Range of one or more enemy units, that unit can make a Normal move of up to 6\". If it does, until the end of the turn, that unit is not eligible to declare a charge."
+        },
+        {
+          "name": "Radial Suffusion",
+          "text": "From the second battle round onwards, when resolving the Fallout effect of the Rad-bombardment Detachment rule, if the bearer is on the battlefield, roll one D6 for each enemy unit within 6\" of your opponent’s deployment zone, in addition to those that are within your opponent’s deployment zone."
+        },
+        {
+          "name": "Malphonic Susurrus",
+          "text": "While the bearer is leading a unit, models in that unit have the Stealth ability."
+        },
+        {
+          "name": "Peerless Eradicator",
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability."
+        },
+        {
+          "name": "Autoclavic Denounciation",
+          "text": "Ranged weapons equipped by the bearer have the [ANTI-INFANTRY 2+] and [ANTI-MONSTER 4+] abilities."
+        },
+        {
+          "name": "Magos",
+          "text": "At the end of your Command phase, if the bearer is within range of your Acquisition objective marker, roll one D6: on a 4+, you gain 1CP."
+        },
+        {
+          "name": "Genetor",
+          "text": "While the bearer is leading a unit that is within range of your Acquisition objective marker, models in that unit have a 4+ invulnerable save."
+        },
+        {
+          "name": "Logis",
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack that targets a unit within range of your Acquisition objective marker, add 1 to the Hit roll."
+        },
+        {
+          "name": "Artisan",
+          "text": "While the bearer is leading a unit that is within range of your Acquisition objective marker, once per phase, you can change the result of one Hit roll, one Wound roll or one saving throw made for that unit to an unmodified 6."
+        },
+        {
+          "name": "Mechanicus Locum",
+          "text": "The bearer has a Leadership characteristic of 6+ and, once per battle, at the start of any phase, you can select one friendly CULT MECHANICUS unit that is Battle-shocked and within 12\" of the bearer. That unit is no longer Battle-shocked."
+        },
+        {
+          "name": "Mantle of the Gnosticarch",
+          "text": "Each time an attack is allocated to the bearer, change the Damage characteristic of that attack to 1."
+        },
+        {
+          "name": "Data-blessed Autosermon",
+          "text": "Once per battle, at the start of your Command phase, you can select the Benediction of the Omnissiah you did not select at the start of the first battle round. Until the start of your next Command phase, that Benediction of the Omnissiah is active for the bearer’s unit in addition to the one that is currently active for your army."
+        },
+        {
+          "name": "Temporcopia",
+          "text": "The bearer’s unit has the Fights First ability."
+        },
+        {
+          "name": "Necromechanic",
+          "text": "Once per battle round, when a saving throw made for a friendly **^^Legio Cybernetica^^** or **^^Adeptus Mechanicus Vehicle^^** model within 12\" of the bearer is failed, the bearer can use this Enhancement. If they do, change the Damage characteristic of that attack to 0."
+        },
+        {
+          "name": "Lord of Machines",
+          "text": "Once per turn, at the start of your opponent’s Shooting phase, select one enemy Vehicle unit within 12\" of and visible to the bearer. That unit must take a Leadership test: if that test is passed, until the end of the phase, each time a model in that unit makes an attack, subtract 1 from the Hit roll; if that test is failed, that unit is not eligible to shoot this phase."
+        },
+        {
+          "name": "Emotionless Clarity",
+          "text": "Once per turn, when a friendly LEGIO CYBERNETICA or ADEPTUS MECHANICUS VEHICLE model with the Deadly Demise ability that is within 12\" of the bearer is destroyed, the bearer can use this Enhancement. If it does, do not roll to determine whether any mortal wounds are inflicted as a result of that model’s Deadly Demise ability. Instead, mortal wounds are automatically inflicted."
+        },
+        {
+          "name": "Arch Negator",
+          "text": "Ranged weapons equipped by the bearer have the [ANTI-VEHICLE 4+] ability."
+        },
+        {
+          "name": "Transoracular Dyad Wafers",
+          "text": "CYBERNETICA DATASMITH model only. When the bearer is attached to a Kastelan Robots unit, until the end of the battle, models in that unit gain the Halo Override keyword. That unit cannot be selected when selecting units as part of the Noospheric Transference Detachment rule."
+        },
+        {
+          "name": "Cognitive Reinforcement",
+          "text": "ADEPTUS MECHANICUS model only (excluding CYBERNETICA DATASMITH models). The Conqueror Imperative and Protector Imperative are both active for the bearer’s unit."
+        },
+        {
+          "name": "Santified Ordnance",
+          "text": "ADEPTUS MECHANICUS model only. Add 6\" to the range characteristic of ranged weapons equipped by models in the bearer’s unit and, each time a Hazardous test is taken for that unit, you can re‑roll the result."
+        },
+        {
+          "name": "Inloaded Lethality",
+          "text": "**^^Tech-Priest Dominus^^** or **^^Tech-Priest Manipulus^^** model only. Add 3 to the Attacks characteristic of the bearer’s melee weapons and add 1 to the Damage characteristic of the bearer’s melee weapons."
+        },
+        {
+          "name": "Explorator Dispensation",
+          "text": "This unit has Infiltrators."
+        },
+        {
+          "name": "Vingh's Wafers of Dynamism",
+          "text": "At the start of the first battle round, if this unit is an attached unit, this unit has **MOBILE** until the end of the battle."
+        },
+        {
+          "name": "Electromiasmic Brazier",
+          "text": "This unit has **Stealth**."
+        },
+        {
+          "name": "Voltagheist Reliquary",
+          "text": "Enemy units cannot target this unit with **snap shooting** attacks."
+        },
+        {
+          "name": "Omnicogitator",
+          "text": "**^^Skitarii Marshal^^** model only. The Conqueror Imperative and Protector Imperative are both active for the bearer’s unit."
+        },
+        {
+          "name": "Martial Signatum Amplificator",
+          "text": "**^^Tech‑Priest^^** model only. Models in the bearer’s unit have the **^^Skitarii^^** keyword."
+        },
+        {
+          "name": "Belicosa-class Capacitor Vanes",
+          "text": "**^^Adeptus Mechanicus^^** model only. Add 6\" to the Range characteristic of ranged weapons equipped by models in the bearer’s unit, and add 1 to the Strength characteristic of those weapons."
+        },
+        {
+          "name": "Omnissiah's Fury",
+          "text": "**^^Skitarii Marshal^^** model only. Add 2 to the Attacks characteristic of melee weapons equipped by the bearer, and improve the Armour Penetration and Damage characteristics of those weapons by 1."
+        },
+        {
+          "name": "Magos Questoris",
+          "text": "**TECH-PRIEST** model only. When using this model’s **Sacristan Pledge** ability, the selected **IMPERIAL KNIGHTS** model **heals** 2 additional wounds."
+        },
+        {
+          "name": "Knight of the Opus Machina (Aura)",
+          "text": "**IMPERIAL KNIGHTS** model only. While a friendly **ADEPTUS MECHANICUS** unit is within 6\" of this model, that **ADEPTUS MECHANICUS** unit’s melee attacks have +1 **WS** and **AP**."
+        },
+        {
+          "name": "Technodermis",
+          "text": "Improve the Save and Wounds characteristics of this model by 1."
+        },
+        {
+          "name": "Void Shell",
+          "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, this model has a 2+ invulnerable save."
+        },
+        {
+          "name": "Time Sink",
+          "text": "At the start of the Fight phase, select one enemy unit within Engagement Range of this model and roll one D6: on a 4+, until the end of the turn, reduce the Weapon Skill characteristic of melee weapons equipped by that enemy unit by 1."
+        },
+        {
+          "name": "Arc Implants",
+          "text": "Once per battle, in your opponent's Charge phase, just after this model's unit has been selected as a target of an enemy unit's charge, this model can use this ability. If it does, until the end of the phase, subtract 2 from Charge rolls made for that enemy unit."
+        },
+        {
+          "name": "Conversion Eradicator",
+          "text": "Improve the Strength and Armour Penetration characteristics of ranged weapons equipped by this model by 1."
+        },
+        {
+          "name": "Inverse Power Feeds",
+          "text": "Melee weapons equipped by this model have the **[DEVASTATING WOUNDS]** ability."
+        },
+        {
+          "name": "Hypercircuit",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units (excluding **^^Vehicles^^**) from your Crusade army. Once per battle per selected unit, you can target that unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        },
+        {
+          "name": "Hagioscope",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a ranged attack that targets that enemy unit, you can ignore any or all modifiers to the Hit roll, the Wound roll and the Ballistic Skill characteristic of that attack."
+        },
+        {
+          "name": "Exo-gauntlet",
+          "text": "At the start of the battle, select one enemy unit. Each time an **^^Adeptus Mechanicus^^** unit from your Crusade army makes a melee attack that targets that enemy unit, re-roll a Hit roll of 1."
+        },
+        {
+          "name": "Ferrosanctic Orrery",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus^^** units from your Crusade army, then select one objective marker that is not in your deployment zone. While a unit you selected for this ability is within range of that objective market, improve the Leadership and Objective Control characteristics of models in that unit by 1."
+        },
+        {
+          "name": "Obscuroptikon",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Each time an enemy unit makes a ranged attack that targets one of those units, until the end of the phase, models in the targeted unit have a 5+ invulnerable save against ranged attacks."
+        },
+        {
+          "name": "Tri-dimensional Covenant",
+          "text": "At the start of the battle, select up to two **^^Adeptus Mechanicus Infantry^^** units from your Crusade army. Until the end of the battle, add 1 to Advance and Charge rolls made for those units."
+        },
+        {
+          "name": "Augur of the First Reclamation",
+          "text": "Add 2 to the bearer's Objective Control characteristic, and at the end of your Command phase, if the bearer is within range of an objective marker that is not in your deployment zone, you gain 1CP. In addition, at the end of the battle, if the bearer was in your Crusade army and you won that battle, roll one D6: on a 4+, your Crusade force acquires one Archeotech Part."
+        },
+        {
+          "name": "The Doom of Thorantus",
+          "text": "Once per battle, at the end of your Movement phase, select one enemy **^^Vehicle^^** unit within 18\" of and visible to the bearer. Until the start of your next Movement phase, subtract 2 from the Attacks characteristic of ranged weapons equipped by models in that unit, and each time that unit ends a Normal, Advance, Fall Back or Charge move, it suffers D6 mortal wounds."
+        },
+        {
+          "name": "**Baffling Data Screed**",
+          "text": "In your Shooting phase, when this unit is **selected to shoot**, if this unit is not **battle-shocked**, you can use this ability. If you do, roll one D6: \n- On a 2+, select one enemy **VEHICLE** unit within 12\" of this unit. That enemy unit makes a **battle-shock roll**, with -1 to that **battle-shock roll**. A unit cannot be selected for this ability more than once per turn. \n- Or: On 2+, those ranged attacks do not prevent this unit from being **hidden**."
+        },
+        {
+          "name": "Doctrina Imperatives",
+          "text": "At the start of the battle round, you can select one of the Doctrina Imperatives below. Until the end of the battle round, that Doctrina Imperative is active for your army, and all units from your army that have the Doctrina Imperatives ability gain the relevant abilities shown below.\n\nPROTECTOR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [HEAVY] ability.\n■ Improve the Ballistic Skill characteristic of ranged weapons equipped by models in this unit by 1.\n■ Each time a melee attack targets this unit, if this unit has the ^^**Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, subtract 1 from the Hit roll.\n\nCONQUEROR IMPERATIVE\n■ Ranged weapons equipped by models in this unit have the [ASSAULT] ability.\n■ Improve the Weapon Skill characteristic of melee weapons equipped by models in this unit by 1.\n■ Each time a model in this unit makes an attack, if this unit has the **^^Battleline**^^ keyword and/or it is within 6\" of one or more friendly **^^Adeptus Mechanicus Battleline**^^ units, improve the Armour Penetration characteristic of that attack by 1."
+        }
+      ],
+      "isCharacter": true,
+      "canLead": [
+        "Corpuscarii Electro-Priests",
+        "Fulgurite Electro-Priests",
+        "Kataphron Breachers",
+        "Kataphron Destroyers",
+        "Skitarii Rangers",
+        "Skitarii Vanguard"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "faction": "Astra Militarum - Library",
+  "slug": "imperium-astra-militarum-library",
+  "units": [
+    {
+      "id": "ciaphas-cain-legends",
+      "name": "Ciaphas Cain [Legends]",
+      "faction": "Astra Militarum - Library",
+      "factionKeyword": "Astra Militarum",
+      "points": 70,
+      "composition": "1 model",
+      "statline": {
+        "move": "6\"",
+        "toughness": 3,
+        "save": 4,
+        "invulnSave": 5,
+        "wounds": 5,
+        "leadership": "6+",
+        "oc": 3
+      },
+      "keywords": [
+        "Imperium",
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Officer",
+        "Leader",
+        "Ciaphas Cain"
+      ],
+      "weapons": [
+        {
+          "name": "Laspistols",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 2,
+          "skill": 2,
+          "strength": 3,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {
+            "precision": true
+          },
+          "rawKeywords": [
+            "Precision"
+          ]
+        },
+        {
+          "name": "Chainsword and gun butt",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 2,
+          "strength": 3,
+          "ap": 1,
+          "damage": 1,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Meltagun",
+          "isMelee": false,
+          "range": 12,
+          "attacks": 1,
+          "skill": 2,
+          "strength": 9,
+          "ap": 4,
+          "damage": {
+            "dice": "D6"
+          },
+          "keywords": {
+            "melta": 2
+          },
+          "rawKeywords": [
+            "Melta 2"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Unparalleled Luck (Once per battle, per army)",
+          "text": "At the start of a phase, you can use this ability. if you do, this model has 2+ InSv."
+        },
+        {
+          "name": "Leader",
+          "text": "This model can be attached to the following units:\n- **CADIAN SHOCK TROOPS**\n- **CATACHAN JUNGLE FIGHTERS**\n- **DEATH KORPS OF KRIEG**\n- **KASRKIN**\n- **TEMPESTUS SCIONS**"
+        },
+        {
+          "name": "Psychic Blank",
+          "text": "This model has Feel No Pain 4+ against **psychic attacks** and **mortal wounds**."
+        },
+        {
+          "name": "Hero of the Imperium (Aura)",
+          "text": "While a friendly **ASTRA MILITARUM** unit is within 6\" of this model, that unit can re-roll **battle-shock rolls**."
+        },
+        {
+          "name": "Trapped by Excuses",
+          "text": "In the Deploy Armies step, you must set this unit up on the battlefield, or embarked within a **TRANSPORT** unit that is set up on the battlefield. Abilities that allow you to redeploy a unit or place a unit in **strategic reserves** cannot affect this unit or a **TRANSPORT** unit this unit is embarked within."
+        },
+        {
+          "name": "Voice Of Command",
+          "text": "If your Army Faction is **^^Astra Militarum^^**, **^^Officer^^** models with this ability can issue Orders. Each **^^Officer^^**'s datasheet will specify how many Orders it can issue and which units are eligible to receive those Orders. Each time an **^^Officer^^** model issues an Order, select one of the Orders below, then select one eligible friendly unit within 6\" of that **^^Officer^^** model to issue it to. **^^Officer^^** models can issue Orders in your Command phase and at the end of a phase in which they disembarked from a **^^Transport^^** or were set up on the battlefield.\n\nUntil the start of your next Command phase, the unit you selected is affected by that Order. Unless otherwise stated, a unit can only be affected by one Order at a time (any Order subsequently issued to that unit replaces the current one). Orders cannot be issued to Battle-shocked units, and if a unit being affected by an Order becomes Battle-shocked, that Order ceases to affect that unit.\n\n\nOnly **^^Astra Militarum^^** models gain the benefit of an Order issued to their unit.\n\n**MOVE! MOVE! MOVE!**\nAdd 3\" to the Move characteristic of models in this unit.\n\n**FIX BAYONETS!**\nImprove the Weapon Skill characteristic of melee weapons equipped by models in this unit by 1.\n\n**TAKE AIM!**\nImprove the Ballistic Skill characteristic of ranged weapons equipped by models in this unit by 1.\n\n**FIRST RANK, FIRE! SECOND RANK, FIRE!**\nImprove the Attacks characteristic of Rapid Fire weapons equipped by models in this unit by 1.\n\n**TAKE COVER!**\nImprove the Save characteristic of models in this unit by 1 (this cannot improve a model’s Save to better than 3+).\n\n**DUTY AND HONOUR!**\nImprove the Leadership and Objective Control characteristics of models in this unit by 1."
+        }
+      ],
+      "isCharacter": true,
+      "canLead": [
+        "CADIAN SHOCK TROOPS**",
+        "CATACHAN JUNGLE FIGHTERS**",
+        "DEATH KORPS OF KRIEG**",
+        "KASRKIN**",
+        "TEMPESTUS SCIONS**"
+      ],
+      "legends": true
+    }
+  ]
+}

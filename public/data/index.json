@@ -1,0 +1,215 @@
+{
+  "factions": {
+    "Craftworlds": {
+      "slug": "aeldari-craftworlds",
+      "file": "aeldari-craftworlds.json",
+      "unitCount": 98
+    },
+    "Drukhari": {
+      "slug": "aeldari-drukhari",
+      "file": "aeldari-drukhari.json",
+      "unitCount": 48
+    },
+    "Chaos Daemons Library": {
+      "slug": "chaos-chaos-daemons-library",
+      "file": "chaos-chaos-daemons-library.json",
+      "unitCount": 71
+    },
+    "Chaos Daemons": {
+      "slug": "chaos-chaos-daemons",
+      "file": "chaos-chaos-daemons.json",
+      "unitCount": 31
+    },
+    "Chaos Knights Library": {
+      "slug": "chaos-chaos-knights-library",
+      "file": "chaos-chaos-knights-library.json",
+      "unitCount": 20
+    },
+    "Chaos Knights": {
+      "slug": "chaos-chaos-knights",
+      "file": "chaos-chaos-knights.json",
+      "unitCount": 17
+    },
+    "Chaos Space Marines": {
+      "slug": "chaos-chaos-space-marines",
+      "file": "chaos-chaos-space-marines.json",
+      "unitCount": 114
+    },
+    "Death Guard": {
+      "slug": "chaos-death-guard",
+      "file": "chaos-death-guard.json",
+      "unitCount": 74
+    },
+    "Emperor's Children": {
+      "slug": "chaos-emperors-children",
+      "file": "chaos-emperors-children.json",
+      "unitCount": 26
+    },
+    "Thousand Sons": {
+      "slug": "chaos-thousand-sons",
+      "file": "chaos-thousand-sons.json",
+      "unitCount": 65
+    },
+    "Titanicus Traitoris": {
+      "slug": "chaos-titanicus-traitoris",
+      "file": "chaos-titanicus-traitoris.json",
+      "unitCount": 4
+    },
+    "World Eaters": {
+      "slug": "chaos-world-eaters",
+      "file": "chaos-world-eaters.json",
+      "unitCount": 61
+    },
+    "Genestealer Cults": {
+      "slug": "genestealer-cults",
+      "file": "genestealer-cults.json",
+      "unitCount": 153
+    },
+    "Adepta Sororitas": {
+      "slug": "imperium-adepta-sororitas",
+      "file": "imperium-adepta-sororitas.json",
+      "unitCount": 41
+    },
+    "Adeptus Custodes": {
+      "slug": "imperium-adeptus-custodes",
+      "file": "imperium-adeptus-custodes.json",
+      "unitCount": 34
+    },
+    "Adeptus Mechanicus": {
+      "slug": "imperium-adeptus-mechanicus",
+      "file": "imperium-adeptus-mechanicus.json",
+      "unitCount": 41
+    },
+    "Adeptus Titanicus": {
+      "slug": "imperium-adeptus-titanicus",
+      "file": "imperium-adeptus-titanicus.json",
+      "unitCount": 4
+    },
+    "Agents of the Imperium": {
+      "slug": "imperium-agents-of-the-imperium",
+      "file": "imperium-agents-of-the-imperium.json",
+      "unitCount": 49
+    },
+    "Astra Militarum - Library": {
+      "slug": "imperium-astra-militarum-library",
+      "file": "imperium-astra-militarum-library.json",
+      "unitCount": 1
+    },
+    "Astra Militarum": {
+      "slug": "imperium-astra-militarum",
+      "file": "imperium-astra-militarum.json",
+      "unitCount": 137
+    },
+    "Black Templars": {
+      "slug": "imperium-black-templars",
+      "file": "imperium-black-templars.json",
+      "unitCount": 170
+    },
+    "Blood Angels": {
+      "slug": "imperium-blood-angels",
+      "file": "imperium-blood-angels.json",
+      "unitCount": 186
+    },
+    "Dark Angels": {
+      "slug": "imperium-dark-angels",
+      "file": "imperium-dark-angels.json",
+      "unitCount": 178
+    },
+    "Deathwatch": {
+      "slug": "imperium-deathwatch",
+      "file": "imperium-deathwatch.json",
+      "unitCount": 170
+    },
+    "Grey Knights": {
+      "slug": "imperium-grey-knights",
+      "file": "imperium-grey-knights.json",
+      "unitCount": 34
+    },
+    "Imperial Fists": {
+      "slug": "imperium-imperial-fists",
+      "file": "imperium-imperial-fists.json",
+      "unitCount": 162
+    },
+    "Imperial Knights - Library": {
+      "slug": "imperium-imperial-knights-library",
+      "file": "imperium-imperial-knights-library.json",
+      "unitCount": 22
+    },
+    "Imperial Knights": {
+      "slug": "imperium-imperial-knights",
+      "file": "imperium-imperial-knights.json",
+      "unitCount": 5
+    },
+    "Iron Hands": {
+      "slug": "imperium-iron-hands",
+      "file": "imperium-iron-hands.json",
+      "unitCount": 161
+    },
+    "Raven Guard": {
+      "slug": "imperium-raven-guard",
+      "file": "imperium-raven-guard.json",
+      "unitCount": 161
+    },
+    "Salamanders": {
+      "slug": "imperium-salamanders",
+      "file": "imperium-salamanders.json",
+      "unitCount": 161
+    },
+    "Space Marines": {
+      "slug": "imperium-space-marines",
+      "file": "imperium-space-marines.json",
+      "unitCount": 159
+    },
+    "Space Wolves": {
+      "slug": "imperium-space-wolves",
+      "file": "imperium-space-wolves.json",
+      "unitCount": 201
+    },
+    "Ultramarines": {
+      "slug": "imperium-ultramarines",
+      "file": "imperium-ultramarines.json",
+      "unitCount": 175
+    },
+    "White Scars": {
+      "slug": "imperium-white-scars",
+      "file": "imperium-white-scars.json",
+      "unitCount": 161
+    },
+    "Leagues of Votann": {
+      "slug": "leagues-of-votann",
+      "file": "leagues-of-votann.json",
+      "unitCount": 25
+    },
+    "Titans": {
+      "slug": "library-titans",
+      "file": "library-titans.json",
+      "unitCount": 8
+    },
+    "Necrons": {
+      "slug": "necrons",
+      "file": "necrons.json",
+      "unitCount": 67
+    },
+    "Orks": {
+      "slug": "orks",
+      "file": "orks.json",
+      "unitCount": 94
+    },
+    "T'au Empire": {
+      "slug": "tau-empire",
+      "file": "tau-empire.json",
+      "unitCount": 66
+    },
+    "Tyranids": {
+      "slug": "tyranids",
+      "file": "tyranids.json",
+      "unitCount": 63
+    },
+    "Unaligned Forces": {
+      "slug": "unaligned-forces",
+      "file": "unaligned-forces.json",
+      "unitCount": 22
+    }
+  },
+  "lastSynced": "2026-08-08T13:28:23.263Z"
+}

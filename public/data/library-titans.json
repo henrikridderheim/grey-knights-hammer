@@ -1,0 +1,1494 @@
+{
+  "faction": "Titans",
+  "slug": "library-titans",
+  "units": [
+    {
+      "id": "reaver-titan",
+      "name": "Reaver Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 2200,
+      "composition": "1 model",
+      "statline": {
+        "move": "12\"",
+        "toughness": 14,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 60,
+        "leadership": "6+",
+        "oc": 20
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Reaver feet",
+          "isMelee": true,
+          "attacks": 8,
+          "skill": 4,
+          "strength": 12,
+          "ap": 2,
+          "damage": 4,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Reaver apocalypse launcher",
+          "isMelee": false,
+          "range": 200,
+          "attacks": 11,
+          "skill": 3,
+          "strength": 7,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Indirect Fire"
+          ]
+        },
+        {
+          "name": "Reaver gatling blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 12,
+          "skill": 3,
+          "strength": 8,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Reaver laser blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 20,
+          "ap": 3,
+          "damage": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Reaver melta cannon",
+          "isMelee": false,
+          "range": 48,
+          "attacks": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "skill": 3,
+          "strength": 13,
+          "ap": 4,
+          "damage": 6,
+          "keywords": {
+            "blast": true,
+            "melta": 4
+          },
+          "rawKeywords": [
+            "Blast",
+            "Melta 4"
+          ]
+        },
+        {
+          "name": "Reaver volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 1
+          },
+          "skill": 3,
+          "strength": 24,
+          "ap": 5,
+          "damage": 14,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Heavy"
+          ]
+        },
+        {
+          "name": "➤ Reaver power fist - strike",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 20,
+          "ap": 4,
+          "damage": 14,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "➤ Reaver power fist - sweep",
+          "isMelee": true,
+          "attacks": 12,
+          "skill": 4,
+          "strength": 12,
+          "ap": 3,
+          "damage": 6,
+          "keywords": {},
+          "rawKeywords": []
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Damaged: 1-20 wounds remaining",
+          "text": "While this model has 1-20 wounds remaining, subtract 10 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "God-machine",
+          "text": "This model is eligible to shoot and declare a charge in a turn in which it Fell Back."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend three times that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "reaver-titan",
+      "name": "Reaver Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 2200,
+      "composition": "1 model",
+      "statline": {
+        "move": "12\"",
+        "toughness": 14,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 60,
+        "leadership": "6+",
+        "oc": 20
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Reaver feet",
+          "isMelee": true,
+          "attacks": 8,
+          "skill": 4,
+          "strength": 12,
+          "ap": 2,
+          "damage": 4,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Reaver apocalypse launcher",
+          "isMelee": false,
+          "range": 200,
+          "attacks": 11,
+          "skill": 3,
+          "strength": 7,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Indirect Fire"
+          ]
+        },
+        {
+          "name": "Reaver gatling blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 12,
+          "skill": 3,
+          "strength": 8,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Reaver laser blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 20,
+          "ap": 3,
+          "damage": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Reaver melta cannon",
+          "isMelee": false,
+          "range": 48,
+          "attacks": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "skill": 3,
+          "strength": 13,
+          "ap": 4,
+          "damage": 6,
+          "keywords": {
+            "blast": true,
+            "melta": 4
+          },
+          "rawKeywords": [
+            "Blast",
+            "Melta 4"
+          ]
+        },
+        {
+          "name": "Reaver volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 1
+          },
+          "skill": 3,
+          "strength": 24,
+          "ap": 5,
+          "damage": 14,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Heavy"
+          ]
+        },
+        {
+          "name": "➤ Reaver power fist - strike",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 20,
+          "ap": 4,
+          "damage": 14,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "➤ Reaver power fist - sweep",
+          "isMelee": true,
+          "attacks": 12,
+          "skill": 4,
+          "strength": 12,
+          "ap": 3,
+          "damage": 6,
+          "keywords": {},
+          "rawKeywords": []
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Damaged: 1-20 wounds remaining",
+          "text": "While this model has 1-20 wounds remaining, subtract 10 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "God-machine",
+          "text": "This model is eligible to shoot and declare a charge in a turn in which it Fell Back."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend three times that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "warbringer-nemesis-titan",
+      "name": "Warbringer Nemesis Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 2600,
+      "composition": "1 model",
+      "statline": {
+        "move": "12\"",
+        "toughness": 14,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 80,
+        "leadership": "6+",
+        "oc": 20
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Anvillus defence battery",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 8,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "antiKeyword": "FLY",
+            "antiThreshold": 4
+          },
+          "rawKeywords": [
+            "Anti-FLY 4+"
+          ]
+        },
+        {
+          "name": "Ardex-defensor mauler",
+          "isMelee": false,
+          "range": 36,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 6,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Nemesis feet",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 12,
+          "ap": 2,
+          "damage": 4,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Nemesis quake cannon",
+          "isMelee": false,
+          "range": 480,
+          "attacks": {
+            "dice": "D6",
+            "flat": 6
+          },
+          "skill": 3,
+          "strength": 16,
+          "ap": 4,
+          "damage": 4,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Indirect Fire"
+          ]
+        },
+        {
+          "name": "Nemesis volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 24,
+          "ap": 5,
+          "damage": 14,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Reaver gatling blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 12,
+          "skill": 3,
+          "strength": 8,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Reaver laser blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 20,
+          "ap": 3,
+          "damage": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Reaver melta cannon",
+          "isMelee": false,
+          "range": 48,
+          "attacks": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "skill": 3,
+          "strength": 13,
+          "ap": 4,
+          "damage": 6,
+          "keywords": {
+            "blast": true,
+            "melta": 4
+          },
+          "rawKeywords": [
+            "Blast",
+            "Melta 4"
+          ]
+        },
+        {
+          "name": "Reaver volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 1
+          },
+          "skill": 3,
+          "strength": 24,
+          "ap": 5,
+          "damage": 14,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Heavy"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Damaged: 1-26 wounds remaining",
+          "text": "While this model has 1-26 wounds remaining, subtract 10 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "Titanic Fire Support",
+          "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a friendly IMPERIUM model makes an attack that targets that enemy unit, on a Critical Wound, improve the Armour Penetration characteristic of that attack by 1."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend three times that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "warhound-titan",
+      "name": "Warhound Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 1100,
+      "composition": "1 model",
+      "statline": {
+        "move": "14\"",
+        "toughness": 13,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 40,
+        "leadership": "6+",
+        "oc": 16
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Warhound feet",
+          "isMelee": true,
+          "attacks": 8,
+          "skill": 4,
+          "strength": 10,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Warhound vulcan mega-bolter",
+          "isMelee": false,
+          "range": 48,
+          "attacks": 20,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Warhound inferno gun",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 11,
+          "skill": 0,
+          "strength": 7,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "ignoresCover": true,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Ignores Cover",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "➤ Warhound plasma blastgun - standard",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 10,
+          "skill": 3,
+          "strength": 9,
+          "ap": 3,
+          "damage": 4,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "➤ Warhound plasma blastgun - supercharge",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 10,
+          "skill": 3,
+          "strength": 10,
+          "ap": 3,
+          "damage": 5,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "Warhound turbo-laser destructor",
+          "isMelee": false,
+          "range": 72,
+          "attacks": {
+            "dice": "D3",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 20,
+          "ap": 3,
+          "damage": 7,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Flank Speed",
+          "text": "Each time this model Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 8\" to the Move characteristic of this model."
+        },
+        {
+          "name": "Damaged: 1-13 wounds remaining",
+          "text": "While this model has 1-13 wounds remaining, subtract 8 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend twice that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "warlord-titan",
+      "name": "Warlord Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 3500,
+      "composition": "1 model",
+      "statline": {
+        "move": "10\"",
+        "toughness": 16,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 100,
+        "leadership": "6+",
+        "oc": 30
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Ardex-defensor lascannon",
+          "isMelee": false,
+          "range": 48,
+          "attacks": 1,
+          "skill": 3,
+          "strength": 12,
+          "ap": 3,
+          "damage": {
+            "dice": "D6",
+            "flat": 1
+          },
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Ardex-defensor mauler",
+          "isMelee": false,
+          "range": 36,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 6,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Warlord feet",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 12,
+          "ap": 2,
+          "damage": 4,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Arioch power claw",
+          "isMelee": false,
+          "range": 48,
+          "attacks": 20,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "➤ Arioch power claw - strike",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 20,
+          "ap": 4,
+          "damage": 24,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "➤ Arioch power claw - sweep",
+          "isMelee": true,
+          "attacks": 12,
+          "skill": 4,
+          "strength": 12,
+          "ap": 3,
+          "damage": 8,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Belicosa volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 32,
+          "ap": 5,
+          "damage": 18,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Macro gatling blaster",
+          "isMelee": false,
+          "range": 100,
+          "attacks": 30,
+          "skill": 3,
+          "strength": 9,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Mori quake cannon",
+          "isMelee": false,
+          "range": 280,
+          "attacks": 11,
+          "skill": 3,
+          "strength": 16,
+          "ap": 4,
+          "damage": 6,
+          "keywords": {
+            "blast": true,
+            "ignoresCover": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Ignores Cover"
+          ]
+        },
+        {
+          "name": "➤ Sunfury plasma annihilator - standard",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 13,
+          "skill": 3,
+          "strength": 10,
+          "ap": 3,
+          "damage": 5,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "➤ Sunfury plasma annihilator - supercharge",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 13,
+          "skill": 3,
+          "strength": 12,
+          "ap": 3,
+          "damage": 8,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "Apocalypse launcher",
+          "isMelee": false,
+          "range": 200,
+          "attacks": 20,
+          "skill": 3,
+          "strength": 8,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Indirect Fire"
+          ]
+        },
+        {
+          "name": "Laser blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 16,
+          "ap": 4,
+          "damage": {
+            "dice": "D6",
+            "flat": 3
+          },
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Damaged: 1-33 wounds remaining",
+          "text": "While this model has 1-33 wounds remaining, subtract 15 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "Wrath of the Omnissiah",
+          "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. That unit must take a Battle-shock test."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend four times that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "warbringer-nemesis-titan",
+      "name": "Warbringer Nemesis Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 2600,
+      "composition": "1 model",
+      "statline": {
+        "move": "12\"",
+        "toughness": 14,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 80,
+        "leadership": "6+",
+        "oc": 20
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Anvillus defence battery",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 8,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "antiKeyword": "FLY",
+            "antiThreshold": 4
+          },
+          "rawKeywords": [
+            "Anti-FLY 4+"
+          ]
+        },
+        {
+          "name": "Ardex-defensor mauler",
+          "isMelee": false,
+          "range": 36,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 6,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Nemesis feet",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 12,
+          "ap": 2,
+          "damage": 4,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Nemesis quake cannon",
+          "isMelee": false,
+          "range": 480,
+          "attacks": {
+            "dice": "D6",
+            "flat": 6
+          },
+          "skill": 3,
+          "strength": 16,
+          "ap": 4,
+          "damage": 4,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Indirect Fire"
+          ]
+        },
+        {
+          "name": "Nemesis volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 24,
+          "ap": 5,
+          "damage": 14,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Reaver gatling blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 12,
+          "skill": 3,
+          "strength": 8,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Reaver laser blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 8,
+          "skill": 3,
+          "strength": 20,
+          "ap": 3,
+          "damage": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Reaver melta cannon",
+          "isMelee": false,
+          "range": 48,
+          "attacks": {
+            "dice": "D6",
+            "flat": 2
+          },
+          "skill": 3,
+          "strength": 13,
+          "ap": 4,
+          "damage": 6,
+          "keywords": {
+            "blast": true,
+            "melta": 4
+          },
+          "rawKeywords": [
+            "Blast",
+            "Melta 4"
+          ]
+        },
+        {
+          "name": "Reaver volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 1
+          },
+          "skill": 3,
+          "strength": 24,
+          "ap": 5,
+          "damage": 14,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Heavy"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Damaged: 1-26 wounds remaining",
+          "text": "While this model has 1-26 wounds remaining, subtract 10 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "Titanic Fire Support",
+          "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a friendly IMPERIUM model makes an attack that targets that enemy unit, on a Critical Wound, improve the Armour Penetration characteristic of that attack by 1."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend three times that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "warhound-titan",
+      "name": "Warhound Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 1100,
+      "composition": "1 model",
+      "statline": {
+        "move": "14\"",
+        "toughness": 13,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 40,
+        "leadership": "6+",
+        "oc": 16
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Warhound feet",
+          "isMelee": true,
+          "attacks": 8,
+          "skill": 4,
+          "strength": 10,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Warhound vulcan mega-bolter",
+          "isMelee": false,
+          "range": 48,
+          "attacks": 20,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Warhound inferno gun",
+          "isMelee": false,
+          "range": 24,
+          "attacks": 11,
+          "skill": 0,
+          "strength": 7,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "ignoresCover": true,
+            "torrent": true
+          },
+          "rawKeywords": [
+            "Ignores Cover",
+            "Torrent"
+          ]
+        },
+        {
+          "name": "➤ Warhound plasma blastgun - standard",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 10,
+          "skill": 3,
+          "strength": 9,
+          "ap": 3,
+          "damage": 4,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "➤ Warhound plasma blastgun - supercharge",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 10,
+          "skill": 3,
+          "strength": 10,
+          "ap": 3,
+          "damage": 5,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "Warhound turbo-laser destructor",
+          "isMelee": false,
+          "range": 72,
+          "attacks": {
+            "dice": "D3",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 20,
+          "ap": 3,
+          "damage": 7,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Flank Speed",
+          "text": "Each time this model Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 8\" to the Move characteristic of this model."
+        },
+        {
+          "name": "Damaged: 1-13 wounds remaining",
+          "text": "While this model has 1-13 wounds remaining, subtract 8 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend twice that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    },
+    {
+      "id": "warlord-titan",
+      "name": "Warlord Titan",
+      "faction": "Titans",
+      "factionKeyword": null,
+      "points": 3500,
+      "composition": "1 model",
+      "statline": {
+        "move": "10\"",
+        "toughness": 16,
+        "save": 2,
+        "invulnSave": 5,
+        "wounds": 100,
+        "leadership": "6+",
+        "oc": 30
+      },
+      "keywords": [
+        "Vehicle",
+        "Walker",
+        "Titanic",
+        "Towering",
+        "Frame"
+      ],
+      "weapons": [
+        {
+          "name": "Ardex-defensor lascannon",
+          "isMelee": false,
+          "range": 48,
+          "attacks": 1,
+          "skill": 3,
+          "strength": 12,
+          "ap": 3,
+          "damage": {
+            "dice": "D6",
+            "flat": 1
+          },
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Ardex-defensor mauler",
+          "isMelee": false,
+          "range": 36,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 6,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Warlord feet",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 12,
+          "ap": 2,
+          "damage": 4,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Arioch power claw",
+          "isMelee": false,
+          "range": 48,
+          "attacks": 20,
+          "skill": 3,
+          "strength": 6,
+          "ap": 1,
+          "damage": 2,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "➤ Arioch power claw - strike",
+          "isMelee": true,
+          "attacks": 6,
+          "skill": 4,
+          "strength": 20,
+          "ap": 4,
+          "damage": 24,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "➤ Arioch power claw - sweep",
+          "isMelee": true,
+          "attacks": 12,
+          "skill": 4,
+          "strength": 12,
+          "ap": 3,
+          "damage": 8,
+          "keywords": {},
+          "rawKeywords": []
+        },
+        {
+          "name": "Belicosa volcano cannon",
+          "isMelee": false,
+          "range": 120,
+          "attacks": {
+            "dice": "D3",
+            "flat": 3
+          },
+          "skill": 3,
+          "strength": 32,
+          "ap": 5,
+          "damage": 18,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "Macro gatling blaster",
+          "isMelee": false,
+          "range": 100,
+          "attacks": 30,
+          "skill": 3,
+          "strength": 9,
+          "ap": 2,
+          "damage": 3,
+          "keywords": {
+            "sustainedHits": 1
+          },
+          "rawKeywords": [
+            "Sustained Hits 1"
+          ]
+        },
+        {
+          "name": "Mori quake cannon",
+          "isMelee": false,
+          "range": 280,
+          "attacks": 11,
+          "skill": 3,
+          "strength": 16,
+          "ap": 4,
+          "damage": 6,
+          "keywords": {
+            "blast": true,
+            "ignoresCover": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Ignores Cover"
+          ]
+        },
+        {
+          "name": "➤ Sunfury plasma annihilator - standard",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 13,
+          "skill": 3,
+          "strength": 10,
+          "ap": 3,
+          "damage": 5,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        },
+        {
+          "name": "➤ Sunfury plasma annihilator - supercharge",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 13,
+          "skill": 3,
+          "strength": 12,
+          "ap": 3,
+          "damage": 8,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Hazardous"
+          ]
+        },
+        {
+          "name": "Apocalypse launcher",
+          "isMelee": false,
+          "range": 200,
+          "attacks": 20,
+          "skill": 3,
+          "strength": 8,
+          "ap": 2,
+          "damage": 2,
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast",
+            "Indirect Fire"
+          ]
+        },
+        {
+          "name": "Laser blaster",
+          "isMelee": false,
+          "range": 72,
+          "attacks": 6,
+          "skill": 3,
+          "strength": 16,
+          "ap": 4,
+          "damage": {
+            "dice": "D6",
+            "flat": 3
+          },
+          "keywords": {
+            "blast": true
+          },
+          "rawKeywords": [
+            "Blast"
+          ]
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Damaged: 1-33 wounds remaining",
+          "text": "While this model has 1-33 wounds remaining, subtract 15 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+        },
+        {
+          "name": "Wrath of the Omnissiah",
+          "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. That unit must take a Battle-shock test."
+        },
+        {
+          "name": "Striding Colossus",
+          "text": "Each time you target this model with a Stratagem, you must spend four times that Stratagem’s stated CP cost to do so."
+        }
+      ],
+      "isCharacter": false,
+      "canLead": []
+    }
+  ]
+}
