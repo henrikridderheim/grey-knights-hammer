@@ -143,4 +143,24 @@ describe("attack sequence — analytical sanity checks", () => {
     expect(ratio).toBeGreaterThan(0.6);
     expect(ratio).toBeLessThan(0.72);
   });
+
+  it("Melta X adds X Damage only when the target was within half range (regression: this was previously unimplemented)", () => {
+    const meltaWeapon = makeWeapon({
+      attacks: 10000,
+      skill: 2,
+      strength: 9,
+      damage: 1,
+      keywords: { melta: 4 },
+    });
+    const target = makeTarget({ save: 7, wounds: 10_000_000, count: 1 }); // uncapped, no save
+    const halfRange = baseCtx({ weapon: meltaWeapon, target, halfRange: true });
+    const fullRange = baseCtx({ weapon: meltaWeapon, target, halfRange: false });
+    const rHalf = runSimulation(halfRange, { label: "melta-half", iterations: 100 });
+    const rFull = runSimulation(fullRange, { label: "melta-full", iterations: 100 });
+    // Same hit/wound math either way (S9 vs T4 = 2+ to wound); only Damage differs: 1+4=5 vs 1.
+    // So half-range damage should be ~5x full-range damage.
+    const ratio = rHalf.meanDamage / rFull.meanDamage;
+    expect(ratio).toBeGreaterThan(4.5);
+    expect(ratio).toBeLessThan(5.5);
+  });
 });

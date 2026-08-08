@@ -156,6 +156,9 @@ export function fireWeaponAtPools(
     : nonCharacterGroups[0]?.toughness ?? characterGroups[0]?.toughness ?? 0;
 
   const antiApplies = !!(w.antiKeyword && w.antiThreshold);
+  // [MELTA X]: add X to the weapon's Damage characteristic when the target was within half range.
+  const meltaBonus = ctx.halfRange && w.melta ? w.melta : 0;
+  const rollWeaponDamage = () => rollDiceSpec(weapon.damage, rng) + meltaBonus;
 
   interface WoundingAttack {
     saveRoll: number;
@@ -205,7 +208,7 @@ export function fireWeaponAtPools(
     woundingAttacks.push({
       saveRoll,
       failed,
-      damage: failed ? rollDiceSpec(weapon.damage, rng) : 0,
+      damage: failed ? rollWeaponDamage() : 0,
       isPrecisionEligible,
     });
   };
@@ -230,7 +233,7 @@ export function fireWeaponAtPools(
     if (!success) return;
 
     if (isCritWound && devastatingActive) {
-      devastatingMortalWounds.push({ damage: rollDiceSpec(weapon.damage, rng), isPrecisionEligible });
+      devastatingMortalWounds.push({ damage: rollWeaponDamage(), isPrecisionEligible });
       return;
     }
     resolveSave(isPrecisionEligible);
