@@ -6,6 +6,7 @@ import type {
   DatasheetProvider,
   NormalizedFactionFile,
 } from "./types";
+import type { ParsedUnit } from "./parseArmyList";
 
 // ---------------------------------------------------------------------------
 // In-memory fixture data + provider (no network access, per project instructions)
@@ -600,3 +601,175 @@ Defiler (300 points)
     expect(manreaperLines.every((w) => w.matchedWeaponName !== null)).toBe(true);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Regression: a real user-pasted Adeptus Custodes list using the Warhammer
+// 40,000 app's "ATTACHED UNITS" / "Attached unit N" / "Attached as: ..."
+// formatting for Leader+Bodyguard pairings, against the real datasheet JSON.
+// Caught: "Attached unit N" sub-headers weren't recognized (became spurious
+// unresolved entries once a real unit had already matched), "Enhancements:"
+// (plural, as this exporter spells it) wasn't recognized at all, and
+// comma-grouped point totals ("1,995 Points") failed to parse.
+// ---------------------------------------------------------------------------
+
+describe("parseArmyList — real Adeptus Custodes list regression (attached units)", () => {
+  const custodesData: NormalizedFactionFile = JSON.parse(
+    readFileSync(new URL("../../public/data/imperium-adeptus-custodes.json", import.meta.url), "utf-8")
+  );
+  // Inquisitor Draxus is a genuine cross-faction ally (Agents of the Imperium),
+  // not a Custodes datasheet — included so the allied-unit fallback has
+  // somewhere to actually find it, same as the real app's provider would.
+  const agentsData: NormalizedFactionFile = JSON.parse(
+    readFileSync(new URL("../../public/data/imperium-agents-of-the-imperium.json", import.meta.url), "utf-8")
+  );
+  const custodesProvider = makeFixtureProvider([custodesData, agentsData]);
+
+  const CUSTODES_LIST = `T&H (1,995 Points)
+
+Adeptus Custodes
+Might of the Moritoi and Shield Host (3 Detachment Points)
+Take and Hold
+Strike Force (2,000 Points)
+
+ATTACHED UNITS
+
+Attached unit 1
+
+Valerian (110 Points)
+  • Attached as: Leader (Character)
+  • Warlord
+  • 1x Gnosis
+
+Custodian Wardens (250 Points)
+  • Attached as: Bodyguard ()
+  • 5x Custodian Warden
+     ◦ 5x Guardian spear
+
+Attached unit 2
+
+Inquisitor Draxus (110 Points)
+  • Attached as: Leader (Character)
+  • 1x Dirgesinger
+  • 1x Power fist
+  • 1x Psychic Tempest
+
+Custodian Guard (170 Points)
+  • Attached as: Bodyguard (Battleline)
+  • 4x Custodian Guard
+     ◦ 1x Misericordia
+     ◦ 4x Praesidium Shield
+     ◦ 3x Sentinel blade
+     ◦ 1x Vexilla
+
+Attached unit 3
+
+Shield-Captain on Dawneagle Jetbike (160 Points)
+  • Attached as: Leader (Character)
+  • 1x Interceptor lance
+  • 1x Salvo launcher
+  • Enhancements: From the Hall of Armouries
+
+Vertus Praetors (215 Points)
+  • Attached as: Bodyguard ()
+  • 3x Vertus Praetor
+     ◦ 3x Interceptor lance
+     ◦ 3x Salvo launcher
+
+OTHER DATASHEETS
+
+Contemptor-Galatus Dreadnought (190 Points)
+  • 1x Galatus warblade
+  • Enhancements: Interred Expertise (Upgrade)
+
+Contemptor-Galatus Dreadnought (190 Points)
+  • 1x Galatus warblade
+  • Enhancements: Interred Expertise (Upgrade)
+
+Prosecutors (45 Points)
+  • 1x Prosecutor Sister Superior
+     ◦ 1x Boltgun
+     ◦ 1x Close combat weapon
+  • 3x Prosecutor
+     ◦ 3x Boltgun
+     ◦ 3x Close combat weapon
+
+Venatari Custodians (165 Points)
+  • 3x Venatari Custodian
+     ◦ 3x Venatari lance
+
+Venatari Custodians (165 Points)
+  • 3x Venatari Custodian
+     ◦ 3x Venatari lance
+
+Venatari Custodians (175 Points)
+  • 3x Venatari Custodian
+     ◦ 3x Venatari lance
+
+Witchseekers (50 Points)
+  • 1x Witchseeker Sister Superior
+     ◦ 1x Close combat weapon
+     ◦ 1x Witchseeker flamer
+  • 3x Witchseeker
+     ◦ 3x Close combat weapon
+     ◦ 3x Witchseeker flamer
+
+Exported with App Version: v2.3.1 (1), Data Version: v913
+`;
+
+  it("resolves faction/detachment, the comma-grouped total, and matches every unit with nothing unresolved", async () => {
+    const result = await parseArmyList(CUSTODES_LIST, custodesProvider);
+    expect(result.faction).toBe("Adeptus Custodes");
+    expect(result.detachment).toBe("Might of the Moritoi and Shield Host (3 Detachment Points)");
+    expect(result.unresolved).toEqual([]);
+    expect(result.units.map((u) => u.matchedUnitName)).toEqual([
+      "Valerian",
+      "Custodian Wardens",
+      "Inquisitor Draxus",
+      "Custodian Guard",
+      "Shield-Captain on Dawneagle Jetbike",
+      "Vertus Praetors",
+      "Contemptor-Galatus Dreadnought",
+      "Contemptor-Galatus Dreadnought",
+      "Prosecutors",
+      "Venatari Custodians",
+      "Venatari Custodians",
+      "Venatari Custodians",
+      "Witchseekers",
+    ]);
+  });
+
+  it("does not turn 'Attached unit N' sub-headers into spurious unresolved units", async () => {
+    const result = await parseArmyList(CUSTODES_LIST, custodesProvider);
+    expect(result.units.some((u) => /^attached unit/i.test(u.rawName))).toBe(false);
+  });
+
+  it("gets every model count right, including single-model Leaders and multi-group Bodyguard squads", async () => {
+    const result = await parseArmyList(CUSTODES_LIST, custodesProvider);
+    const byName = (name: string) => result.units.find((u) => u.rawName === name)!;
+    expect(byName("Valerian").modelCount).toBeNull(); // no explicit line — app defaults from "1 model" composition
+    expect(byName("Custodian Wardens").modelCount).toBe(5);
+    expect(byName("Inquisitor Draxus").modelCount).toBeNull();
+    expect(byName("Custodian Guard").modelCount).toBe(4);
+    expect(byName("Shield-Captain on Dawneagle Jetbike").modelCount).toBeNull();
+    expect(byName("Vertus Praetors").modelCount).toBe(3);
+    expect(result.units.filter((u) => u.rawName === "Prosecutors")[0].modelCount).toBe(4); // 1 Superior + 3 Prosecutor
+    expect(result.units.filter((u) => u.rawName === "Witchseekers")[0].modelCount).toBe(4); // 1 Superior + 3 Witchseeker
+    for (const u of result.units.filter((x) => x.rawName === "Venatari Custodians")) {
+      expect(u.modelCount).toBe(3);
+    }
+  });
+
+  it("captures the plural 'Enhancements:' label this exporter uses", async () => {
+    const result = await parseArmyList(CUSTODES_LIST, custodesProvider);
+    const shieldCaptain = byNameOf(result, "Shield-Captain on Dawneagle Jetbike");
+    expect(shieldCaptain.enhancement).toBe("From the Hall of Armouries");
+    const dreadnoughts = result.units.filter((u) => u.rawName === "Contemptor-Galatus Dreadnought");
+    expect(dreadnoughts.every((d) => d.enhancement === "Interred Expertise (Upgrade)")).toBe(true);
+  });
+});
+
+function byNameOf(result: { units: ParsedUnit[] }, name: string): ParsedUnit {
+  const found = result.units.find((u) => u.rawName === name);
+  if (!found) throw new Error(`unit "${name}" not found in parse result`);
+  return found;
+}

@@ -12,6 +12,7 @@
  */
 
 import type {
+  DataManifest,
   DatasheetProvider,
   NormalizedFactionFile,
   NormalizedUnit,
@@ -100,9 +101,18 @@ function isBlankOrDecorative(line: string): boolean {
   return false;
 }
 
+/** "Attached unit 1", "Attached Unit", "ATTACHED UNIT 2" — a sub-header the
+ * Warhammer 40,000 app prints before each Leader+Bodyguard pairing inside its
+ * "ATTACHED UNITS" section. Mixed-case and carries a digit, so it doesn't hit
+ * the ALL-CAPS/no-digit fallback below — needs its own check. */
+function isAttachedUnitSubHeader(cleaned: string): boolean {
+  return /^attached\s+unit\s*\d*$/i.test(cleaned);
+}
+
 function isLikelyHeader(cleaned: string): boolean {
   const upper = cleaned.toUpperCase();
   if (KNOWN_HEADERS.has(upper)) return true;
+  if (isAttachedUnitSubHeader(cleaned)) return true;
   // Fallback: short, all-caps (ignoring spaces/slashes/ampersands), no digits —
   // catches force-org headers not in the known list above.
   if (
@@ -118,12 +128,18 @@ function isLikelyHeader(cleaned: string): boolean {
   return false;
 }
 
-/** Strips a trailing "(80 pts)" / "(80 points)" / "[80pts]" suffix, returning
- * the remaining text and the parsed points value (or null). */
+/** Strips commas from a plain-text-formatted number ("1,995" -> "1995") before
+ * parsing — large lists (points totals especially) are often comma-grouped. */
+function parseLooseInt(digits: string): number {
+  return Number(digits.replace(/,/g, ""));
+}
+
+/** Strips a trailing "(80 pts)" / "(80 points)" / "[80pts]" / "(1,995 points)"
+ * suffix, returning the remaining text and the parsed points value (or null). */
 function extractTrailingPoints(text: string): { text: string; points: number | null } {
-  const m = text.match(/^(.*?)[\s]*[[(]\s*(\d+)\s*(?:pts?|points?)\.?\s*[\])]\s*$/i);
+  const m = text.match(/^(.*?)[\s]*[[(]\s*([\d,]+)\s*(?:pts?|points?)\.?\s*[\])]\s*$/i);
   if (!m) return { text, points: null };
-  return { text: m[1].trim(), points: Number(m[2]) };
+  return { text: m[1].trim(), points: parseLooseInt(m[2]) };
 }
 
 /** Strips a leading "9x " or trailing "x9" model/weapon-count multiplier. */
@@ -233,8 +249,8 @@ function findDetachment(lines: string[], factionName: string | null): string | n
       continue;
     }
     if (isLikelyHeader(cleaned)) continue;
-    if (/\(\s*\d+\s*(?:pts?|points?)\s*\)/i.test(cleaned)) continue; // has its own points, likely a unit
-    if (/^\d+\s*(?:pts?|points?)\s*$/i.test(cleaned)) continue; // bare points total
+    if (/\(\s*[\d,]+\s*(?:pts?|points?)\s*\)/i.test(cleaned)) continue; // has its own points, likely a unit
+    if (/^[\d,]+\s*(?:pts?|points?)\s*$/i.test(cleaned)) continue; // bare points total
     if (/total/i.test(cleaned)) continue;
     if (isGenericMetadataLine(cleaned)) continue;
     return cleaned;
@@ -245,16 +261,16 @@ function findDetachment(lines: string[], factionName: string | null): string | n
 function findTotalPoints(lines: string[]): number | null {
   for (const raw of lines) {
     const cleaned = stripPlusDecoration(stripBullet(raw));
-    const m = cleaned.match(/total[^\d]*(\d+)\s*(?:pts?|points?)/i);
-    if (m) return Number(m[1]);
+    const m = cleaned.match(/total[^\d]*([\d,]+)\s*(?:pts?|points?)/i);
+    if (m) return parseLooseInt(m[1]);
   }
   // Fallback: a "(2000 points)" style value in the header zone (first 6 lines),
   // typical of NewRecruit/WH-app export headers that state list size up top
   // rather than a "Total:" footer.
   for (const raw of lines.slice(0, 6)) {
     const cleaned = stripPlusDecoration(stripBullet(raw));
-    const m = cleaned.match(/[[(]\s*(\d+)\s*(?:pts?|points?)\s*[\])]/i) ?? cleaned.match(/^(\d+)\s*points?$/i);
-    if (m) return Number(m[1]);
+    const m = cleaned.match(/[[(]\s*([\d,]+)\s*(?:pts?|points?)\s*[\])]/i) ?? cleaned.match(/^([\d,]+)\s*points?$/i);
+    if (m) return parseLooseInt(m[1]);
   }
   return null;
 }
@@ -283,12 +299,13 @@ function classifyLines(lines: string[]): LineInfo[] {
 /** "Key: Value" summary lines BattleScribe/NewRecruit print in the roster header
  * ("Name:", "Battle Size:", "Show Costs:", "Selection Rules:", ...) — never how
  * an actual unit or wargear line is formatted, so safe to skip generically.
- * "Enhancement:" is excluded — that's handled as a wargear-level annotation on
- * the current unit block, not a document-level boundary. */
+ * "Enhancement(s):" is excluded — that's handled as a wargear-level annotation
+ * on the current unit block, not a document-level boundary (the WH app export
+ * uses the plural "Enhancements:", other tools the singular). */
 function isGenericMetadataLine(dedecorated: string): boolean {
   const m = dedecorated.match(/^([A-Za-z][A-Za-z ]{1,25}):\s+\S/);
   if (!m) return false;
-  return m[1].trim().toLowerCase() !== "enhancement";
+  return !/^enhancements?$/.test(m[1].trim().toLowerCase());
 }
 
 function isSectionBoundaryLine(cleaned: string, factionName: string | null): boolean {
@@ -317,14 +334,30 @@ function buildUnitNameIndex(faction: NormalizedFactionFile): Map<string, Normali
 }
 
 /** Parses the unit blocks out of the list body. `unitIndex` is null when no
- * faction could be resolved — every top-level block is then unresolved. */
-function parseUnitBlocks(
+ * faction could be resolved — every top-level block is then unresolved.
+ *
+ * `resolveUnit` is awaited once per top-level line, before that unit's own
+ * sub-lines are processed — its result becomes `current.datasheet` for the
+ * whole block, which weapon-matching (and therefore model-count summing)
+ * depends on. It must fully settle (primary faction, then any cross-faction
+ * ally fallback) before wargear parsing starts for that unit, not after —
+ * otherwise sub-lines get matched against no datasheet at all and every
+ * counted line gets misread as a composition line. `hasFactionIndex`
+ * controls the "silently absorb pre-first-match preamble" behavior below,
+ * same as when a plain synchronous index was used directly. */
+async function parseUnitBlocks(
   lines: LineInfo[],
-  unitIndex: Map<string, NormalizedUnit> | null,
-  factionName: string | null
-): { units: ParsedUnit[]; unresolved: string[] } {
+  resolveUnit: (rawName: string) => Promise<NormalizedUnit | null>,
+  factionName: string | null,
+  hasFactionIndex: boolean
+): Promise<{ units: ParsedUnit[]; orphanSubLines: string[] }> {
   const units: ParsedUnit[] = [];
-  const unresolved: string[] = [];
+  // Only the rare "sub-line with no preceding unit block" case — top-level
+  // lines that don't match the primary faction are tracked via `units`
+  // (matchedUnitId: null) instead, so the caller can retry them against other
+  // factions (allied units, e.g. an Inquisitor in a Custodes list) before
+  // deciding they're genuinely unresolved.
+  const orphanSubLines: string[] = [];
   let current: ParsedUnit | null = null;
   // Indentation of the currently-open unit's own name line. A later line is a
   // *sibling* unit (not a sub-line of the current one) only if it has no
@@ -369,9 +402,9 @@ function parseUnitBlocks(
 
     if (isTopLevel) {
       const { text: withoutPoints, points } = extractTrailingPoints(line.cleaned);
-      const matched = unitIndex?.get(normalizeForMatch(withoutPoints)) ?? null;
+      const matched = await resolveUnit(withoutPoints);
 
-      if (!matched && !sawFirstMatchedUnit && unitIndex !== null) {
+      if (!matched && !sawFirstMatchedUnit && hasFactionIndex) {
         continue; // preamble noise, absorbed silently — see comment above
       }
       if (matched) sawFirstMatchedUnit = true;
@@ -390,7 +423,6 @@ function parseUnitBlocks(
       units.push(current);
       currentUnitIndent = line.indent;
       currentGroupIndent = null;
-      if (!matched) unresolved.push(line.raw.trim());
       continue;
     }
 
@@ -398,7 +430,7 @@ function parseUnitBlocks(
     if (!current) {
       // A sub-line with no preceding unit block — shouldn't normally happen, but
       // don't silently drop it either.
-      unresolved.push(line.raw.trim());
+      orphanSubLines.push(line.raw.trim());
       continue;
     }
 
@@ -406,7 +438,7 @@ function parseUnitBlocks(
       current.isWarlord = true;
       continue;
     }
-    const enhancement = line.cleaned.match(/^enhancement\s*:\s*(.+)$/i);
+    const enhancement = line.cleaned.match(/^enhancements?\s*:\s*(.+)$/i);
     if (enhancement) {
       current.enhancement = enhancement[1].trim();
       continue;
@@ -438,7 +470,34 @@ function parseUnitBlocks(
     });
   }
 
-  return { units, unresolved };
+  return { units, orphanSubLines };
+}
+
+// ---------------------------------------------------------------------------
+// Cross-faction ally resolution — a unit that doesn't match the list's
+// primary faction (e.g. an Inquisitor allied into an Adeptus Custodes list)
+// might still be a real datasheet from a *different* faction. Tried only
+// after the primary faction's index has already failed to match, and only
+// accepted when the name is unique across every other faction — an ambiguous
+// name (matches in 2+ factions) is left unresolved rather than guessed.
+// ---------------------------------------------------------------------------
+
+async function resolveAlliedUnit(
+  rawName: string,
+  provider: DatasheetProvider,
+  manifest: DataManifest,
+  primaryFactionName: string | null
+): Promise<NormalizedUnit | null> {
+  const target = normalizeForMatch(rawName);
+  const otherFactions = Object.entries(manifest.factions).filter(([name]) => name !== primaryFactionName);
+  const results = await Promise.all(
+    otherFactions.map(async ([, entry]) => {
+      const data = await provider.loadFaction(entry.slug);
+      return data.units.find((u) => normalizeForMatch(u.name) === target) ?? null;
+    })
+  );
+  const matches = results.filter((u): u is NormalizedUnit => u !== null);
+  return matches.length === 1 ? matches[0] : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -516,8 +575,30 @@ export async function parseArmyList(
   const totalPoints = findTotalPoints(lines);
 
   const unitIndex = factionData ? buildUnitNameIndex(factionData) : null;
+  // Cache the manifest lazily — only fetched at all if some unit actually needs
+  // the cross-faction ally fallback below (the common case, a fully-matched
+  // list, never touches it).
+  let manifestPromise: Promise<DataManifest> | null = null;
+  const resolveUnit = async (rawName: string): Promise<NormalizedUnit | null> => {
+    const primary = unitIndex?.get(normalizeForMatch(rawName)) ?? null;
+    if (primary) return primary;
+    // Only meaningful once a real primary faction was resolved — if the
+    // faction itself is unrecognized/unresolved we have no reliable basis for
+    // guessing, so every unit stays unresolved (never silently cross-matched).
+    if (!factionData) return null;
+    if (!manifestPromise) manifestPromise = provider.getManifest();
+    return resolveAlliedUnit(rawName, provider, await manifestPromise, factionName);
+  };
+
   const classified = classifyLines(lines);
-  const { units, unresolved } = parseUnitBlocks(classified, unitIndex, factionName);
+  const { units, orphanSubLines } = await parseUnitBlocks(classified, resolveUnit, factionName, unitIndex !== null);
+
+  const unresolved = [
+    ...orphanSubLines,
+    ...units
+      .filter((u) => u.matchedUnitId === null)
+      .map((u) => (u.points ? `${u.rawName} (${u.points} points)` : u.rawName)),
+  ];
 
   return { faction: factionName, detachment, units, unresolved, totalPoints };
 }
