@@ -149,8 +149,9 @@ export function fireWeaponAtPools(
   const rapidFireBonus = ctx.halfRange && w.rapidFire ? w.rapidFire : 0;
   const blastBonus =
     w.blast && target.modelCountForBlast > 0 ? Math.floor(target.modelCountForBlast / 5) : 0;
+  const attacksBonus = ctx.attacksBonus ?? 0;
   for (let m = 0; m < numAttackingModels; m++) {
-    totalAttacks += rollDiceSpec(weapon.attacks, rng) + rapidFireBonus + blastBonus;
+    totalAttacks += rollDiceSpec(weapon.attacks, rng) + rapidFireBonus + blastBonus + attacksBonus;
   }
 
   // Toughness for wound rolls: if target is an attached unit, use the highest T

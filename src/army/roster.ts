@@ -46,37 +46,34 @@ export interface UnitDefinition {
    * failed Wound roll instead if the target is within range of an objective
    * marker (toggle). Purifier Squad only. */
   hasSanctityOfPurpose?: boolean;
+  /** Champion of the Order of Purifiers (Castellan Crowe, while leading):
+   * +1 Attacks to every Purifying Flame weapon in the unit he's attached to. */
+  hasChampionOfPurifiers?: boolean;
 }
 
 export const ROSTER: UnitDefinition[] = [
   {
-    id: "crowe",
-    name: "Castellan Crowe",
-    points: 100,
-    composition: "1 model",
-    statline: { move: "6\"", toughness: 4, save: 2, invulnSave: 4, wounds: 5, leadership: "6+", oc: 1 },
+    // Castellan Crowe can only ever attach to the Purifier Squad (leaderCanAttachTo
+    // was "purifier-squad" and nowhere else), and the army's actual list always
+    // fields them attached — so they're modeled as one combined attacking unit
+    // rather than two separate roster entries. Previously modeling them separately
+    // silently dropped Crowe's own Storm bolter/Purifying Flame/Black Blade attacks
+    // AND his "+1 Attacks to Purifying Flame" buff on the squad's own Purifying
+    // Flames whenever "Purifier Squad" was evaluated — this was the real cause
+    // behind "you've miscalculated the Purifiers" (the squad in isolation wasn't
+    // wrong, it was just never the whole attached unit).
+    id: "purifier-squad",
+    name: "Purifier Squad + Castellan Crowe",
+    points: 380,
+    composition: "10 models: 1 Knight of the Flame + 9 Purifiers, plus attached Castellan Crowe",
+    statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
     loadouts: [
       {
-        label: "Crowe",
+        label: "Castellan Crowe",
         count: 1,
         meleeWeapon: "Black Blade of Antwyr",
         rangedWeapons: ["Purifying Flame (Crowe)", "Storm bolter (Crowe)"],
       },
-    ],
-    abilities: [
-      "Champion of the Order of Purifiers [PSYCHIC]: while leading a unit, +1 Attacks to Purifying Flame weapons in that unit.",
-      "Foesight [PSYCHIC]: re-roll Hit rolls when targeting a CHARACTER. (Named 'Foesight' in the source data, not 'Foresight' — verified spelling.)",
-    ],
-    keywords: ["INFANTRY", "CHARACTER", "PSYKER", "LEADER"],
-    leaderCanAttachTo: "purifier-squad",
-  },
-  {
-    id: "purifier-squad",
-    name: "Purifier Squad",
-    points: 280,
-    composition: "10 models: 1 Knight of the Flame + 9 Purifiers",
-    statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
-    loadouts: [
       {
         label: "Knight of the Flame + 5 Purifiers (force weapon)",
         count: 6,
@@ -91,10 +88,13 @@ export const ROSTER: UnitDefinition[] = [
       },
     ],
     abilities: [
+      "Champion of the Order of Purifiers [PSYCHIC] (Crowe): while leading this unit, +1 Attacks to every Purifying Flame weapon in the unit (including his own).",
+      "Foesight [PSYCHIC] (Crowe): re-roll Hit rolls when targeting a CHARACTER.",
       "Sanctity of Purpose: re-roll a Wound roll of 1 (any target); re-roll any failed Wound roll instead if target is within range of an objective marker.",
     ],
     keywords: ["INFANTRY", "PSYKER"],
     hasSanctityOfPurpose: true,
+    hasChampionOfPurifiers: true,
   },
   {
     id: "gmnd-1",

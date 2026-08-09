@@ -272,6 +272,7 @@ function App() {
   const [autoProgress, setAutoProgress] = useState({ done: 0, total: 0 });
   const [damageSettings, setDamageSettings] = useState<DamageSettings>(DEFAULT_DAMAGE_SETTINGS);
   const targetFormRef = useRef<HTMLElement | null>(null);
+  const resultsAnchorRef = useRef<HTMLDivElement | null>(null);
 
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
@@ -367,7 +368,7 @@ function App() {
     populateFormFromUnit(unit);
     setResultsLabel(unit.rawName);
     setResults(null);
-    targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    targetFormRef.current?.scrollIntoView({ behavior: "auto", block: "start" });
   };
 
   /** Full-fidelity, full-detail (percentiles, combos, weapon breakdown) analysis for
@@ -383,7 +384,11 @@ function App() {
     setComputing(true);
     setExpanded(null);
     setExpandedCombo(null);
-    if (formSeed) targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Always scroll to where results/the loading state will render — an
+    // attached group has no formSeed, so scrolling only for standalone units
+    // (as this used to) left the button appearing to do nothing when clicked
+    // for a combined Leader+Bodyguard target.
+    resultsAnchorRef.current?.scrollIntoView({ behavior: "auto", block: "start" });
     setTimeout(() => {
       const outcome = computeBestWayToKillIt(target, { settings: damageSettings });
       setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
@@ -749,6 +754,7 @@ function App() {
         </button>
       </section>
 
+      <div ref={resultsAnchorRef} />
       {computing && <div className="loading-state">Running Monte Carlo simulations…</div>}
 
       {!computing && results && (

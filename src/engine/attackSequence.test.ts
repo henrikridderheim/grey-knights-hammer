@@ -212,4 +212,17 @@ describe("attack sequence — analytical sanity checks", () => {
     expect(ratio).toBeGreaterThan(1.35);
     expect(ratio).toBeLessThan(1.65);
   });
+
+  it("attacksBonus adds a flat bonus Attack per attacking model (e.g. Champion of the Order of Purifiers)", () => {
+    const weapon = makeWeapon({ attacks: 1, skill: 2, strength: 4 }); // S4vT4 = 4+ to wound = 3/6
+    const target = makeTarget({ save: 7, toughness: 4, wounds: 10_000_000, count: 1 });
+    const noBonus = baseCtx({ weapon, target, numAttackingModels: 10000 });
+    const withBonus = baseCtx({ weapon, target, numAttackingModels: 10000, attacksBonus: 1 });
+    const rNoBonus = runSimulation(noBonus, { label: "attacks-bonus-off", iterations: 100 });
+    const rWithBonus = runSimulation(withBonus, { label: "attacks-bonus-on", iterations: 100 });
+    // 1 attack/model -> 2 attacks/model roughly doubles total attacks, and therefore damage.
+    const ratio = rWithBonus.meanDamage / rNoBonus.meanDamage;
+    expect(ratio).toBeGreaterThan(1.85);
+    expect(ratio).toBeLessThan(2.15);
+  });
 });

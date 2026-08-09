@@ -62,6 +62,7 @@ export interface AttackContext {
   hitMod: number; // capped to [-1, 1] by caller
   woundMod: number; // capped to [-1, 1] by caller
   strengthBonus: number; // e.g. Boons of Deimos +2
+  attacksBonus?: number; // flat bonus Attacks per attacking model, e.g. Champion of the Order of Purifiers +1
   bonusSustainedHits?: number; // e.g. Focused Immolation grants SUSTAINED HITS 1 (stacks/adds)
   grantDevastatingWounds?: boolean; // e.g. Truesilver Channelling / Focused Immolation
   usePrecisionOnCharacter?: boolean; // manual toggle: allocate precision attacks to attached character

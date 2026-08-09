@@ -105,6 +105,9 @@ export function buildShootingEngagements(
     for (const weaponKey of loadout.rangedWeapons) {
       const weapon = WEAPONS[weaponKey];
       if (!weapon) continue;
+      // Champion of the Order of Purifiers: +1 Attacks to every Purifying
+      // Flame weapon in the unit Crowe is leading — including his own.
+      const attacksBonus = unit.hasChampionOfPurifiers && weapon.name === "Purifying Flame" ? 1 : undefined;
       const ctx: AttackContext = {
         numAttackingModels: loadout.count,
         weapon,
@@ -113,6 +116,7 @@ export function buildShootingEngagements(
         hitMod: 0,
         woundMod: 0,
         strengthBonus,
+        attacksBonus,
         bonusSustainedHits: bonusSustainedHits > 0 ? bonusSustainedHits : undefined,
         grantDevastatingWounds: focusedImmolationEligible,
       };
