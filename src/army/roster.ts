@@ -164,10 +164,26 @@ export const ROSTER: UnitDefinition[] = [
     statline: { move: "5\"", toughness: 5, save: 2, invulnSave: 4, wounds: 3, leadership: "6+", oc: 2 },
     loadouts: [
       {
-        label: "Justicar + Terminator x2",
-        count: 3,
+        label: "Justicar",
+        count: 1,
         meleeWeapon: "Nemesis force weapon (Terminator)",
         rangedWeapons: ["Storm bolter"],
+      },
+      {
+        label: "Terminator (storm bolter)",
+        count: 1,
+        meleeWeapon: "Nemesis force weapon (Terminator)",
+        rangedWeapons: ["Storm bolter"],
+      },
+      {
+        // Per the actual army list export: only 1 of the 2 Terminators carries
+        // a Storm bolter — the other's ranged slot is replaced by the
+        // Apothecary's Narthecium (a support item, not a weapon), so this
+        // model has no ranged attack.
+        label: "Terminator (Apothecary's Narthecium)",
+        count: 1,
+        meleeWeapon: "Nemesis force weapon (Terminator)",
+        rangedWeapons: [],
       },
       {
         label: "Ancient",
@@ -221,10 +237,13 @@ export const ROSTER: UnitDefinition[] = [
         rangedWeapons: ["Storm bolter"],
       },
       {
-        label: "4 Purgator (psycannon)",
+        // Per the actual army list export: this squad's close-combat-weapon
+        // Purgators carry Psilencer, not Psycannon (the original build spec
+        // had this wrong — Psilencer is correct here per the current list).
+        label: "4 Purgator (psilencer)",
         count: 4,
         meleeWeapon: "Close combat weapon",
-        rangedWeapons: ["Psycannon"],
+        rangedWeapons: ["Psilencer"],
       },
     ],
     abilities: [
@@ -241,7 +260,9 @@ export const ROSTER: UnitDefinition[] = [
     composition: "5 models: Purgator Justicar + 4 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
     loadouts: [
-      { label: "Justicar", count: 1, meleeWeapon: "Close combat weapon", rangedWeapons: ["Storm bolter"] },
+      // Justicar carries a Nemesis force weapon, not a Close combat weapon —
+      // corrected against the actual army list export.
+      { label: "Justicar", count: 1, meleeWeapon: "Nemesis force weapon", rangedWeapons: ["Storm bolter"] },
       { label: "4 Purgator (psycannon)", count: 4, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psycannon"] },
     ],
     abilities: [
@@ -257,7 +278,9 @@ export const ROSTER: UnitDefinition[] = [
     composition: "5 models: Purgator Justicar + 4 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
     loadouts: [
-      { label: "Justicar", count: 1, meleeWeapon: "Close combat weapon", rangedWeapons: ["Storm bolter"] },
+      // Justicar carries a Nemesis force weapon, not a Close combat weapon —
+      // corrected against the actual army list export.
+      { label: "Justicar", count: 1, meleeWeapon: "Nemesis force weapon", rangedWeapons: ["Storm bolter"] },
       { label: "1 Purgator (psilencer)", count: 1, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psilencer"] },
       { label: "3 Purgator (psycannon)", count: 3, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psycannon"] },
     ],

@@ -181,6 +181,29 @@
   font-weight: 600;
 }
 
+.auto-option-clickable {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 4px 6px;
+  margin: 0 -6px;
+}
+
+.auto-option-clickable:hover {
+  background: var(--accent-bg);
+}
+
+.auto-weapon-breakdown {
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 2px 6px 6px;
+}
+
+.auto-weapon-breakdown div {
+  display: flex;
+  justify-content: space-between;
+  padding: 1px 0;
+}
+
 .unresolved-block {
   margin-top: 10px;
   padding-top: 10px;

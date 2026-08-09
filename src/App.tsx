@@ -125,6 +125,7 @@ function App() {
   const [sortKey, setSortKey] = useState<SortKey>("kill");
   const [expanded, setExpanded] = useState<number | null>(null);
   const [expandedCombo, setExpandedCombo] = useState<number | null>(null);
+  const [expandedAutoKey, setExpandedAutoKey] = useState<string | null>(null);
   const [computing, setComputing] = useState(false);
 
   const [pasteText, setPasteText] = useState("");
@@ -333,24 +334,66 @@ function App() {
                   </button>
                 </div>
                 {top.length === 0 && <div className="empty-state">No viable attack options found.</div>}
-                {top.map((opt, oi) => (
-                  <div className="auto-option-row" key={oi}>
-                    <span>
-                      {opt.unitName} <span className="section-note">({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel})</span>
-                    </span>
-                    <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
-                      {(opt.summary.killProbability * 100).toFixed(0)}% kill · {opt.summary.meanDamage.toFixed(1)} dmg
-                    </span>
-                  </div>
-                ))}
-                {topCombo && (
-                  <div className="auto-option-row auto-combo-row">
-                    <span>Combo: {topCombo.unitNames.join(" + ")}</span>
-                    <span className={topCombo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
-                      {(topCombo.summary.killProbability * 100).toFixed(0)}% kill · {topCombo.summary.meanDamage.toFixed(1)} dmg
-                    </span>
-                  </div>
-                )}
+                {top.map((opt, oi) => {
+                  const key = `${i}-${oi}`;
+                  const isOpen = expandedAutoKey === key;
+                  return (
+                    <div key={oi}>
+                      <div
+                        className="auto-option-row auto-option-clickable"
+                        onClick={() => setExpandedAutoKey(isOpen ? null : key)}
+                      >
+                        <span>
+                          {opt.unitName}{" "}
+                          <span className="section-note">
+                            ({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel})
+                          </span>
+                        </span>
+                        <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
+                          {(opt.summary.killProbability * 100).toFixed(0)}% kill · {opt.summary.meanDamage.toFixed(1)} dmg
+                        </span>
+                      </div>
+                      {isOpen && (
+                        <div className="auto-weapon-breakdown">
+                          {opt.damageByWeapon.map((w, wi) => (
+                            <div key={wi}>
+                              <span>{w.label}</span>
+                              <span>{w.avg.toFixed(2)} dmg</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                {topCombo &&
+                  (() => {
+                    const key = `${i}-combo`;
+                    const isOpen = expandedAutoKey === key;
+                    return (
+                      <div>
+                        <div
+                          className="auto-option-row auto-combo-row auto-option-clickable"
+                          onClick={() => setExpandedAutoKey(isOpen ? null : key)}
+                        >
+                          <span>Combo: {topCombo.unitNames.join(" + ")}</span>
+                          <span className={topCombo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
+                            {(topCombo.summary.killProbability * 100).toFixed(0)}% kill ·{" "}
+                            {topCombo.summary.meanDamage.toFixed(1)} dmg
+                          </span>
+                        </div>
+                        {isOpen && (
+                          <div className="auto-weapon-breakdown">
+                            {topCombo.memberLabels.map((label, li) => (
+                              <div key={li}>
+                                <span>{label}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
               </div>
             );
           })}
