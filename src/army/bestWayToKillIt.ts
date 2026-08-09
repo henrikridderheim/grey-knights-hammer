@@ -47,9 +47,10 @@ interface BestPerUnit {
 
 export function computeBestWayToKillIt(
   target: TargetUnit,
-  options: { iterations?: number } = {}
+  options: { iterations?: number; comboIterations?: number } = {}
 ): BestWayToKillItResult {
   const iterations = options.iterations ?? DEFAULT_ITERATIONS;
+  const comboIterations = options.comboIterations ?? COMBO_ITERATIONS;
   const results: RankedOption[] = [];
   const bestPerUnit = new Map<string, BestPerUnit>();
 
@@ -87,12 +88,16 @@ export function computeBestWayToKillIt(
     }
   }
 
-  const combinations = computeCombinations(target, [...bestPerUnit.values()]);
+  const combinations = computeCombinations(target, [...bestPerUnit.values()], comboIterations);
 
   return { singles: sortOptions(results, "kill"), combinations: sortCombinations(combinations) };
 }
 
-function computeCombinations(target: TargetUnit, bestPerUnit: BestPerUnit[]): CombinationOption[] {
+function computeCombinations(
+  target: TargetUnit,
+  bestPerUnit: BestPerUnit[],
+  comboIterations: number
+): CombinationOption[] {
   const candidates = [...bestPerUnit]
     .sort((a, b) => b.option.summary.meanDamage - a.option.summary.meanDamage)
     .slice(0, COMBO_CANDIDATE_POOL_SIZE);
@@ -116,7 +121,7 @@ function computeCombinations(target: TargetUnit, bestPerUnit: BestPerUnit[]): Co
     const label = combo.map((m) => m.unit.name).join(" + ");
     const summary = runUnitPhaseSimulation(
       engagements.map((e) => ({ ctx: e.ctx, rerolls: e.rerolls })),
-      { label, iterations: COMBO_ITERATIONS }
+      { label, iterations: comboIterations }
     );
     results.push({
       unitIds: combo.map((m) => m.unit.id),

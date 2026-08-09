@@ -57,6 +57,44 @@ function formToTarget(form: TargetFormState): TargetUnit {
   };
 }
 
+function parsedUnitToTarget(unit: ParsedUnit): TargetUnit | null {
+  const sheet = unit.datasheet;
+  if (!sheet) return null;
+  const name = unit.rawName || sheet.name;
+  const count = unit.modelCount ?? 5;
+  return {
+    name,
+    isAttached: false,
+    hasCover: false,
+    modelCountForBlast: count,
+    groups: [
+      {
+        label: name,
+        count,
+        toughness: sheet.statline.toughness,
+        save: sheet.statline.save,
+        invulnSave: sheet.statline.invulnSave,
+        wounds: sheet.statline.wounds,
+      },
+    ],
+  };
+}
+
+function isInfantryDatasheet(unit: ParsedUnit): boolean {
+  return !!unit.datasheet?.keywords.some((k) => k.toUpperCase() === "INFANTRY");
+}
+
+interface AutoUnitResult {
+  unit: ParsedUnit;
+  outcome: BestWayToKillItResult;
+}
+
+// Reduced fidelity for the auto/bulk pass across an entire opponent list — the
+// manual "Enemy target" form below still runs at full DEFAULT_ITERATIONS for a
+// precise look at any one target.
+const AUTO_ITERATIONS = 500;
+const AUTO_COMBO_ITERATIONS = 400;
+
 function App() {
   const [form, setForm] = useState<TargetFormState>(DEFAULT_FORM);
   const [results, setResults] = useState<BestWayToKillItResult | null>(null);
@@ -66,31 +104,74 @@ function App() {
   const [computing, setComputing] = useState(false);
 
   const [pasteText, setPasteText] = useState("");
-  const [parseResult, setParseResult] = useState<ParseArmyListResult | null>(null);
-  const [parsing, setParsing] = useState(false);
-  const [parseError, setParseError] = useState<string | null>(null);
+  const [listResult, setListResult] = useState<ParseArmyListResult | null>(null);
+  const [reading, setReading] = useState(false);
+  const [readError, setReadError] = useState<string | null>(null);
+  const [autoResults, setAutoResults] = useState<AutoUnitResult[]>([]);
+  const [autoAnalyzing, setAutoAnalyzing] = useState(false);
+  const [autoProgress, setAutoProgress] = useState({ done: 0, total: 0 });
   const targetFormRef = useRef<HTMLElement | null>(null);
 
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
   };
 
-  const handleParseList = async () => {
-    if (!pasteText.trim()) return;
-    setParsing(true);
-    setParseError(null);
+  const runAutoAnalysisForList = (result: ParseArmyListResult) => {
+    const matched = result.units.filter((u) => u.datasheet);
+    setAutoResults([]);
+    if (matched.length === 0) {
+      setAutoAnalyzing(false);
+      return;
+    }
+    setAutoAnalyzing(true);
+    setAutoProgress({ done: 0, total: matched.length });
+    let i = 0;
+    const step = () => {
+      const unit = matched[i];
+      const target = parsedUnitToTarget(unit);
+      if (target) {
+        const outcome = computeBestWayToKillIt(target, {
+          iterations: AUTO_ITERATIONS,
+          comboIterations: AUTO_COMBO_ITERATIONS,
+        });
+        setAutoResults((prev) => [...prev, { unit, outcome }]);
+      }
+      i += 1;
+      setAutoProgress({ done: i, total: matched.length });
+      if (i < matched.length) {
+        setTimeout(step, 10); // yield between units so the UI can paint progress
+      } else {
+        setAutoAnalyzing(false);
+      }
+    };
+    setTimeout(step, 10);
+  };
+
+  const readList = async (text: string) => {
+    if (!text.trim()) return;
+    setReading(true);
+    setReadError(null);
+    setAutoResults([]);
     try {
-      const result = await parseArmyList(pasteText, datasheetProvider);
-      setParseResult(result);
+      const result = await parseArmyList(text, datasheetProvider);
+      setListResult(result);
+      runAutoAnalysisForList(result);
     } catch (err) {
-      setParseError(err instanceof Error ? err.message : String(err));
-      setParseResult(null);
+      setReadError(err instanceof Error ? err.message : String(err));
+      setListResult(null);
     } finally {
-      setParsing(false);
+      setReading(false);
     }
   };
 
-  const useUnitAsTarget = (unit: ParsedUnit) => {
+  const handlePasteTextarea = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const text = e.clipboardData.getData("text");
+    if (!text) return;
+    setPasteText(text);
+    void readList(text);
+  };
+
+  const populateFormFromUnit = (unit: ParsedUnit) => {
     const sheet = unit.datasheet;
     if (!sheet) return;
     setForm({
@@ -102,10 +183,32 @@ function App() {
       wounds: sheet.statline.wounds,
       feelNoPain: "",
       hasCover: false,
-      isInfantry: sheet.keywords.some((k) => k.toUpperCase() === "INFANTRY"),
+      isInfantry: isInfantryDatasheet(unit),
     });
+  };
+
+  const useUnitAsTarget = (unit: ParsedUnit) => {
+    populateFormFromUnit(unit);
     setResults(null);
     targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  /** Full-fidelity, full-detail (percentiles, combos, weapon breakdown) analysis for
+   * one unit from the parsed list — the auto pass above trades fidelity for covering
+   * every enemy unit at once; this re-runs that one target properly. */
+  const viewFullAnalysis = (unit: ParsedUnit) => {
+    populateFormFromUnit(unit);
+    const target = parsedUnitToTarget(unit);
+    if (!target) return;
+    setComputing(true);
+    setExpanded(null);
+    setExpandedCombo(null);
+    targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => {
+      const outcome = computeBestWayToKillIt(target);
+      setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
+      setComputing(false);
+    }, 30);
   };
 
   const runAnalysis = () => {
@@ -146,31 +249,37 @@ function App() {
       <section className="card">
         <h2>Paste opponent's list</h2>
         <p className="section-note">
-          Paste a plain-text export from the Warhammer 40,000 app, BattleScribe, or NewRecruit. Matched units get a
-          "Use as target" button below; anything it can't confidently match is flagged, never guessed.
+          Paste a plain-text export from the Warhammer 40,000 app, BattleScribe, or NewRecruit — it analyzes
+          automatically the moment you paste. Anything it can't confidently match is flagged below, never guessed.
         </p>
         <textarea
           className="paste-textarea"
           placeholder="Paste your opponent's army list export here…"
           value={pasteText}
           onChange={(e) => setPasteText(e.target.value)}
+          onPaste={handlePasteTextarea}
           rows={6}
         />
-        <button className="primary-btn" onClick={handleParseList} disabled={parsing || !pasteText.trim()}>
-          {parsing ? "Parsing…" : "Parse list"}
+        <button
+          className="primary-btn"
+          onClick={() => readList(pasteText)}
+          disabled={reading || !pasteText.trim()}
+        >
+          {reading ? "Reading list…" : "Analyze list"}
         </button>
+        <p className="section-note">Pasting above runs this automatically — only needed if you edit the text.</p>
 
-        {parseError && <div className="empty-state">Couldn't parse that: {parseError}</div>}
+        {readError && <div className="empty-state">Couldn't read that list: {readError}</div>}
 
-        {parseResult && (
+        {listResult && (
           <div className="parse-result">
             <div className="section-note">
-              {parseResult.faction ? `Faction: ${parseResult.faction}` : "Faction not detected"}
-              {parseResult.detachment ? ` · Detachment: ${parseResult.detachment}` : ""}
-              {parseResult.totalPoints ? ` · ${parseResult.totalPoints}pts` : ""}
+              {listResult.faction ? `Faction: ${listResult.faction}` : "Faction not detected"}
+              {listResult.detachment ? ` · Detachment: ${listResult.detachment}` : ""}
+              {listResult.totalPoints ? ` · ${listResult.totalPoints}pts` : ""}
             </div>
 
-            {parseResult.units.map((unit, i) => (
+            {listResult.units.map((unit, i) => (
               <div className="parsed-unit-row" key={i}>
                 <div className="parsed-unit-info">
                   <span className={unit.datasheet ? "kill-good" : "kill-bad"}>{unit.datasheet ? "✓" : "?"}</span>
@@ -188,10 +297,10 @@ function App() {
               </div>
             ))}
 
-            {parseResult.unresolved.length > 0 && (
+            {listResult.unresolved.length > 0 && (
               <div className="unresolved-block">
                 <div className="section-note">Couldn't confidently match these lines:</div>
-                {parseResult.unresolved.map((line, i) => (
+                {listResult.unresolved.map((line, i) => (
                   <div className="unresolved-line" key={i}>
                     {line}
                   </div>
@@ -201,6 +310,55 @@ function App() {
           </div>
         )}
       </section>
+
+      {(autoAnalyzing || autoResults.length > 0) && (
+        <section className="card">
+          <h2>Best way to kill each unit</h2>
+          <p className="section-note">
+            Quick pass across every matched unit in the list above (lower simulation count for speed — click "Full
+            analysis" on any unit for precise numbers, percentiles, and combinations).
+          </p>
+          {autoAnalyzing && (
+            <div className="loading-state">
+              Analyzing {autoProgress.done}/{autoProgress.total} units…
+            </div>
+          )}
+          {autoResults.map(({ unit, outcome }, i) => {
+            const top = outcome.singles.slice(0, 2);
+            const bestKill = top[0]?.summary.killProbability ?? 0;
+            const topCombo = bestKill < 0.85 ? outcome.combinations[0] : null;
+            return (
+              <div className="auto-unit-block" key={i}>
+                <div className="auto-unit-header">
+                  <span className="option-name">{unit.rawName}</span>
+                  <button className="use-target-btn" onClick={() => viewFullAnalysis(unit)}>
+                    Full analysis
+                  </button>
+                </div>
+                {top.length === 0 && <div className="empty-state">No viable attack options found.</div>}
+                {top.map((opt, oi) => (
+                  <div className="auto-option-row" key={oi}>
+                    <span>
+                      {opt.unitName} <span className="section-note">({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel})</span>
+                    </span>
+                    <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
+                      {(opt.summary.killProbability * 100).toFixed(0)}% kill · {opt.summary.meanDamage.toFixed(1)} dmg
+                    </span>
+                  </div>
+                ))}
+                {topCombo && (
+                  <div className="auto-option-row auto-combo-row">
+                    <span>Combo: {topCombo.unitNames.join(" + ")}</span>
+                    <span className={topCombo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
+                      {(topCombo.summary.killProbability * 100).toFixed(0)}% kill · {topCombo.summary.meanDamage.toFixed(1)} dmg
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </section>
+      )}
 
       <section className="card" ref={targetFormRef}>
         <h2>Enemy target</h2>
