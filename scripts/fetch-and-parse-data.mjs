@@ -18,7 +18,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = path.join(__dirname, "..", "public", "data");
 
 const GITHUB_API_LISTING = "https://api.github.com/repos/BSData/wh40k-11e/contents/";
-const RAW_BASE = "https://raw.githubusercontent.com/BSData/wh40k-11e/main/";
+// Raw file URLs come from each listing entry's own `download_url`, so no base
+// URL constant is needed here.
 
 // The core game-system file (not a faction catalogue — different top-level shape,
 // `{gameSystem: {...}}` instead of `{catalogue: {...}}`). Its keyword glossary is
