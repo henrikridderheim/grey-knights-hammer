@@ -1,5 +1,5 @@
 import type { TargetUnit } from "../engine/types";
-import { runUnitPhaseSimulation } from "../engine/simulate";
+import { runSimulation, runUnitPhaseSimulation } from "../engine/simulate";
 import { ROSTER, type UnitDefinition } from "./roster";
 import {
   buildEngagementsForScenario,
@@ -38,6 +38,17 @@ export interface BestWayToKillItResult {
 
 const DEFAULT_ITERATIONS = 1500;
 const COMBO_ITERATIONS = 1200;
+/** Per-weapon breakdown is computed "solo" — each weapon simulated alone
+ * against a fresh copy of the target, not sharing the combined-fire pool —
+ * so it shows what that weapon actually does, not an artifact of whatever
+ * arbitrary order weapons happen to fire in within the combined simulation.
+ * A weapon firing after the target is already dead in that shared-pool run
+ * would otherwise show ~0 damage even though it's working correctly; solo
+ * numbers don't sum to the combined total (that's expected — the combined
+ * total correctly avoids double-counting overkill, the solo numbers don't
+ * try to). Lower iteration count since this is informational, not the
+ * primary ranking metric. */
+const SOLO_WEAPON_ITERATIONS = 400;
 /** How many of the best single units (by avg damage) to draw combinations from — bounds
  * combinatorial blow-up (C(6,2)+C(6,3) = 35 combos) while still covering the units most
  * likely to matter for a joint-fire recommendation. */
@@ -76,9 +87,13 @@ export function computeBestWayToKillIt(
         mode,
         scenarioLabel: label,
         summary,
-        damageByWeapon: engagements.map((e, i) => ({
+        damageByWeapon: engagements.map((e) => ({
           label: e.weaponLabel,
-          avg: summary.meanDamageByWeapon[i] ?? 0,
+          avg: runSimulation(e.ctx, {
+            label: e.weaponLabel,
+            iterations: Math.min(iterations, SOLO_WEAPON_ITERATIONS),
+            rerolls: e.rerolls,
+          }).meanDamage,
         })),
       };
       results.push(option);

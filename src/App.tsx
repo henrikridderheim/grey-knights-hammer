@@ -566,6 +566,7 @@ function App() {
                       </div>
                       {isOpen && (
                         <div className="auto-weapon-breakdown">
+                          <div className="section-note">Each weapon fired alone (won't sum to the total — that accounts for shared overkill):</div>
                           {opt.damageByWeapon.map((w, wi) => (
                             <div key={wi}>
                               <span>{w.label}</span>
@@ -820,6 +821,10 @@ function App() {
                       <span>Wounds remaining</span>
                       {opt.summary.meanWoundsRemaining.toFixed(1)}
                     </div>
+                  </div>
+                  <div className="section-note">
+                    Per weapon, fired alone at a fresh target (won't sum to the total above — that already accounts
+                    for shared overkill across all weapons firing together):
                   </div>
                   <div className="weapon-breakdown">
                     {opt.damageByWeapon.map((w, wi) => (
