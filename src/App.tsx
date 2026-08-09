@@ -1,7 +1,12 @@
 import { useState } from "react";
 import "./App.css";
 import type { TargetUnit } from "./engine/types";
-import { computeBestWayToKillIt, sortOptions, type RankedOption, type SortKey } from "./army/bestWayToKillIt";
+import {
+  computeBestWayToKillIt,
+  sortOptions,
+  type BestWayToKillItResult,
+  type SortKey,
+} from "./army/bestWayToKillIt";
 import { ARMY_TOTAL_POINTS } from "./army/roster";
 
 interface TargetFormState {
@@ -50,9 +55,10 @@ function formToTarget(form: TargetFormState): TargetUnit {
 
 function App() {
   const [form, setForm] = useState<TargetFormState>(DEFAULT_FORM);
-  const [results, setResults] = useState<RankedOption[] | null>(null);
+  const [results, setResults] = useState<BestWayToKillItResult | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("kill");
   const [expanded, setExpanded] = useState<number | null>(null);
+  const [expandedCombo, setExpandedCombo] = useState<number | null>(null);
   const [computing, setComputing] = useState(false);
 
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
@@ -62,21 +68,24 @@ function App() {
   const runAnalysis = () => {
     setComputing(true);
     setExpanded(null);
+    setExpandedCombo(null);
     // setTimeout (not requestAnimationFrame, which browsers suspend on a
     // hidden/backgrounded tab) lets the "computing…" state paint before the
     // synchronous, CPU-bound simulation blocks the main thread.
     setTimeout(() => {
       const target = formToTarget(form);
-      const options = computeBestWayToKillIt(target);
-      setResults(sortOptions(options, sortKey));
+      const outcome = computeBestWayToKillIt(target);
+      setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
       setComputing(false);
     }, 30);
   };
 
   const changeSortKey = (key: SortKey) => {
     setSortKey(key);
-    if (results) setResults(sortOptions(results, key));
+    if (results) setResults({ ...results, singles: sortOptions(results.singles, key) });
   };
+
+  const bestSingleKill = results?.singles[0]?.summary.killProbability ?? 0;
 
   return (
     <div className="app">
@@ -198,8 +207,8 @@ function App() {
               <option value="damagePerPoint">Damage per point cost</option>
             </select>
           </div>
-          {results.length === 0 && <div className="empty-state">No viable attack options found.</div>}
-          {results.map((opt, i) => (
+          {results.singles.length === 0 && <div className="empty-state">No viable attack options found.</div>}
+          {results.singles.map((opt, i) => (
             <div className="option-card" key={i} onClick={() => setExpanded(expanded === i ? null : i)}>
               <div className="option-top">
                 <span className="option-rank">{i + 1}.</span>
@@ -258,6 +267,68 @@ function App() {
                         <span>{w.avg.toFixed(2)} dmg</span>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </section>
+      )}
+
+      {!computing && results && results.combinations.length > 0 && (
+        <section className="card">
+          <h2>Combine units against {form.name || "Enemy Unit"}</h2>
+          <p className="section-note">
+            {bestSingleKill >= 0.9
+              ? "No single unit above is reliably needed here — shown for reference."
+              : "No single unit reliably kills this on its own — here are the smallest/cheapest combinations that do, joint-fire simulated together (shared target, so overkill isn't double-counted)."}
+          </p>
+          {results.combinations.map((combo, i) => (
+            <div
+              className="option-card"
+              key={i}
+              onClick={() => setExpandedCombo(expandedCombo === i ? null : i)}
+            >
+              <div className="option-top">
+                <span className="option-rank">{i + 1}.</span>
+                <span className="option-name">{combo.unitNames.join(" + ")}</span>
+                <span className={combo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
+                  {(combo.summary.killProbability * 100).toFixed(0)}% kill
+                </span>
+              </div>
+              <div className="option-scenario">
+                {combo.unitIds.length} units combined · {combo.totalPoints}pts
+              </div>
+              <div className="option-stats">
+                <div>
+                  <span className="stat-value">{combo.summary.meanDamage.toFixed(1)}</span> avg dmg
+                </div>
+                <div>
+                  <span className="stat-value">{combo.summary.meanModelsKilled.toFixed(1)}</span> models killed
+                </div>
+              </div>
+              {expandedCombo === i && (
+                <div className="option-detail">
+                  <div className="weapon-breakdown">
+                    {combo.memberLabels.map((label, li) => (
+                      <div key={li}>
+                        <span>{label}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="detail-grid">
+                    <div>
+                      <span>Median dmg</span>
+                      {combo.summary.medianDamage.toFixed(1)}
+                    </div>
+                    <div>
+                      <span>Wipe %</span>
+                      {(combo.summary.wipeProbability * 100).toFixed(0)}%
+                    </div>
+                    <div>
+                      <span>Wounds remaining</span>
+                      {combo.summary.meanWoundsRemaining.toFixed(1)}
+                    </div>
                   </div>
                 </div>
               )}
