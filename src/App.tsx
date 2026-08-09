@@ -5,6 +5,7 @@ import {
   computeBestWayToKillIt,
   sortOptions,
   type BestWayToKillItResult,
+  type RankedOption,
   type SortKey,
 } from "./army/bestWayToKillIt";
 import { ARMY_TOTAL_POINTS } from "./army/roster";
@@ -181,6 +182,44 @@ function attachedGroupDedupeSignature(group: AttachedGroup): string {
     .map((m) => `${m.attachedRole}:${unitDedupeSignature(m)}`)
     .sort()
     .join("||");
+}
+
+const STRATAGEM_LABEL_RE = /\(\d+CP\)$/;
+
+/** Strips any stratagem-boost segment ("Focused Immolation (1CP)",
+ * "Truesilver Channelling (2CP)") from a scenario label, leaving the
+ * range/mode/deep-strike portion — used to match a boosted scenario back to
+ * its non-boosted sibling for direct with/without comparison. */
+function stratagemBaseLabel(scenarioLabel: string): string {
+  return scenarioLabel
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => !STRATAGEM_LABEL_RE.test(s))
+    .join(", ");
+}
+
+/** The auto-results quick view shows 2 options per target. Naively taking the
+ * top 2 by kill% often shows two stratagem-boosted variants of the same best
+ * unit (e.g. half-range and full-range, both with Focused Immolation),
+ * hiding the "without the stratagem" comparison entirely. When the best
+ * option used a stratagem, this pairs it with its own base (non-boosted)
+ * sibling instead, so the CP cost's actual damage swing is visible directly. */
+function pickDisplayOptions(outcome: BestWayToKillItResult): RankedOption[] {
+  const best = outcome.singles[0];
+  if (!best) return [];
+  if (!STRATAGEM_LABEL_RE.test(best.scenarioLabel)) {
+    return outcome.singles.slice(0, 2);
+  }
+  const baseLabel = stratagemBaseLabel(best.scenarioLabel);
+  const sibling = outcome.singles.find(
+    (o) =>
+      o !== best &&
+      o.unitId === best.unitId &&
+      o.mode === best.mode &&
+      !STRATAGEM_LABEL_RE.test(o.scenarioLabel) &&
+      stratagemBaseLabel(o.scenarioLabel) === baseLabel
+  );
+  return sibling ? [best, sibling] : outcome.singles.slice(0, 2);
 }
 
 /** Standalone matched units plus combined attached (Leader+Bodyguard) groups,
@@ -412,7 +451,7 @@ function App() {
             </div>
           )}
           {autoResults.map(({ label, target, formSeed, outcome, multiplicity }, i) => {
-            const top = outcome.singles.slice(0, 2);
+            const top = pickDisplayOptions(outcome);
             const bestKill = top[0]?.summary.killProbability ?? 0;
             const topCombo = bestKill < 0.85 ? outcome.combinations[0] : null;
             return (
@@ -428,6 +467,11 @@ function App() {
                   </button>
                 </div>
                 {top.length === 0 && <div className="empty-state">No viable attack options found.</div>}
+                {top.length === 2 &&
+                  STRATAGEM_LABEL_RE.test(top[0].scenarioLabel) &&
+                  !STRATAGEM_LABEL_RE.test(top[1].scenarioLabel) && (
+                    <div className="section-note">With vs. without the stratagem, same unit/range:</div>
+                  )}
                 {top.map((opt, oi) => {
                   const key = `${i}-${oi}`;
                   const isOpen = expandedAutoKey === key;
@@ -440,7 +484,11 @@ function App() {
                         <span>
                           {opt.unitName}{" "}
                           <span className="section-note">
-                            ({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel})
+                            ({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel}
+                            {oi === 1 && !STRATAGEM_LABEL_RE.test(opt.scenarioLabel) && top.length === 2 && STRATAGEM_LABEL_RE.test(top[0].scenarioLabel)
+                              ? ", no stratagem"
+                              : ""}
+                            )
                           </span>
                         </span>
                         <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
