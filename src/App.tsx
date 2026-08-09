@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import type { TargetUnit } from "./engine/types";
 import {
@@ -8,6 +8,10 @@ import {
   type SortKey,
 } from "./army/bestWayToKillIt";
 import { ARMY_TOTAL_POINTS } from "./army/roster";
+import { parseArmyList, type ParseArmyListResult, type ParsedUnit } from "./parser/parseArmyList";
+import { createFetchDatasheetProvider } from "./parser/fetchDatasheetProvider";
+
+const datasheetProvider = createFetchDatasheetProvider();
 
 interface TargetFormState {
   name: string;
@@ -61,8 +65,47 @@ function App() {
   const [expandedCombo, setExpandedCombo] = useState<number | null>(null);
   const [computing, setComputing] = useState(false);
 
+  const [pasteText, setPasteText] = useState("");
+  const [parseResult, setParseResult] = useState<ParseArmyListResult | null>(null);
+  const [parsing, setParsing] = useState(false);
+  const [parseError, setParseError] = useState<string | null>(null);
+  const targetFormRef = useRef<HTMLElement | null>(null);
+
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
+  };
+
+  const handleParseList = async () => {
+    if (!pasteText.trim()) return;
+    setParsing(true);
+    setParseError(null);
+    try {
+      const result = await parseArmyList(pasteText, datasheetProvider);
+      setParseResult(result);
+    } catch (err) {
+      setParseError(err instanceof Error ? err.message : String(err));
+      setParseResult(null);
+    } finally {
+      setParsing(false);
+    }
+  };
+
+  const useUnitAsTarget = (unit: ParsedUnit) => {
+    const sheet = unit.datasheet;
+    if (!sheet) return;
+    setForm({
+      name: unit.rawName || sheet.name,
+      count: unit.modelCount ?? 5,
+      toughness: sheet.statline.toughness,
+      save: sheet.statline.save,
+      invulnSave: sheet.statline.invulnSave ?? "",
+      wounds: sheet.statline.wounds,
+      feelNoPain: "",
+      hasCover: false,
+      isInfantry: sheet.keywords.some((k) => k.toUpperCase() === "INFANTRY"),
+    });
+    setResults(null);
+    targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const runAnalysis = () => {
@@ -101,6 +144,65 @@ function App() {
       </header>
 
       <section className="card">
+        <h2>Paste opponent's list</h2>
+        <p className="section-note">
+          Paste a plain-text export from the Warhammer 40,000 app, BattleScribe, or NewRecruit. Matched units get a
+          "Use as target" button below; anything it can't confidently match is flagged, never guessed.
+        </p>
+        <textarea
+          className="paste-textarea"
+          placeholder="Paste your opponent's army list export here…"
+          value={pasteText}
+          onChange={(e) => setPasteText(e.target.value)}
+          rows={6}
+        />
+        <button className="primary-btn" onClick={handleParseList} disabled={parsing || !pasteText.trim()}>
+          {parsing ? "Parsing…" : "Parse list"}
+        </button>
+
+        {parseError && <div className="empty-state">Couldn't parse that: {parseError}</div>}
+
+        {parseResult && (
+          <div className="parse-result">
+            <div className="section-note">
+              {parseResult.faction ? `Faction: ${parseResult.faction}` : "Faction not detected"}
+              {parseResult.detachment ? ` · Detachment: ${parseResult.detachment}` : ""}
+              {parseResult.totalPoints ? ` · ${parseResult.totalPoints}pts` : ""}
+            </div>
+
+            {parseResult.units.map((unit, i) => (
+              <div className="parsed-unit-row" key={i}>
+                <div className="parsed-unit-info">
+                  <span className={unit.datasheet ? "kill-good" : "kill-bad"}>{unit.datasheet ? "✓" : "?"}</span>
+                  <span>
+                    {unit.rawName}
+                    {unit.modelCount ? ` (${unit.modelCount} models)` : ""}
+                    {unit.points ? ` · ${unit.points}pts` : ""}
+                  </span>
+                </div>
+                {unit.datasheet && (
+                  <button className="use-target-btn" onClick={() => useUnitAsTarget(unit)}>
+                    Use as target
+                  </button>
+                )}
+              </div>
+            ))}
+
+            {parseResult.unresolved.length > 0 && (
+              <div className="unresolved-block">
+                <div className="section-note">Couldn't confidently match these lines:</div>
+                {parseResult.unresolved.map((line, i) => (
+                  <div className="unresolved-line" key={i}>
+                    {line}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
+      <section className="card" ref={targetFormRef}>
         <h2>Enemy target</h2>
         <div className="form-grid">
           <label className="field span-2">
