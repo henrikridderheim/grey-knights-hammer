@@ -57,11 +57,21 @@ function formToTarget(form: TargetFormState): TargetUnit {
   };
 }
 
+/** Best-effort default when the pasted list didn't state an explicit model count
+ * for a unit (e.g. a single-model datasheet with no "1x ..." composition line
+ * for the parser to find) — reads the real datasheet's composition text
+ * ("1 model", "10-20 models", "10+ models", ...) instead of guessing a flat
+ * number. Falls back to 5 only if the composition text itself has no digit. */
+function defaultModelCountFromComposition(composition: string | undefined): number {
+  const match = composition?.match(/\d+/);
+  return match ? Number(match[0]) : 5;
+}
+
 function parsedUnitToTarget(unit: ParsedUnit): TargetUnit | null {
   const sheet = unit.datasheet;
   if (!sheet) return null;
   const name = unit.rawName || sheet.name;
-  const count = unit.modelCount ?? 5;
+  const count = unit.modelCount ?? defaultModelCountFromComposition(sheet.composition);
   return {
     name,
     isAttached: false,
@@ -87,6 +97,20 @@ function isInfantryDatasheet(unit: ParsedUnit): boolean {
 interface AutoUnitResult {
   unit: ParsedUnit;
   outcome: BestWayToKillItResult;
+  /** How many identical copies of this unit (same datasheet, size, wargear,
+   * enhancement) appeared in the pasted list — shown once, not repeated. */
+  multiplicity: number;
+}
+
+/** Groups identical repeated units (e.g. "4x10 Poxwalkers" as four separate list
+ * entries) so they're analyzed and shown once instead of as duplicate blocks. */
+function unitDedupeSignature(unit: ParsedUnit): string {
+  const count = unit.modelCount ?? defaultModelCountFromComposition(unit.datasheet?.composition);
+  const wargearSig = unit.wargear
+    .map((w) => `${w.matchedWeaponName ?? w.rawText}x${w.count ?? 1}`)
+    .sort()
+    .join(",");
+  return `${unit.matchedUnitId}|${count}|${wargearSig}|${unit.enhancement ?? ""}`;
 }
 
 // Reduced fidelity for the auto/bulk pass across an entire opponent list — the
@@ -117,7 +141,16 @@ function App() {
   };
 
   const runAutoAnalysisForList = (result: ParseArmyListResult) => {
-    const matched = result.units.filter((u) => u.datasheet);
+    const matchedAll = result.units.filter((u) => u.datasheet);
+    const groups = new Map<string, { unit: ParsedUnit; multiplicity: number }>();
+    for (const unit of matchedAll) {
+      const sig = unitDedupeSignature(unit);
+      const existing = groups.get(sig);
+      if (existing) existing.multiplicity += 1;
+      else groups.set(sig, { unit, multiplicity: 1 });
+    }
+    const matched = [...groups.values()];
+
     setAutoResults([]);
     if (matched.length === 0) {
       setAutoAnalyzing(false);
@@ -127,14 +160,14 @@ function App() {
     setAutoProgress({ done: 0, total: matched.length });
     let i = 0;
     const step = () => {
-      const unit = matched[i];
+      const { unit, multiplicity } = matched[i];
       const target = parsedUnitToTarget(unit);
       if (target) {
         const outcome = computeBestWayToKillIt(target, {
           iterations: AUTO_ITERATIONS,
           comboIterations: AUTO_COMBO_ITERATIONS,
         });
-        setAutoResults((prev) => [...prev, { unit, outcome }]);
+        setAutoResults((prev) => [...prev, { unit, outcome, multiplicity }]);
       }
       i += 1;
       setAutoProgress({ done: i, total: matched.length });
@@ -176,7 +209,7 @@ function App() {
     if (!sheet) return;
     setForm({
       name: unit.rawName || sheet.name,
-      count: unit.modelCount ?? 5,
+      count: unit.modelCount ?? defaultModelCountFromComposition(sheet.composition),
       toughness: sheet.statline.toughness,
       save: sheet.statline.save,
       invulnSave: sheet.statline.invulnSave ?? "",
@@ -270,8 +303,63 @@ function App() {
         <p className="section-note">Pasting above runs this automatically — only needed if you edit the text.</p>
 
         {readError && <div className="empty-state">Couldn't read that list: {readError}</div>}
+      </section>
 
-        {listResult && (
+      {(autoAnalyzing || autoResults.length > 0) && (
+        <section className="card">
+          <h2>Best way to kill each unit</h2>
+          <p className="section-note">
+            Quick pass across every matched unit in the list above (lower simulation count for speed — click "Full
+            analysis" on any unit for precise numbers, percentiles, and combinations).
+          </p>
+          {autoAnalyzing && (
+            <div className="loading-state">
+              Analyzing {autoProgress.done}/{autoProgress.total} units…
+            </div>
+          )}
+          {autoResults.map(({ unit, outcome, multiplicity }, i) => {
+            const top = outcome.singles.slice(0, 2);
+            const bestKill = top[0]?.summary.killProbability ?? 0;
+            const topCombo = bestKill < 0.85 ? outcome.combinations[0] : null;
+            return (
+              <div className="auto-unit-block" key={i}>
+                <div className="auto-unit-header">
+                  <span className="option-name">
+                    {unit.rawName}
+                    {multiplicity > 1 && <span className="multiplicity-badge">×{multiplicity} in list</span>}
+                  </span>
+                  <button className="use-target-btn" onClick={() => viewFullAnalysis(unit)}>
+                    Full analysis
+                  </button>
+                </div>
+                {top.length === 0 && <div className="empty-state">No viable attack options found.</div>}
+                {top.map((opt, oi) => (
+                  <div className="auto-option-row" key={oi}>
+                    <span>
+                      {opt.unitName} <span className="section-note">({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel})</span>
+                    </span>
+                    <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
+                      {(opt.summary.killProbability * 100).toFixed(0)}% kill · {opt.summary.meanDamage.toFixed(1)} dmg
+                    </span>
+                  </div>
+                ))}
+                {topCombo && (
+                  <div className="auto-option-row auto-combo-row">
+                    <span>Combo: {topCombo.unitNames.join(" + ")}</span>
+                    <span className={topCombo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
+                      {(topCombo.summary.killProbability * 100).toFixed(0)}% kill · {topCombo.summary.meanDamage.toFixed(1)} dmg
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </section>
+      )}
+
+      {listResult && (
+        <section className="card">
+          <h2>Parsed units</h2>
           <div className="parse-result">
             <div className="section-note">
               {listResult.faction ? `Faction: ${listResult.faction}` : "Faction not detected"}
@@ -308,55 +396,6 @@ function App() {
               </div>
             )}
           </div>
-        )}
-      </section>
-
-      {(autoAnalyzing || autoResults.length > 0) && (
-        <section className="card">
-          <h2>Best way to kill each unit</h2>
-          <p className="section-note">
-            Quick pass across every matched unit in the list above (lower simulation count for speed — click "Full
-            analysis" on any unit for precise numbers, percentiles, and combinations).
-          </p>
-          {autoAnalyzing && (
-            <div className="loading-state">
-              Analyzing {autoProgress.done}/{autoProgress.total} units…
-            </div>
-          )}
-          {autoResults.map(({ unit, outcome }, i) => {
-            const top = outcome.singles.slice(0, 2);
-            const bestKill = top[0]?.summary.killProbability ?? 0;
-            const topCombo = bestKill < 0.85 ? outcome.combinations[0] : null;
-            return (
-              <div className="auto-unit-block" key={i}>
-                <div className="auto-unit-header">
-                  <span className="option-name">{unit.rawName}</span>
-                  <button className="use-target-btn" onClick={() => viewFullAnalysis(unit)}>
-                    Full analysis
-                  </button>
-                </div>
-                {top.length === 0 && <div className="empty-state">No viable attack options found.</div>}
-                {top.map((opt, oi) => (
-                  <div className="auto-option-row" key={oi}>
-                    <span>
-                      {opt.unitName} <span className="section-note">({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel})</span>
-                    </span>
-                    <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
-                      {(opt.summary.killProbability * 100).toFixed(0)}% kill · {opt.summary.meanDamage.toFixed(1)} dmg
-                    </span>
-                  </div>
-                ))}
-                {topCombo && (
-                  <div className="auto-option-row auto-combo-row">
-                    <span>Combo: {topCombo.unitNames.join(" + ")}</span>
-                    <span className={topCombo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
-                      {(topCombo.summary.killProbability * 100).toFixed(0)}% kill · {topCombo.summary.meanDamage.toFixed(1)} dmg
-                    </span>
-                  </div>
-                )}
-              </div>
-            );
-          })}
         </section>
       )}
 

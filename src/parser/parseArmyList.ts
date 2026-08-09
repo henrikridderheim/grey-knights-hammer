@@ -144,6 +144,33 @@ function normalizeForMatch(s: string): string {
     .replace(/\s+/g, " ");
 }
 
+/** Strips a datasheet weapon's multi-profile decoration — a leading "➤ " marker
+ * and/or a trailing " - <mode>" suffix (e.g. "➤ Manreaper - strike", "Shearing
+ * claws - sweep") — to the base weapon name a plain-text list export states
+ * when it doesn't select a specific fire mode. */
+function stripWeaponModeDecoration(name: string): string {
+  return name
+    .replace(/^[➤>]\s*/, "")
+    .replace(/\s*-\s*[a-z0-9 ]+$/i, "")
+    .trim();
+}
+
+/** Tolerant match between a wargear line's stated name and a datasheet weapon
+ * name: exact (normalized) match first, then falls back to comparing base
+ * names with multi-profile mode decoration stripped from the datasheet side,
+ * and finally tolerates a singular/plural mismatch (list exports often
+ * pluralize a weapon name when its count is >1, e.g. "2x Heavy bolters" vs the
+ * datasheet's singular "Heavy bolter") on either side. */
+function weaponNameMatches(candidateText: string, weaponName: string): boolean {
+  const candidate = normalizeForMatch(candidateText);
+  const full = normalizeForMatch(weaponName);
+  if (candidate === full) return true;
+  const base = normalizeForMatch(stripWeaponModeDecoration(weaponName));
+  if (candidate === base) return true;
+  const singularize = (s: string) => (s.endsWith("s") ? s.slice(0, -1) : s);
+  return singularize(candidate) === singularize(base) || singularize(candidate) === singularize(full);
+}
+
 // ---------------------------------------------------------------------------
 // Faction / detachment / total-points detection
 // ---------------------------------------------------------------------------
@@ -307,6 +334,17 @@ function parseUnitBlocks(
   // lines like "Warlord" by a couple of spaces without a bullet, which a fixed
   // "indent <= 2" threshold would misread as a new top-level unit.
   let currentUnitIndent: number | null = null;
+  // Indent of the shallowest sub-line seen so far for the current unit — the
+  // "model-group" level. Some exports state composition as a single flat line
+  // ("10x Necron Warrior"); others (e.g. mixed-loadout squads like Plague
+  // Marines, or a Champion + Terminators split like Deathshroud) list several
+  // sibling group lines at this same indent ("1x Plague Champion", then "4x
+  // Plague Marines"), each with its own further-indented wargear beneath it.
+  // Every unmatched, counted line *at this indent* contributes to the unit's
+  // total model count (summed, not just the first one found) — lines deeper
+  // than this are always wargear/annotations for whichever group they're
+  // nested under, never composition.
+  let currentGroupIndent: number | null = null;
   // Once a faction is resolved, a top-level line that doesn't match any of its
   // units *before* we've matched anything at all is far more likely to be
   // leftover roster-title/preamble text (e.g. "Necrons Battle Force (255
@@ -351,6 +389,7 @@ function parseUnitBlocks(
       };
       units.push(current);
       currentUnitIndent = line.indent;
+      currentGroupIndent = null;
       if (!matched) unresolved.push(line.raw.trim());
       continue;
     }
@@ -377,16 +416,18 @@ function parseUnitBlocks(
     const { text: withoutCount, count } = extractCount(withoutPoints);
 
     const matchedWeapon = current.datasheet
-      ? current.datasheet.weapons.find(
-          (w) => normalizeForMatch(w.name) === normalizeForMatch(withoutCount)
-        ) ?? null
+      ? current.datasheet.weapons.find((w) => weaponNameMatches(withoutCount, w.name)) ?? null
       : null;
 
-    // First sub-line that carries a count but isn't a recognized weapon is taken
-    // to be the "Nx <Unit Name>" model-composition line BattleScribe/NewRecruit
-    // print under the unit header (e.g. "10x Necron Warrior") — not a weapon.
-    if (!matchedWeapon && count !== null && current.modelCount === null && current.wargear.length === 0) {
-      current.modelCount = count;
+    if (currentGroupIndent === null) currentGroupIndent = line.indent;
+
+    // An unmatched, counted line at the shallow "model-group" indent is a
+    // composition line — either the whole unit ("10x Necron Warrior") or one
+    // of several sibling role-groups that make up the unit together ("1x
+    // Plague Champion" + "4x Plague Marines" = 5 models total) — so its count
+    // is *added* to the running total rather than only recorded once.
+    if (!matchedWeapon && count !== null && line.indent === currentGroupIndent) {
+      current.modelCount = (current.modelCount ?? 0) + count;
       continue;
     }
 

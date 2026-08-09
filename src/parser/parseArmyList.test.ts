@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseArmyList } from "./parseArmyList";
 import type {
@@ -453,5 +454,149 @@ Necron Warriors (80 pts)
     expect(result.faction).toBe("Definitely Not A Real Faction");
     expect(result.units[0].matchedUnitId).toBeNull();
     expect(result.unresolved.length).toBeGreaterThan(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Regression: a real user-pasted Death Guard list, against the real (not
+// fixture) BSData-derived datasheet JSON. This caught two real bugs: (1) a
+// unit whose composition is split across several sibling role-group lines
+// (e.g. "1x Plague Champion" + "4x Plague Marines") only counted the first
+// group, undercounting the unit; (2) a wargear line whose stated name didn't
+// exactly match the datasheet (pluralized, e.g. "Heavy bolters" vs "Heavy
+// bolter", or missing a multi-profile mode suffix, e.g. "Manreaper" vs
+// "➤ Manreaper - strike") was misread as a second composition line, inflating
+// or corrupting the model count entirely.
+// ---------------------------------------------------------------------------
+
+describe("parseArmyList — real Death Guard list regression", () => {
+  const deathGuardData: NormalizedFactionFile = JSON.parse(
+    readFileSync(new URL("../../public/data/chaos-death-guard.json", import.meta.url), "utf-8")
+  );
+  const dgProvider = makeFixtureProvider([deathGuardData]);
+
+  const DEATH_GUARD_LIST = `
+Death Guard
+Strike Force (2000 Point)
+Shamblerot Vectorium, Flyblown Host (3 Detachment Points)
+Force Dispositions: Disruption, Reconnaissance
+
+
+CHARACTER
+
+Icon Bearer (45 points)
+  • 1x Boltgun
+  • 1x Plague knife
+
+Lord of Contagion (120 points)
+  • Warlord
+  • 1x Manreaper
+
+
+BATTLELINE
+
+Plague Marines (90 points)
+  • 1x Plague Champion
+    • 1x Plasma Gun
+    • 1x Power Fist
+  • 4x Plague Marines
+    • 4x Plague Knives
+    • 2x Heavy Plague Weapon
+    • 1x Bubotic Weapons
+    • 1x Plague Spewer
+
+Poxwalkers (65 points)
+  • 10x Poxwalkers
+    • 10x Improvised Weapon
+
+Poxwalkers (65 points)
+  • 10x Poxwalkers
+    • 10x Improvised Weapon
+
+
+OTHER DATASHEETS
+
+Chaos Predator Destructor (145 points)
+  • 2x Heavy bolters
+  • 1x Armoured tracks
+  • 1x Combi-bolter
+  • 1x Havoc launcher
+  • 1x Predator autocannon
+
+Deathshroud Terminators (160 points)
+  • 1x Deathshroud Champion
+    • 1x Plaguespurt Gauntlet
+    • 1x Manreaper
+    • 1x Additional Plaguespurt Gauntlet
+    • 1x Icon of Despair
+  • 2x Deathshroud Terminators
+    • 2x Plaguespurt Gauntlet
+    • 2x Manreaper
+
+Defiler (300 points)
+  • 1x Electroscourge
+  • 2x Excruciator cannon
+  • 1x Hades battle cannon
+  • 1x Heavy baleflamer
+  • 1x Shearing claws
+`;
+
+  it("resolves the Death Guard faction and matches every unit", async () => {
+    const result = await parseArmyList(DEATH_GUARD_LIST, dgProvider);
+    expect(result.faction).toBe("Death Guard");
+    expect(result.unresolved).toEqual([]);
+    expect(result.units.map((u) => u.matchedUnitName)).toEqual([
+      "Icon Bearer",
+      "Lord of Contagion",
+      "Plague Marines",
+      "Poxwalkers",
+      "Poxwalkers",
+      "Chaos Predator Destructor",
+      "Deathshroud Terminators",
+      "Defiler",
+    ]);
+  });
+
+  it("leaves single-model units with no explicit composition line uncounted by the parser (app defaults from datasheet composition)", async () => {
+    const result = await parseArmyList(DEATH_GUARD_LIST, dgProvider);
+    const byName = (name: string) => result.units.find((u) => u.rawName === name)!;
+    // Icon Bearer/Lord of Contagion/Defiler state no "1x <name>" line at all in
+    // this export style — the parser correctly has no basis to claim a count;
+    // it's the app layer's job to fall back to the datasheet's "1 model" composition.
+    expect(byName("Icon Bearer").modelCount).toBeNull();
+    expect(byName("Lord of Contagion").modelCount).toBeNull();
+    expect(byName("Defiler").modelCount).toBeNull();
+  });
+
+  it("sums multiple sibling role-group lines into the unit's total model count", async () => {
+    const result = await parseArmyList(DEATH_GUARD_LIST, dgProvider);
+    const plagueMarines = result.units.find((u) => u.rawName === "Plague Marines")!;
+    // 1x Plague Champion + 4x Plague Marines = 5, not 1.
+    expect(plagueMarines.modelCount).toBe(5);
+    const deathshroud = result.units.find((u) => u.rawName === "Deathshroud Terminators")!;
+    // 1x Deathshroud Champion + 2x Deathshroud Terminators = 3, not 1.
+    expect(deathshroud.modelCount).toBe(3);
+  });
+
+  it("counts a flat single-group unit correctly (sanity check the fix didn't break the simple case)", async () => {
+    const result = await parseArmyList(DEATH_GUARD_LIST, dgProvider);
+    const poxwalkers = result.units.filter((u) => u.rawName === "Poxwalkers");
+    expect(poxwalkers).toHaveLength(2);
+    expect(poxwalkers.every((u) => u.modelCount === 10)).toBe(true);
+  });
+
+  it("does not mistake a pluralized or multi-profile wargear line for a second composition line", async () => {
+    const result = await parseArmyList(DEATH_GUARD_LIST, dgProvider);
+    const predator = result.units.find((u) => u.rawName === "Chaos Predator Destructor")!;
+    // "2x Heavy bolters" is wargear (2 heavy bolters mounted on 1 vehicle), not "2 Predators".
+    expect(predator.modelCount).toBeNull();
+    expect(predator.wargear.some((w) => w.matchedWeaponName === "Heavy bolter")).toBe(true);
+
+    const deathshroud = result.units.find((u) => u.rawName === "Deathshroud Terminators")!;
+    // "1x Manreaper" / "2x Manreaper" should resolve against the datasheet's
+    // multi-profile "➤ Manreaper - strike"/"➤ Manreaper - sweep" entries.
+    const manreaperLines = deathshroud.wargear.filter((w) => w.rawText === "Manreaper");
+    expect(manreaperLines.length).toBe(2);
+    expect(manreaperLines.every((w) => w.matchedWeaponName !== null)).toBe(true);
   });
 });
