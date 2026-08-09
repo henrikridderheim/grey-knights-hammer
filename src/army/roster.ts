@@ -42,6 +42,10 @@ export interface UnitDefinition {
   leaderCanAttachTo?: string; // unit id
   enhancement?: string; // Enhancement name from detachments.ts
   isPurgationSquad?: boolean;
+  /** Sanctity of Purpose: re-roll a Wound roll of 1 (always); re-roll any
+   * failed Wound roll instead if the target is within range of an objective
+   * marker (toggle). Purifier Squad only. */
+  hasSanctityOfPurpose?: boolean;
 }
 
 export const ROSTER: UnitDefinition[] = [
@@ -90,6 +94,7 @@ export const ROSTER: UnitDefinition[] = [
       "Sanctity of Purpose: re-roll a Wound roll of 1 (any target); re-roll any failed Wound roll instead if target is within range of an objective marker.",
     ],
     keywords: ["INFANTRY", "PSYKER"],
+    hasSanctityOfPurpose: true,
   },
   {
     id: "gmnd-1",

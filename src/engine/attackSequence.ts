@@ -21,6 +21,10 @@ import type { AttackContext, DefenseModelGroup } from "./types";
 export interface RerollFlags {
   hitRerollOnes?: boolean; // e.g. Fury of Titan grants re-roll Hit roll of 1
   woundRerollOnes?: boolean; // e.g. Fury of Titan grants re-roll Wound roll of 1
+  /** Sanctity of Purpose (Purifier Squad), upgraded: re-roll any failed Wound
+   * roll (not just a 1) when the target is within range of an objective
+   * marker. Takes priority over woundRerollOnes when both are set. */
+  woundRerollAllFailed?: boolean;
 }
 
 export interface EngagementResult {
@@ -155,7 +159,9 @@ export function fireWeaponAtPools(
     ? Math.max(...nonCharacterGroups.map((g) => g.toughness), 0)
     : nonCharacterGroups[0]?.toughness ?? characterGroups[0]?.toughness ?? 0;
 
-  const antiApplies = !!(w.antiKeyword && w.antiThreshold);
+  // [ANTI-X Y+] only triggers against a target that actually has keyword X —
+  // it does not universally upgrade wound rolls against everything.
+  const antiApplies = !!(w.antiKeyword && w.antiThreshold && target.keywords.includes(w.antiKeyword));
   // [MELTA X]: add X to the weapon's Damage characteristic when the target was within half range.
   const meltaBonus = ctx.halfRange && w.melta ? w.melta : 0;
   const rollWeaponDamage = () => rollDiceSpec(weapon.damage, rng) + meltaBonus;
@@ -213,13 +219,8 @@ export function fireWeaponAtPools(
     });
   };
 
-  const doWoundRoll = (isPrecisionEligible: boolean) => {
-    let roll = d6(rng);
-    if (roll === 1 && rerolls.woundRerollOnes) roll = d6(rng);
-    if (w.twinLinked && roll !== 6 && roll < woundThreshold(effectiveStrength, effectiveToughness)) {
-      roll = d6(rng);
-    }
-    if (roll === 1) return;
+  const evaluateWoundRoll = (roll: number): { success: boolean; isCritWound: boolean } => {
+    if (roll === 1) return { success: false, isCritWound: false };
     let isCritWound = roll === 6;
     if (!isCritWound && antiApplies) {
       // Anti-X uses the UNMODIFIED wound roll.
@@ -230,9 +231,25 @@ export function fireWeaponAtPools(
       const modified = roll + clampMod(ctx.woundMod);
       success = modified >= woundThreshold(effectiveStrength, effectiveToughness);
     }
-    if (!success) return;
+    return { success, isCritWound };
+  };
 
-    if (isCritWound && devastatingActive) {
+  const doWoundRoll = (isPrecisionEligible: boolean) => {
+    let roll = d6(rng);
+    let result = evaluateWoundRoll(roll);
+    // [TWIN-LINKED], Sanctity of Purpose's "re-roll any failed Wound roll"
+    // upgrade, and a plain re-roll-1s ability (e.g. Fury of Titan) all only
+    // ever re-roll a roll that actually failed — never fish a pass for a
+    // better (critical) result.
+    const shouldReroll =
+      !result.success && (w.twinLinked || rerolls.woundRerollAllFailed || (rerolls.woundRerollOnes && roll === 1));
+    if (shouldReroll) {
+      roll = d6(rng);
+      result = evaluateWoundRoll(roll);
+    }
+    if (!result.success) return;
+
+    if (result.isCritWound && devastatingActive) {
       devastatingMortalWounds.push({ damage: rollWeaponDamage(), isPrecisionEligible });
       return;
     }

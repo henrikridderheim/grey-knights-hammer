@@ -48,6 +48,10 @@ export interface TargetUnit {
   isAttached: boolean;
   hasCover: boolean;
   modelCountForBlast: number; // total models in unit at time of targeting, for [BLAST]
+  /** Target's own keywords (e.g. "INFANTRY"), uppercased. Required to gate
+   * [ANTI-X Y+] — that ability only triggers against a target with the
+   * matching keyword, not universally. */
+  keywords: string[];
 }
 
 export interface AttackContext {

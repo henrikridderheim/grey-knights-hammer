@@ -1,7 +1,13 @@
 import type { TargetUnit } from "../engine/types";
 import { runUnitPhaseSimulation } from "../engine/simulate";
 import { ROSTER, type UnitDefinition } from "./roster";
-import { buildEngagementsForScenario, unitScenarios, type ScenarioFlags } from "./engagementBuilder";
+import {
+  buildEngagementsForScenario,
+  unitScenarios,
+  DEFAULT_DAMAGE_SETTINGS,
+  type DamageSettings,
+  type ScenarioFlags,
+} from "./engagementBuilder";
 import type { SimulationSummary } from "../engine/types";
 
 export type SortKey = "kill" | "avgDamage" | "damagePerPoint";
@@ -47,15 +53,16 @@ interface BestPerUnit {
 
 export function computeBestWayToKillIt(
   target: TargetUnit,
-  options: { iterations?: number; comboIterations?: number } = {}
+  options: { iterations?: number; comboIterations?: number; settings?: DamageSettings } = {}
 ): BestWayToKillItResult {
   const iterations = options.iterations ?? DEFAULT_ITERATIONS;
   const comboIterations = options.comboIterations ?? COMBO_ITERATIONS;
+  const settings = options.settings ?? DEFAULT_DAMAGE_SETTINGS;
   const results: RankedOption[] = [];
   const bestPerUnit = new Map<string, BestPerUnit>();
 
   for (const unit of ROSTER as UnitDefinition[]) {
-    for (const { mode, scenario, label } of unitScenarios(unit)) {
+    for (const { mode, scenario, label } of unitScenarios(unit, settings)) {
       const engagements = buildEngagementsForScenario(unit, target, mode, scenario);
       if (engagements.length === 0) continue;
       const summary = runUnitPhaseSimulation(

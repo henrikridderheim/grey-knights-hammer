@@ -9,6 +9,7 @@ import {
   type SortKey,
 } from "./army/bestWayToKillIt";
 import { ARMY_TOTAL_POINTS } from "./army/roster";
+import { DEFAULT_DAMAGE_SETTINGS, type DamageSettings } from "./army/engagementBuilder";
 import {
   parseArmyList,
   type AttachedGroup,
@@ -49,6 +50,7 @@ function formToTarget(form: TargetFormState): TargetUnit {
     isAttached: false,
     hasCover: form.hasCover,
     modelCountForBlast: form.count,
+    keywords: form.isInfantry ? ["INFANTRY"] : [],
     groups: [
       {
         label: form.name || "Enemy Unit",
@@ -83,6 +85,7 @@ function parsedUnitToTarget(unit: ParsedUnit): TargetUnit | null {
     isAttached: false,
     hasCover: false,
     modelCountForBlast: count,
+    keywords: sheet.keywords.map((k) => k.toUpperCase()),
     groups: [
       {
         label: name,
@@ -141,7 +144,11 @@ function attachedGroupToTarget(group: AttachedGroup): TargetUnit | null {
     });
   }
   const name = [bodyguard.rawName, ...characters.map((c) => c.rawName)].join(" + ");
-  return { name, isAttached: true, hasCover: false, modelCountForBlast: totalModels, groups };
+  // Anti-X keyword gating uses the Bodyguard's own keywords (the unit's
+  // majority profile) — the attached Character(s) may have different
+  // keywords, but per-model keyword mixing isn't modeled here.
+  const keywords = bodyguard.datasheet.keywords.map((k) => k.toUpperCase());
+  return { name, isAttached: true, hasCover: false, modelCountForBlast: totalModels, keywords, groups };
 }
 
 /** A single thing to run "best way to kill it" against — either one standalone
@@ -263,13 +270,14 @@ function App() {
   const [autoResults, setAutoResults] = useState<AutoUnitResult[]>([]);
   const [autoAnalyzing, setAutoAnalyzing] = useState(false);
   const [autoProgress, setAutoProgress] = useState({ done: 0, total: 0 });
+  const [damageSettings, setDamageSettings] = useState<DamageSettings>(DEFAULT_DAMAGE_SETTINGS);
   const targetFormRef = useRef<HTMLElement | null>(null);
 
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
   };
 
-  const runAutoAnalysisForList = (result: ParseArmyListResult) => {
+  const runAutoAnalysisForList = (result: ParseArmyListResult, settings: DamageSettings) => {
     const allTargets = buildAnalysisTargets(result);
     const groups = new Map<string, { entry: AnalysisTarget; multiplicity: number }>();
     for (const entry of allTargets) {
@@ -292,6 +300,7 @@ function App() {
       const outcome = computeBestWayToKillIt(entry.target, {
         iterations: AUTO_ITERATIONS,
         comboIterations: AUTO_COMBO_ITERATIONS,
+        settings,
       });
       setAutoResults((prev) => [
         ...prev,
@@ -316,13 +325,19 @@ function App() {
     try {
       const result = await parseArmyList(text, datasheetProvider);
       setListResult(result);
-      runAutoAnalysisForList(result);
+      runAutoAnalysisForList(result, damageSettings);
     } catch (err) {
       setReadError(err instanceof Error ? err.message : String(err));
       setListResult(null);
     } finally {
       setReading(false);
     }
+  };
+
+  const updateDamageSetting = <K extends keyof DamageSettings>(key: K, value: DamageSettings[K]) => {
+    const next = { ...damageSettings, [key]: value };
+    setDamageSettings(next);
+    if (listResult) runAutoAnalysisForList(listResult, next); // keep the auto pass in sync with the toggles
   };
 
   const handlePasteTextarea = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -370,7 +385,7 @@ function App() {
     setExpandedCombo(null);
     if (formSeed) targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     setTimeout(() => {
-      const outcome = computeBestWayToKillIt(target);
+      const outcome = computeBestWayToKillIt(target, { settings: damageSettings });
       setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
       setComputing(false);
     }, 30);
@@ -386,7 +401,7 @@ function App() {
     // synchronous, CPU-bound simulation blocks the main thread.
     setTimeout(() => {
       const target = formToTarget(form);
-      const outcome = computeBestWayToKillIt(target);
+      const outcome = computeBestWayToKillIt(target, { settings: damageSettings });
       setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
       setComputing(false);
     }, 30);
@@ -436,6 +451,55 @@ function App() {
         <p className="section-note">Pasting above runs this automatically — only needed if you edit the text.</p>
 
         {readError && <div className="empty-state">Couldn't read that list: {readError}</div>}
+      </section>
+
+      <section className="card">
+        <h2>Stratagems &amp; rules</h2>
+        <p className="section-note">
+          Choose which damage-boosting rules are assumed active — affects every calculation below (auto pass and
+          full analysis) until you change them.
+        </p>
+        <div className="checkbox-row">
+          <input
+            type="checkbox"
+            checked={damageSettings.furyOfTitan}
+            onChange={(e) => updateDamageSetting("furyOfTitan", e.target.checked)}
+          />
+          Fury of Titan (free — re-roll Hit/Wound roll of 1 for a unit that deep struck this turn)
+        </div>
+        <div className="checkbox-row">
+          <input
+            type="checkbox"
+            checked={damageSettings.purgationPattern}
+            onChange={(e) => updateDamageSetting("purgationPattern", e.target.checked)}
+          />
+          Purgation Pattern (1CP — Sustained Hits 1, any GK unit that deep struck & hasn't shot yet)
+        </div>
+        <div className="checkbox-row">
+          <input
+            type="checkbox"
+            checked={damageSettings.truesilverChannelling}
+            onChange={(e) => updateDamageSetting("truesilverChannelling", e.target.checked)}
+          />
+          Truesilver Channelling (2CP — Devastating Wounds for Psychic melee weapons)
+        </div>
+        <div className="checkbox-row">
+          <input
+            type="checkbox"
+            checked={damageSettings.focusedImmolation}
+            onChange={(e) => updateDamageSetting("focusedImmolation", e.target.checked)}
+          />
+          Focused Immolation (1CP — Devastating Wounds + Sustained Hits 1, Purgation Squad shooting)
+        </div>
+        <div className="checkbox-row">
+          <input
+            type="checkbox"
+            checked={damageSettings.nearObjective}
+            onChange={(e) => updateDamageSetting("nearObjective", e.target.checked)}
+          />
+          Target within range of an objective (Purifier Squad's Sanctity of Purpose upgrades to re-roll all failed
+          Wound rolls, not just a 1)
+        </div>
       </section>
 
       {(autoAnalyzing || autoResults.length > 0) && (

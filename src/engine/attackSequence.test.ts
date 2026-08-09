@@ -6,12 +6,17 @@ import type { AttackContext, TargetUnit, WeaponProfile } from "./types";
 // S >= 2T -> 2+, S > T -> 3+, S === T -> 4+, S*2 > T -> 5+, else 6+.
 // P(success at N+) = (7 - N) / 6, except when N === 1 a natural-1 auto-fail still applies.
 
-function makeTarget(overrides: Partial<TargetUnit["groups"][0]> = {}, isAttached = false): TargetUnit {
+function makeTarget(
+  overrides: Partial<TargetUnit["groups"][0]> = {},
+  isAttached = false,
+  keywords: string[] = []
+): TargetUnit {
   return {
     name: "Test Target",
     isAttached,
     hasCover: false,
     modelCountForBlast: 10,
+    keywords,
     groups: [
       {
         label: "Trooper",
@@ -162,5 +167,49 @@ describe("attack sequence — analytical sanity checks", () => {
     const ratio = rHalf.meanDamage / rFull.meanDamage;
     expect(ratio).toBeGreaterThan(4.5);
     expect(ratio).toBeLessThan(5.5);
+  });
+
+  it("[ANTI-X Y+] only triggers against a target that actually has keyword X (regression: previously applied to every target universally)", () => {
+    const antiInfantryWeapon = makeWeapon({
+      attacks: 10000,
+      skill: 2,
+      strength: 4,
+      damage: 1,
+      keywords: { antiKeyword: "INFANTRY", antiThreshold: 2 },
+    });
+    // S4 vs T8: S*2 (8) is not > T (8), so this is a 6+ to wound normally (only
+    // a natural 6 succeeds) — ANTI-INFANTRY 2+ would make almost every non-1
+    // roll a critical wound instead if it wrongly applied against a non-Infantry target.
+    const nonInfantryTarget = makeTarget({ save: 7, toughness: 8, wounds: 10_000_000, count: 1 }, false, ["VEHICLE"]);
+    const infantryTarget = makeTarget({ save: 7, toughness: 8, wounds: 10_000_000, count: 1 }, false, ["INFANTRY"]);
+    const ctxNonInfantry = baseCtx({ weapon: antiInfantryWeapon, target: nonInfantryTarget });
+    const ctxInfantry = baseCtx({ weapon: antiInfantryWeapon, target: infantryTarget });
+    const rNonInfantry = runSimulation(ctxNonInfantry, { label: "anti-vs-vehicle", iterations: 100 });
+    const rInfantry = runSimulation(ctxInfantry, { label: "anti-vs-infantry", iterations: 100 });
+    // Against VEHICLE (no matching keyword): normal S4vT8 = 6+ to wound = 1/6 of attacks.
+    const expectedNonInfantry = 10000 * (5 / 6) * (1 / 6);
+    expect(rNonInfantry.meanDamage).toBeGreaterThan(expectedNonInfantry * 0.9);
+    expect(rNonInfantry.meanDamage).toBeLessThan(expectedNonInfantry * 1.1);
+    // Against INFANTRY: ANTI-INFANTRY 2+ makes any unmodified roll of 2+ a critical wound = 5/6 of attacks — much higher.
+    const expectedInfantry = 10000 * (5 / 6) * (5 / 6);
+    expect(rInfantry.meanDamage).toBeGreaterThan(expectedInfantry * 0.9);
+    expect(rInfantry.meanDamage).toBeLessThan(expectedInfantry * 1.1);
+  });
+
+  it("re-roll-all-failed-wounds (e.g. Sanctity of Purpose near an objective) rerolls any failure, not just natural 1s", () => {
+    const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 4 }); // S4vT4 = 4+ to wound = 3/6
+    const target = makeTarget({ save: 7, toughness: 4, wounds: 10_000_000, count: 1 });
+    const ctx = baseCtx({ weapon, target });
+    const rBase = runSimulation(ctx, { label: "reroll-off", iterations: 100 });
+    const rRerollAll = runSimulation(ctx, {
+      label: "reroll-all",
+      iterations: 100,
+      rerolls: { woundRerollAllFailed: true },
+    });
+    // P(wound) with no reroll = 3/6 = 0.5; with reroll-all-failed = 1 - (3/6)^2 = 0.75 (a 1.5x jump,
+    // much bigger than the ~1.17x a reroll-1s-only ability would give).
+    const ratio = rRerollAll.meanDamage / rBase.meanDamage;
+    expect(ratio).toBeGreaterThan(1.35);
+    expect(ratio).toBeLessThan(1.65);
   });
 });

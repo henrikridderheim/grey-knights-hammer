@@ -28,7 +28,7 @@ export interface Stratagem {
 
 export type StratagemDamageEffect =
   | { kind: "grant-devastating-wounds"; appliesTo: "psychic-melee" | "purgation-squad-shooting" }
-  | { kind: "grant-sustained-hits"; value: number; appliesTo: "purgation-squad-shooting" }
+  | { kind: "grant-sustained-hits"; value: number; appliesTo: "any-gk-shooting" | "purgation-squad-shooting" }
   | { kind: "mortal-wounds-on-battleshocked"; value: { dice: "D3"; flat: number } };
 
 export const STRATAGEMS: Stratagem[] = [
@@ -49,7 +49,11 @@ export const STRATAGEMS: Stratagem[] = [
     phase: "Shooting phase",
     description:
       "TARGET: One Grey Knights unit that was set up using the Deep Strike ability this turn and has not been selected to shoot this phase. EFFECT: Until the end of the phase, weapons equipped by models in your unit have the [SUSTAINED HITS 1] ability.",
-    damageEffect: { kind: "grant-sustained-hits", value: 1, appliesTo: "purgation-squad-shooting" },
+    // Applies to ANY Grey Knights unit that deep struck this turn and hasn't
+    // shot yet — not just Purgation Squads (that was a copy-paste mistake
+    // from Focused Immolation's scoping; fixed after the engine was found to
+    // never actually apply this stratagem at all).
+    damageEffect: { kind: "grant-sustained-hits", value: 1, appliesTo: "any-gk-shooting" },
     verified: "wahapedia-10e-mirror",
   },
   {
