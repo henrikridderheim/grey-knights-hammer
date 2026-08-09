@@ -766,6 +766,37 @@ Exported with App Version: v2.3.1 (1), Data Version: v913
     const dreadnoughts = result.units.filter((u) => u.rawName === "Contemptor-Galatus Dreadnought");
     expect(dreadnoughts.every((d) => d.enhancement === "Interred Expertise (Upgrade)")).toBe(true);
   });
+
+  it("groups Leader+Bodyguard pairs into 3 attached groups with the right roles, and leaves standalone units out of any group", async () => {
+    const result = await parseArmyList(CUSTODES_LIST, custodesProvider);
+    expect(result.attachedGroups).toHaveLength(3);
+    expect(result.attachedGroups.map((g) => g.index)).toEqual([1, 2, 3]);
+
+    const [g1, g2, g3] = result.attachedGroups;
+    expect(g1.members.map((m) => [m.rawName, m.attachedRole])).toEqual([
+      ["Valerian", "leader"],
+      ["Custodian Wardens", "bodyguard"],
+    ]);
+    expect(g2.members.map((m) => [m.rawName, m.attachedRole])).toEqual([
+      ["Inquisitor Draxus", "leader"],
+      ["Custodian Guard", "bodyguard"],
+    ]);
+    expect(g3.members.map((m) => [m.rawName, m.attachedRole])).toEqual([
+      ["Shield-Captain on Dawneagle Jetbike", "leader"],
+      ["Vertus Praetors", "bodyguard"],
+    ]);
+
+    const standalone = result.units.filter((u) => u.attachedGroupIndex === null);
+    expect(standalone.map((u) => u.rawName)).toEqual([
+      "Contemptor-Galatus Dreadnought",
+      "Contemptor-Galatus Dreadnought",
+      "Prosecutors",
+      "Venatari Custodians",
+      "Venatari Custodians",
+      "Venatari Custodians",
+      "Witchseekers",
+    ]);
+  });
 });
 
 function byNameOf(result: { units: ParsedUnit[] }, name: string): ParsedUnit {

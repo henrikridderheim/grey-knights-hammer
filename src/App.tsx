@@ -8,7 +8,12 @@ import {
   type SortKey,
 } from "./army/bestWayToKillIt";
 import { ARMY_TOTAL_POINTS } from "./army/roster";
-import { parseArmyList, type ParseArmyListResult, type ParsedUnit } from "./parser/parseArmyList";
+import {
+  parseArmyList,
+  type AttachedGroup,
+  type ParseArmyListResult,
+  type ParsedUnit,
+} from "./parser/parseArmyList";
 import { createFetchDatasheetProvider } from "./parser/fetchDatasheetProvider";
 
 const datasheetProvider = createFetchDatasheetProvider();
@@ -94,11 +99,69 @@ function isInfantryDatasheet(unit: ParsedUnit): boolean {
   return !!unit.datasheet?.keywords.some((k) => k.toUpperCase() === "INFANTRY");
 }
 
+/** One Leader (+ optional Support) attached to one Bodyguard unit is a single
+ * unit for almost all 11e rules purposes — targeting, wound allocation, Blast
+ * model count, ... — so it's modeled as one combined TargetUnit rather than
+ * evaluating the Leader and Bodyguard as separate targets. The Bodyguard
+ * becomes the main (non-character) group; each Leader/Support becomes its own
+ * `isAttachedCharacter` group, matching the engine's existing support for
+ * "Character in an Attached unit can't be allocated normal damage, only
+ * Precision" and "wound rolls use the highest Toughness among Bodyguard
+ * models" (both verified against the live 11e core rules). */
+function attachedGroupToTarget(group: AttachedGroup): TargetUnit | null {
+  const bodyguard = group.members.find((m) => m.attachedRole === "bodyguard" && m.datasheet);
+  if (!bodyguard?.datasheet) return null;
+  const characters = group.members.filter((m) => m.attachedRole !== "bodyguard" && m.datasheet);
+
+  const bodyguardCount = bodyguard.modelCount ?? defaultModelCountFromComposition(bodyguard.datasheet.composition);
+  const groups: TargetUnit["groups"] = [
+    {
+      label: bodyguard.rawName,
+      count: bodyguardCount,
+      toughness: bodyguard.datasheet.statline.toughness,
+      save: bodyguard.datasheet.statline.save,
+      invulnSave: bodyguard.datasheet.statline.invulnSave,
+      wounds: bodyguard.datasheet.statline.wounds,
+    },
+  ];
+  let totalModels = bodyguardCount;
+  for (const ch of characters) {
+    if (!ch.datasheet) continue;
+    const count = ch.modelCount ?? defaultModelCountFromComposition(ch.datasheet.composition);
+    totalModels += count;
+    groups.push({
+      label: ch.rawName,
+      count,
+      toughness: ch.datasheet.statline.toughness,
+      save: ch.datasheet.statline.save,
+      invulnSave: ch.datasheet.statline.invulnSave,
+      wounds: ch.datasheet.statline.wounds,
+      isAttachedCharacter: true,
+    });
+  }
+  const name = [bodyguard.rawName, ...characters.map((c) => c.rawName)].join(" + ");
+  return { name, isAttached: true, hasCover: false, modelCountForBlast: totalModels, groups };
+}
+
+/** A single thing to run "best way to kill it" against — either one standalone
+ * parsed unit or one combined attached (Leader+Bodyguard) group. `formSeed` is
+ * the ParsedUnit to populate the manual form from when the user wants to
+ * tweak it by hand — null for attached groups, which don't fit the manual
+ * form's single-group model. */
+interface AnalysisTarget {
+  key: string; // dedupe signature
+  label: string;
+  target: TargetUnit;
+  formSeed: ParsedUnit | null;
+}
+
 interface AutoUnitResult {
-  unit: ParsedUnit;
+  label: string;
+  target: TargetUnit;
+  formSeed: ParsedUnit | null;
   outcome: BestWayToKillItResult;
-  /** How many identical copies of this unit (same datasheet, size, wargear,
-   * enhancement) appeared in the pasted list — shown once, not repeated. */
+  /** How many identical copies of this unit/group (same datasheet(s), size(s),
+   * wargear) appeared in the pasted list — shown once, not repeated. */
   multiplicity: number;
 }
 
@@ -113,6 +176,31 @@ function unitDedupeSignature(unit: ParsedUnit): string {
   return `${unit.matchedUnitId}|${count}|${wargearSig}|${unit.enhancement ?? ""}`;
 }
 
+function attachedGroupDedupeSignature(group: AttachedGroup): string {
+  return group.members
+    .map((m) => `${m.attachedRole}:${unitDedupeSignature(m)}`)
+    .sort()
+    .join("||");
+}
+
+/** Standalone matched units plus combined attached (Leader+Bodyguard) groups,
+ * unified into one list of analysis targets. */
+function buildAnalysisTargets(listResult: ParseArmyListResult): AnalysisTarget[] {
+  const targets: AnalysisTarget[] = [];
+  for (const unit of listResult.units) {
+    if (!unit.datasheet || unit.attachedGroupIndex !== null) continue;
+    const target = parsedUnitToTarget(unit);
+    if (!target) continue;
+    targets.push({ key: unitDedupeSignature(unit), label: unit.rawName, target, formSeed: unit });
+  }
+  for (const group of listResult.attachedGroups) {
+    const target = attachedGroupToTarget(group);
+    if (!target) continue;
+    targets.push({ key: attachedGroupDedupeSignature(group), label: target.name, target, formSeed: null });
+  }
+  return targets;
+}
+
 // Reduced fidelity for the auto/bulk pass across an entire opponent list — the
 // manual "Enemy target" form below still runs at full DEFAULT_ITERATIONS for a
 // precise look at any one target.
@@ -122,6 +210,7 @@ const AUTO_COMBO_ITERATIONS = 400;
 function App() {
   const [form, setForm] = useState<TargetFormState>(DEFAULT_FORM);
   const [results, setResults] = useState<BestWayToKillItResult | null>(null);
+  const [resultsLabel, setResultsLabel] = useState<string>("");
   const [sortKey, setSortKey] = useState<SortKey>("kill");
   const [expanded, setExpanded] = useState<number | null>(null);
   const [expandedCombo, setExpandedCombo] = useState<number | null>(null);
@@ -142,13 +231,12 @@ function App() {
   };
 
   const runAutoAnalysisForList = (result: ParseArmyListResult) => {
-    const matchedAll = result.units.filter((u) => u.datasheet);
-    const groups = new Map<string, { unit: ParsedUnit; multiplicity: number }>();
-    for (const unit of matchedAll) {
-      const sig = unitDedupeSignature(unit);
-      const existing = groups.get(sig);
+    const allTargets = buildAnalysisTargets(result);
+    const groups = new Map<string, { entry: AnalysisTarget; multiplicity: number }>();
+    for (const entry of allTargets) {
+      const existing = groups.get(entry.key);
       if (existing) existing.multiplicity += 1;
-      else groups.set(sig, { unit, multiplicity: 1 });
+      else groups.set(entry.key, { entry, multiplicity: 1 });
     }
     const matched = [...groups.values()];
 
@@ -161,15 +249,15 @@ function App() {
     setAutoProgress({ done: 0, total: matched.length });
     let i = 0;
     const step = () => {
-      const { unit, multiplicity } = matched[i];
-      const target = parsedUnitToTarget(unit);
-      if (target) {
-        const outcome = computeBestWayToKillIt(target, {
-          iterations: AUTO_ITERATIONS,
-          comboIterations: AUTO_COMBO_ITERATIONS,
-        });
-        setAutoResults((prev) => [...prev, { unit, outcome, multiplicity }]);
-      }
+      const { entry, multiplicity } = matched[i];
+      const outcome = computeBestWayToKillIt(entry.target, {
+        iterations: AUTO_ITERATIONS,
+        comboIterations: AUTO_COMBO_ITERATIONS,
+      });
+      setAutoResults((prev) => [
+        ...prev,
+        { label: entry.label, target: entry.target, formSeed: entry.formSeed, outcome, multiplicity },
+      ]);
       i += 1;
       setAutoProgress({ done: i, total: matched.length });
       if (i < matched.length) {
@@ -223,21 +311,25 @@ function App() {
 
   const useUnitAsTarget = (unit: ParsedUnit) => {
     populateFormFromUnit(unit);
+    setResultsLabel(unit.rawName);
     setResults(null);
     targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   /** Full-fidelity, full-detail (percentiles, combos, weapon breakdown) analysis for
-   * one unit from the parsed list — the auto pass above trades fidelity for covering
-   * every enemy unit at once; this re-runs that one target properly. */
-  const viewFullAnalysis = (unit: ParsedUnit) => {
-    populateFormFromUnit(unit);
-    const target = parsedUnitToTarget(unit);
-    if (!target) return;
+   * one target from the parsed list (a standalone unit, or a combined attached
+   * Leader+Bodyguard group) — the auto pass above trades fidelity for covering
+   * every enemy target at once; this re-runs that one target properly. Attached
+   * groups have no `formSeed` (they don't fit the manual form's single-group
+   * model), so the form is left alone and results are shown under `resultsLabel`
+   * instead of the form's name — the manual form below stays whatever it was. */
+  const viewFullAnalysis = ({ label, target, formSeed }: { label: string; target: TargetUnit; formSeed: ParsedUnit | null }) => {
+    if (formSeed) populateFormFromUnit(formSeed);
+    setResultsLabel(label);
     setComputing(true);
     setExpanded(null);
     setExpandedCombo(null);
-    targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (formSeed) targetFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     setTimeout(() => {
       const outcome = computeBestWayToKillIt(target);
       setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
@@ -249,6 +341,7 @@ function App() {
     setComputing(true);
     setExpanded(null);
     setExpandedCombo(null);
+    setResultsLabel(form.name || "Enemy Unit");
     // setTimeout (not requestAnimationFrame, which browsers suspend on a
     // hidden/backgrounded tab) lets the "computing…" state paint before the
     // synchronous, CPU-bound simulation blocks the main thread.
@@ -318,7 +411,7 @@ function App() {
               Analyzing {autoProgress.done}/{autoProgress.total} units…
             </div>
           )}
-          {autoResults.map(({ unit, outcome, multiplicity }, i) => {
+          {autoResults.map(({ label, target, formSeed, outcome, multiplicity }, i) => {
             const top = outcome.singles.slice(0, 2);
             const bestKill = top[0]?.summary.killProbability ?? 0;
             const topCombo = bestKill < 0.85 ? outcome.combinations[0] : null;
@@ -326,10 +419,11 @@ function App() {
               <div className="auto-unit-block" key={i}>
                 <div className="auto-unit-header">
                   <span className="option-name">
-                    {unit.rawName}
+                    {label}
+                    {target.isAttached && <span className="multiplicity-badge">attached</span>}
                     {multiplicity > 1 && <span className="multiplicity-badge">×{multiplicity} in list</span>}
                   </span>
-                  <button className="use-target-btn" onClick={() => viewFullAnalysis(unit)}>
+                  <button className="use-target-btn" onClick={() => viewFullAnalysis({ label, target, formSeed })}>
                     Full analysis
                   </button>
                 </div>
@@ -418,6 +512,13 @@ function App() {
                     {unit.rawName}
                     {unit.modelCount ? ` (${unit.modelCount} models)` : ""}
                     {unit.points ? ` · ${unit.points}pts` : ""}
+                    {unit.attachedGroupIndex !== null && (
+                      <span className="section-note">
+                        {" "}
+                        (attached unit {unit.attachedGroupIndex}
+                        {unit.attachedRole ? `, ${unit.attachedRole}` : ""} — calculated together above)
+                      </span>
+                    )}
                   </span>
                 </div>
                 {unit.datasheet && (
@@ -540,7 +641,7 @@ function App() {
 
       {!computing && results && (
         <section className="card">
-          <h2>Ranked options vs. {form.name || "Enemy Unit"}</h2>
+          <h2>Ranked options vs. {resultsLabel || "Enemy Unit"}</h2>
           <div className="sort-row">
             <span>Sort by</span>
             <select value={sortKey} onChange={(e) => changeSortKey(e.target.value as SortKey)}>
@@ -619,7 +720,7 @@ function App() {
 
       {!computing && results && results.combinations.length > 0 && (
         <section className="card">
-          <h2>Combine units against {form.name || "Enemy Unit"}</h2>
+          <h2>Combine units against {resultsLabel || "Enemy Unit"}</h2>
           <p className="section-note">
             {bestSingleKill >= 0.9
               ? "No single unit above is reliably needed here — shown for reference."

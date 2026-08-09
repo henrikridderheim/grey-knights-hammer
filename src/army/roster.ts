@@ -225,7 +225,7 @@ export const ROSTER: UnitDefinition[] = [
   },
   {
     id: "purgation-squad-a",
-    name: "Purgation Squad (a)",
+    name: "Purgation 10",
     points: 240,
     composition: "10 models: Purgator Justicar + 9 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
@@ -255,7 +255,7 @@ export const ROSTER: UnitDefinition[] = [
   },
   {
     id: "purgation-squad-b",
-    name: "Purgation Squad (b)",
+    name: "Purgation 5",
     points: 130,
     composition: "5 models: Purgator Justicar + 4 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
@@ -273,7 +273,7 @@ export const ROSTER: UnitDefinition[] = [
   },
   {
     id: "purgation-squad-c",
-    name: "Purgation Squad (c)",
+    name: "Purgation 5",
     points: 135,
     composition: "5 models: Purgator Justicar + 4 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },

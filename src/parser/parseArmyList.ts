@@ -27,6 +27,11 @@ export interface ParsedWargearLine {
   matchedWeaponName: string | null;
 }
 
+/** "Attached as: Leader (Character)" / "Attached as: Bodyguard (Battleline)" /
+ * "Attached as: Support (Character)" — the Warhammer 40,000 app's label for
+ * this unit's role within an attached (Leader+Bodyguard) grouping. */
+export type AttachedRole = "leader" | "bodyguard" | "support";
+
 export interface ParsedUnit {
   /** Unit name as it appeared in the list (points suffix stripped). */
   rawName: string;
@@ -41,12 +46,30 @@ export interface ParsedUnit {
   wargear: ParsedWargearLine[];
   isWarlord: boolean;
   enhancement: string | null;
+  /** Role within its "Attached unit N" grouping, if any — see `attachedRole`
+   * on this type and `ParseArmyListResult.attachedGroups`. */
+  attachedRole: AttachedRole | null;
+  /** Which "Attached unit N" block this belongs to (1-based, matching the
+   * export's own numbering), or null for a standalone unit. */
+  attachedGroupIndex: number | null;
+}
+
+/** One "Attached unit N" grouping — a Bodyguard unit plus the Leader(s) (and
+ * occasionally a Support character) attached to it. In 11e these are treated
+ * as a single unit for almost all rules purposes (targeting, wound
+ * allocation, ...), so damage math should combine them into one target
+ * rather than evaluating the Leader and Bodyguard separately. */
+export interface AttachedGroup {
+  index: number;
+  members: ParsedUnit[];
 }
 
 export interface ParseArmyListResult {
   faction: string | null;
   detachment: string | null;
   units: ParsedUnit[];
+  /** Leader+Bodyguard groupings extracted from `units` — see `AttachedGroup`. */
+  attachedGroups: AttachedGroup[];
   /** Raw lines that looked like a unit entry but couldn't be confidently matched
    * to any datasheet in the resolved faction (or no faction could be resolved at
    * all). Never silently dropped — always surfaced here for the user to review. */
@@ -391,9 +414,32 @@ async function parseUnitBlocks(
   // and every unmatched line is surfaced immediately — see the "faction
   // resolution" describe block in parseArmyList.test.ts.
   let sawFirstMatchedUnit = false;
+  // Which "Attached unit N" grouping subsequent units belong to, per the
+  // Warhammer 40,000 app's own numbering — reset to null once a real section
+  // header (CHARACTER, OTHER DATASHEETS, ...) ends the attached-units block.
+  let currentAttachedGroupIndex: number | null = null;
 
   for (const line of lines) {
+    if (isAttachedUnitSubHeader(line.cleaned)) {
+      const m = line.cleaned.match(/(\d+)/);
+      currentAttachedGroupIndex = m ? Number(m[1]) : (currentAttachedGroupIndex ?? 0) + 1;
+      continue;
+    }
+    // "Attached as: Leader (Character)" etc. is a sub-line of the unit that was
+    // just opened — capture its role before the generic-metadata boundary
+    // check below would otherwise silently swallow it.
+    const attachedAs = line.cleaned.match(/^attached\s+as\s*:\s*(leader|bodyguard|support)\b/i);
+    if (attachedAs && current) {
+      current.attachedRole = attachedAs[1].toLowerCase() as AttachedRole;
+      continue;
+    }
     if (isSectionBoundaryLine(line.cleaned, factionName)) {
+      // A real force-org header (CHARACTER, BATTLELINE, OTHER DATASHEETS, ...)
+      // closes out the attached-units block; "Attached unit N" itself is
+      // handled above and never reaches here.
+      if (isLikelyHeader(stripPlusDecoration(line.cleaned)) && !isAttachedUnitSubHeader(line.cleaned)) {
+        currentAttachedGroupIndex = null;
+      }
       continue;
     }
 
@@ -419,6 +465,8 @@ async function parseUnitBlocks(
         wargear: [],
         isWarlord: false,
         enhancement: null,
+        attachedRole: null,
+        attachedGroupIndex: currentAttachedGroupIndex,
       };
       units.push(current);
       currentUnitIndent = line.indent;
@@ -600,5 +648,10 @@ export async function parseArmyList(
       .map((u) => (u.points ? `${u.rawName} (${u.points} points)` : u.rawName)),
   ];
 
-  return { faction: factionName, detachment, units, unresolved, totalPoints };
+  const groupIndexes = [...new Set(units.map((u) => u.attachedGroupIndex).filter((i): i is number => i !== null))];
+  const attachedGroups: AttachedGroup[] = groupIndexes
+    .sort((a, b) => a - b)
+    .map((index) => ({ index, members: units.filter((u) => u.attachedGroupIndex === index) }));
+
+  return { faction: factionName, detachment, units, attachedGroups, unresolved, totalPoints };
 }

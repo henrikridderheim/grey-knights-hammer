@@ -106,6 +106,15 @@ export function buildMeleeEngagements(
   return engagements;
 }
 
+/** Combines a base scenario label with the deep-struck (Fury of Titan) and
+ * stratagem-boost labels that apply to it, if any. */
+function withModifierLabels(base: string, deepStruck: boolean, stratagemLabel: string | null): string {
+  const parts = [base];
+  if (deepStruck) parts.push("Fury of Titan (deep struck)");
+  if (stratagemLabel) parts.push(stratagemLabel);
+  return parts.join(", ");
+}
+
 export function unitScenarios(unit: UnitDefinition): {
   mode: "shooting" | "melee";
   scenario: ScenarioFlags;
@@ -116,33 +125,41 @@ export function unitScenarios(unit: UnitDefinition): {
   const hasRanged = unit.loadouts.some((l) => l.rangedWeapons.length > 0);
   const hasMelee = unit.loadouts.some((l) => l.meleeWeapon);
   const hasPsychicMelee = unitHasPsychicMelee(unit);
+  // All Grey Knights units in this army have the Deep Strike ability (verified
+  // against BSData), so Fury of Titan — the Brotherhood Strike detachment's
+  // free re-roll of Hit/Wound rolls of 1 on the turn a unit deep strikes — is
+  // modeled as an available toggle for every unit, not just a labeled-but-
+  // never-generated scenario.
+  const deepStrikeOptions = [false, true];
 
   if (hasRanged) {
     const ranges = rangeSensitive ? [true, false] : [false];
     for (const halfRange of ranges) {
       const rangeLabel = rangeSensitive ? (halfRange ? "half range" : "full range") : "shooting";
-      scenarios.push({
-        mode: "shooting",
-        scenario: { halfRange, stratagemBoost: false, deepStruck: false },
-        label: rangeLabel,
-      });
-      if (unit.isPurgationSquad) {
-        scenarios.push({
-          mode: "shooting",
-          scenario: { halfRange, stratagemBoost: true, deepStruck: false },
-          label: `${rangeLabel}, Focused Immolation (1CP)`,
-        });
+      const stratagemLabels = unit.isPurgationSquad
+        ? [null, "Focused Immolation (1CP)"]
+        : [null];
+      for (const deepStruck of deepStrikeOptions) {
+        for (const stratagemLabel of stratagemLabels) {
+          scenarios.push({
+            mode: "shooting",
+            scenario: { halfRange, stratagemBoost: !!stratagemLabel, deepStruck },
+            label: withModifierLabels(rangeLabel, deepStruck, stratagemLabel),
+          });
+        }
       }
     }
   }
   if (hasMelee) {
-    scenarios.push({ mode: "melee", scenario: { halfRange: false, stratagemBoost: false, deepStruck: false }, label: "melee" });
-    if (hasPsychicMelee) {
-      scenarios.push({
-        mode: "melee",
-        scenario: { halfRange: false, stratagemBoost: true, deepStruck: false },
-        label: "melee, Truesilver Channelling (2CP)",
-      });
+    const stratagemLabels = hasPsychicMelee ? [null, "Truesilver Channelling (2CP)"] : [null];
+    for (const deepStruck of deepStrikeOptions) {
+      for (const stratagemLabel of stratagemLabels) {
+        scenarios.push({
+          mode: "melee",
+          scenario: { halfRange: false, stratagemBoost: !!stratagemLabel, deepStruck },
+          label: withModifierLabels("melee", deepStruck, stratagemLabel),
+        });
+      }
     }
   }
   return scenarios;
