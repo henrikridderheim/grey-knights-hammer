@@ -8,7 +8,13 @@
 
 import type { DataManifest, DatasheetProvider, NormalizedFactionFile } from "./types";
 
-export function createFetchDatasheetProvider(baseUrl = "/data"): DatasheetProvider {
+export function createFetchDatasheetProvider(
+  // Relative ("./data") rather than root-absolute ("/data") so the data loads
+  // correctly whether the app is served from the domain root (local dev) or from
+  // a subpath like /grey-knights-hammer/ (GitHub Pages). This mirrors the relative
+  // asset paths Vite already emits in index.html ("./assets/...").
+  baseUrl = "./data",
+): DatasheetProvider {
   let manifestPromise: Promise<DataManifest> | null = null;
   const factionCache = new Map<string, Promise<NormalizedFactionFile>>();
 
