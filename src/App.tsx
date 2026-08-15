@@ -1,15 +1,29 @@
 import { useRef, useState } from "react";
 import "./App.css";
-import type { TargetUnit } from "./engine/types";
+import {
+  DEFAULT_DEFENSIVE_SETTINGS,
+  type DefensiveSettings,
+  type SimulationSummary,
+  type TargetUnit,
+} from "./engine/types";
 import {
   computeBestWayToKillIt,
   sortOptions,
   type BestWayToKillItResult,
   type RankedOption,
   type SortKey,
+  type WeaponBreakdownRow,
 } from "./army/bestWayToKillIt";
-import { ARMY_TOTAL_POINTS } from "./army/roster";
-import { DEFAULT_DAMAGE_SETTINGS, type DamageSettings } from "./army/engagementBuilder";
+import { ARMY_TOTAL_POINTS, ROSTER, type UnitDefinition } from "./army/roster";
+import { computeTopCounters, computeUnitCounterEntry, type CounterRankedUnit } from "./army/counterMatchups";
+import {
+  DEFAULT_DAMAGE_SETTINGS,
+  eligibleStratagemKeys,
+  unitScenarios,
+  buildEngagementsForScenario,
+  type DamageSettings,
+} from "./army/engagementBuilder";
+import { computeOptimalSequencing, type SequencingResult } from "./army/sequencing";
 import {
   parseArmyList,
   type AttachedGroup,
@@ -159,11 +173,13 @@ function attachedGroupToTarget(group: AttachedGroup): TargetUnit | null {
 interface AnalysisTarget {
   key: string; // dedupe signature
   label: string;
+  points: number | null;
   target: TargetUnit;
   formSeed: ParsedUnit | null;
 }
 
 interface AutoUnitResult {
+  key: string;
   label: string;
   target: TargetUnit;
   formSeed: ParsedUnit | null;
@@ -171,6 +187,21 @@ interface AutoUnitResult {
   /** How many identical copies of this unit/group (same datasheet(s), size(s),
    * wargear) appeared in the pasted list — shown once, not repeated. */
   multiplicity: number;
+}
+
+interface CounterUnitResult {
+  key: string;
+  label: string;
+  points: number | null;
+  target: TargetUnit;
+  shooting: CounterRankedUnit[];
+  melee: CounterRankedUnit[];
+  multiplicity: number;
+}
+
+interface SequencingCacheEntry {
+  loading: boolean;
+  result: SequencingResult | null;
 }
 
 /** Groups identical repeated units (e.g. "4x10 Poxwalkers" as four separate list
@@ -191,42 +222,385 @@ function attachedGroupDedupeSignature(group: AttachedGroup): string {
     .join("||");
 }
 
-const STRATAGEM_LABEL_RE = /\(\d+CP\)$/;
+const STRATAGEM_TOGGLE_LABELS: Record<keyof DamageSettings, string> = {
+  furyOfTitan: "Fury of Titan (free — re-roll Hit/Wound roll of 1, deep struck this turn)",
+  purgationPattern: "Purgation Pattern (1CP — Sustained Hits 1, deep struck & hasn't shot yet)",
+  truesilverChannelling: "Truesilver Channelling (2CP — Devastating Wounds, fighting)",
+  focusedImmolation: "Focused Immolation (1CP — Devastating Wounds + Sustained Hits 1, after shooting)",
+  nearObjective: "Near objective (Sanctity of Purpose: re-roll all failed Wounds, not just a 1)",
+};
 
-/** Strips any stratagem-boost segment ("Focused Immolation (1CP)",
- * "Truesilver Channelling (2CP)") from a scenario label, leaving the
- * range/mode/deep-strike portion — used to match a boosted scenario back to
- * its non-boosted sibling for direct with/without comparison. */
-function stratagemBaseLabel(scenarioLabel: string): string {
-  return scenarioLabel
-    .split(",")
-    .map((s) => s.trim())
-    .filter((s) => !STRATAGEM_LABEL_RE.test(s))
-    .join(", ");
+/** A unit's own eligible stratagem/rule toggles — only the ones it's
+ * actually eligible for (per `eligibleStratagemKeys`), so an ineligible
+ * toggle is never shown rather than shown disabled. Name-less: for embedding
+ * inline under a unit that's already named elsewhere (one row of a matchup
+ * card). */
+function InlineStratagemToggles({
+  unit,
+  settings,
+  onToggle,
+}: {
+  unit: UnitDefinition;
+  settings: DamageSettings;
+  onToggle: (key: keyof DamageSettings, value: boolean) => void;
+}) {
+  const keys = eligibleStratagemKeys(unit);
+  if (keys.length === 0) return null;
+  return (
+    <div className="inline-stratagem-toggles">
+      {keys.map((key) => (
+        <label className="checkbox-row" key={key}>
+          <input type="checkbox" checked={settings[key]} onChange={(e) => onToggle(key, e.target.checked)} />
+          {STRATAGEM_TOGGLE_LABELS[key]}
+        </label>
+      ))}
+    </div>
+  );
 }
 
-/** The auto-results quick view shows 2 options per target. Naively taking the
- * top 2 by kill% often shows two stratagem-boosted variants of the same best
- * unit (e.g. half-range and full-range, both with Focused Immolation),
- * hiding the "without the stratagem" comparison entirely. When the best
- * option used a stratagem, this pairs it with its own base (non-boosted)
- * sibling instead, so the CP cost's actual damage swing is visible directly. */
-function pickDisplayOptions(outcome: BestWayToKillItResult): RankedOption[] {
-  const best = outcome.singles[0];
-  if (!best) return [];
-  if (!STRATAGEM_LABEL_RE.test(best.scenarioLabel)) {
-    return outcome.singles.slice(0, 2);
-  }
-  const baseLabel = stratagemBaseLabel(best.scenarioLabel);
-  const sibling = outcome.singles.find(
-    (o) =>
-      o !== best &&
-      o.unitId === best.unitId &&
-      o.mode === best.mode &&
-      !STRATAGEM_LABEL_RE.test(o.scenarioLabel) &&
-      stratagemBaseLabel(o.scenarioLabel) === baseLabel
+const DEFENSIVE_TOGGLE_LABELS: Record<keyof DefensiveSettings, string> = {
+  minusOneToWound: "-1 to Wound (min 2+ needed)",
+  minusOneToDamage: "-1 to Damage (min 1 per attack)",
+  minusOneToAP: "-1 to AP (min AP0)",
+};
+
+/** This opponent unit's own defensive rules — reduces every incoming attack
+ * against it, from any of my units, in either phase (one shared toggle set
+ * per opponent unit, not per attacker or per phase). Not gated by
+ * eligibility like the offensive toggles are: we don't have per-opponent-unit
+ * ability data to check against, so these generic 10e/11e-style rules are
+ * offered to every target — flagged here so it's clear that's an assumption,
+ * not a claim that a specific unit actually has one of these abilities. */
+function DefensiveToggleRow({
+  settings,
+  onToggle,
+}: {
+  settings: DefensiveSettings;
+  onToggle: (key: keyof DefensiveSettings, value: boolean) => void;
+}) {
+  return (
+    <div className="inline-stratagem-toggles defensive-toggle-row">
+      <span className="defensive-toggle-label">Defensive (any of my attacks against this unit):</span>
+      {(Object.keys(DEFENSIVE_TOGGLE_LABELS) as (keyof DefensiveSettings)[]).map((key) => (
+        <label className="checkbox-row" key={key}>
+          <input type="checkbox" checked={settings[key]} onChange={(e) => onToggle(key, e.target.checked)} />
+          {DEFENSIVE_TOGGLE_LABELS[key]}
+        </label>
+      ))}
+    </div>
   );
-  return sibling ? [best, sibling] : outcome.singles.slice(0, 2);
+}
+
+/** Total wounds across every model in the target — the "expected result"
+ * needed to fully wipe it, shown as the reference point in the Final Damage
+ * breakdown. */
+function targetTotalWounds(target: TargetUnit): number {
+  return target.groups.reduce((sum, g) => sum + g.wounds * g.count, 0);
+}
+
+/** Renders the "Final Damage" breakdown — target wounds vs. this option's
+ * damage distribution — matching the summary format from the reference
+ * mathhammer tool the user compared against. */
+function FinalDamageBreakdown({ summary, totalWounds }: { summary: SimulationSummary; totalWounds: number }) {
+  const fillPct = Math.max(0, Math.min(100, (summary.meanDamage / Math.max(totalWounds, 1)) * 100));
+  return (
+    <div className="final-damage">
+      <div className="final-damage-title">
+        <span>Final Damage</span>
+        <span>{totalWounds}</span>
+      </div>
+      <div className="final-damage-bar-track">
+        <div className="final-damage-bar-fill" style={{ width: `${fillPct}%` }} />
+      </div>
+      <div className="final-damage-rows">
+        <div>
+          <span>
+            Expected result <span className="hint" title="Total wounds across every model in the target unit">?</span>
+          </span>
+          <span>{totalWounds}</span>
+        </div>
+        <div>
+          <span>Chance of full kill</span>
+          <span>{(summary.killProbability * 100).toFixed(1)}%</span>
+        </div>
+        <div>
+          <span>Mean</span>
+          <span>{summary.meanDamage.toFixed(1)}</span>
+        </div>
+        <div>
+          <span>Mode</span>
+          <span>{summary.modeDamage}</span>
+        </div>
+        <div>
+          <span>
+            Standard deviation <span className="hint" title="How spread out the damage results are around the mean">?</span>
+          </span>
+          <span>{summary.stdDevDamage.toFixed(1)}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Per-weapon attack-sequence breakdown, laid out the same way as the
+ * reference mathhammer tool's "Weapon Results" tab: Weapon | Attacks | Hits
+ * | Wounds Dealt | Unsaved Wounds | Damage Dealt, one row per weapon. */
+function WeaponBreakdownTable({ rows }: { rows: WeaponBreakdownRow[] }) {
+  return (
+    <div className="weapon-breakdown-table">
+      <div className="weapon-breakdown-row weapon-breakdown-header">
+        <span>Weapon</span>
+        <span>Attacks</span>
+        <span>Hits</span>
+        <span>Wounds Dealt</span>
+        <span>Unsaved Wounds</span>
+        <span>Damage Dealt</span>
+      </div>
+      {rows.map((w, wi) => (
+        <div className="weapon-breakdown-row" key={wi}>
+          <span>{w.label}</span>
+          <span>{w.attacks.toFixed(2)}</span>
+          <span>{w.hits.toFixed(2)}</span>
+          <span>{w.woundsDealt.toFixed(2)}</span>
+          <span>{w.unsavedWounds.toFixed(2)}</span>
+          <span>{w.avg.toFixed(2)}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** "What order should I fire this unit's weapons in" — on-demand (button
+ * triggered, not auto-computed, since it's a permutation search) comparison
+ * of the best-found firing order against the naive/default order, so the
+ * user can see the actual overkill-avoidance improvement sequencing gives. */
+function SequencingPanel({
+  entry,
+  onCompute,
+}: {
+  entry: SequencingCacheEntry | undefined;
+  onCompute: () => void;
+}) {
+  return (
+    <div className="sequencing-panel">
+      <div className="section-note">
+        Sequencing: which order you resolve this unit's weapon profiles in can change how much damage is wasted to
+        overkill (excess damage from a single attack doesn't carry to another model) — a low-shot/high-damage weapon
+        wasted on a model something else is about to finish off loses value; fired into a fresh model it doesn't.
+        Probabilistic/expected-value recommendation from simulating every firing order, not a guaranteed outcome.
+      </div>
+      {!entry && (
+        <button
+          className="use-target-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onCompute();
+          }}
+        >
+          Calculate optimal sequencing
+        </button>
+      )}
+      {entry?.loading && <div className="loading-state">Searching firing orders…</div>}
+      {entry?.result && !entry.loading && !entry.result.applicable && (
+        <div className="section-note">Only one distinct weapon profile here — nothing to sequence.</div>
+      )}
+      {entry?.result && !entry.loading && entry.result.applicable && (
+        <>
+          <div className="sequencing-order">
+            <span className="sequencing-order-title">Recommended order</span>
+            <ol>
+              {entry.result.optimalOrder.map((label, i) => (
+                <li key={i}>{label}</li>
+              ))}
+            </ol>
+            <div className="option-stats">
+              <div>
+                <span className="stat-value">{entry.result.optimalMeanDamage.toFixed(1)}</span> avg dmg
+              </div>
+              <div>
+                <span className="stat-value">{entry.result.optimalMeanModelsKilled.toFixed(2)}</span> models killed
+              </div>
+            </div>
+          </div>
+          <div className="sequencing-order">
+            <span className="sequencing-order-title">Naive order (as listed above)</span>
+            <ol>
+              {entry.result.naiveOrder.map((label, i) => (
+                <li key={i}>{label}</li>
+              ))}
+            </ol>
+            <div className="option-stats">
+              <div>
+                <span className="stat-value">{entry.result.naiveMeanDamage.toFixed(1)}</span> avg dmg
+              </div>
+              <div>
+                <span className="stat-value">{entry.result.naiveMeanModelsKilled.toFixed(2)}</span> models killed
+              </div>
+            </div>
+          </div>
+          {entry.result.optimalMeanDamage > entry.result.naiveMeanDamage && (
+            <div className="section-note">
+              +{(entry.result.optimalMeanDamage - entry.result.naiveMeanDamage).toFixed(1)} dmg (
+              {(
+                (entry.result.optimalMeanDamage / Math.max(entry.result.naiveMeanDamage, 0.01) - 1) *
+                100
+              ).toFixed(0)}
+              %) recovered from overkill by sequencing correctly.
+            </div>
+          )}
+          {entry.result.usedGreedyFallback && (
+            <div className="section-note">
+              This unit has many distinct weapon profiles — using a fast approximate search instead of checking
+              every possible order.
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+/** A top-level page section that can be collapsed to just its header — used
+ * for every major results block so the page isn't one endless scroll. Each
+ * instance owns its own open/closed state (uncontrolled): collapsing
+ * "Opponent matchups — Melee" never affects any other section, and a section
+ * resets to its `defaultOpen` state if it unmounts (e.g. re-pasting a list
+ * empties `autoResults`/`counterResults` briefly, so the section disappears
+ * and reappears fresh) and remounts. */
+function CollapsibleCard({
+  title,
+  defaultOpen,
+  badge,
+  children,
+}: {
+  title: React.ReactNode;
+  defaultOpen: boolean;
+  badge?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <section className="card">
+      <div className="card-header" onClick={() => setOpen((o) => !o)}>
+        <h2>{title}</h2>
+        <div className="card-header-right">
+          {badge}
+          <span className={`collapse-caret${open ? " open" : ""}`}>▸</span>
+        </div>
+      </div>
+      {open && children}
+    </section>
+  );
+}
+
+/** One opponent unit from the pasted list, with the top 3 of my units that
+ * counter it best in ONE phase (Shooting or Melee, picked by the caller) —
+ * in the same option-card style as the main ranked-options list. Each row's
+ * stratagem/rule toggles are scoped to THIS specific (opponent unit, phase,
+ * my unit) calculation — toggling one never affects that same my-unit's row
+ * in a different opponent's card, or in the other phase's section. */
+function CounterUnitBlock({
+  result,
+  counters,
+  mode,
+  getCalcSettings,
+  onToggleCalcStratagem,
+  defensiveSettings,
+  onToggleDefensive,
+}: {
+  result: CounterUnitResult;
+  counters: CounterRankedUnit[];
+  mode: "shooting" | "melee";
+  getCalcSettings: (opponentKey: string, mode: "shooting" | "melee", unitId: string) => DamageSettings;
+  onToggleCalcStratagem: (
+    opponentKey: string,
+    mode: "shooting" | "melee",
+    unitId: string,
+    key: keyof DamageSettings,
+    value: boolean
+  ) => void;
+  defensiveSettings: DefensiveSettings;
+  onToggleDefensive: (key: keyof DefensiveSettings, value: boolean) => void;
+}) {
+  return (
+    <div className="auto-unit-block">
+      <div className="auto-unit-header">
+        <span className="option-name">
+          {result.label}
+          {result.multiplicity > 1 && <span className="multiplicity-badge">×{result.multiplicity} in list</span>}
+        </span>
+        {result.points != null && <span className="option-scenario">{result.points}pts</span>}
+      </div>
+      <div className="section-note">{formatTargetStatline(result.target)}</div>
+      <DefensiveToggleRow settings={defensiveSettings} onToggle={onToggleDefensive} />
+      {counters.length === 0 && <div className="empty-state">No viable attack options found.</div>}
+      {counters.map((c, i) => {
+        const unit = (ROSTER as UnitDefinition[]).find((u) => u.id === c.unitId);
+        return (
+          <div className="counter-row" key={i}>
+            <div className="auto-option-row">
+              <span>
+                {i + 1}. <span className="my-unit-name">{c.unitName}</span>{" "}
+                <span className="section-note">({c.scenarioLabel})</span>
+              </span>
+              <span className="kill-good">
+                {c.damage.toFixed(1)} dmg · {c.unitPoints}pts · {c.dmgPerPoint.toFixed(3)} dmg/pt
+              </span>
+            </div>
+            <div className="section-note">~{c.modelsKilled.toFixed(2)} enemy models killed</div>
+            {unit && (
+              <InlineStratagemToggles
+                unit={unit}
+                settings={getCalcSettings(result.key, mode, unit.id)}
+                onToggle={(key, value) => onToggleCalcStratagem(result.key, mode, unit.id, key, value)}
+              />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The auto-results quick view always shows a shooting option for these
+ * specific units, in this order, regardless of how they currently rank by
+ * kill% — a fixed roster reference instead of a "top N by kill%" heuristic,
+ * so the same units are comparable target-to-target and the cheap Purgation
+ * squads never get crowded out by the Crowe brick or GMND. Each entry is a
+ * group of roster ids treated as one slot (only the best-performing id in
+ * the group is shown) — GMND appears 3 times in the roster (Warlord + 2
+ * plain copies, near-identical statlines) and would otherwise print as 3
+ * duplicate rows; the two Purgation 5 squads have genuinely different
+ * loadouts, so they're kept as separate slots. Now that every option's
+ * stratagem toggles are interactive (see InlineStratagemToggles), there's no
+ * need to auto-surface a "with vs. without the stratagem" pair anymore — the
+ * user can just flip the toggle themselves.
+ * Whichever combination of units is needed to actually finish the target off
+ * is still shown separately below, via the existing "Combo:" row. */
+const SHOOTING_QUICK_VIEW_UNIT_GROUPS: string[][] = [
+  ["purifier-squad"], // Crowe brick
+  ["gmnd-1", "gmnd-2", "gmnd-3"], // GMND
+  ["purgation-squad-a"], // Purgation 10
+  ["purgation-squad-b"], // Purgation 5
+  ["purgation-squad-c"], // Purgation 5 (different loadout)
+];
+
+function bestShootingOptionForUnitGroup(
+  outcome: BestWayToKillItResult,
+  unitIds: string[]
+): RankedOption | undefined {
+  return outcome.singles
+    .filter((o) => unitIds.includes(o.unitId) && o.mode === "shooting")
+    .sort(
+      (a, b) =>
+        b.summary.killProbability - a.summary.killProbability || b.summary.meanDamage - a.summary.meanDamage
+    )[0];
+}
+
+function pickDisplayOptions(outcome: BestWayToKillItResult): RankedOption[] {
+  return SHOOTING_QUICK_VIEW_UNIT_GROUPS.map((ids) => bestShootingOptionForUnitGroup(outcome, ids)).filter(
+    (o): o is RankedOption => !!o
+  );
 }
 
 /** Standalone matched units plus combined attached (Leader+Bodyguard) groups,
@@ -237,14 +611,45 @@ function buildAnalysisTargets(listResult: ParseArmyListResult): AnalysisTarget[]
     if (!unit.datasheet || unit.attachedGroupIndex !== null) continue;
     const target = parsedUnitToTarget(unit);
     if (!target) continue;
-    targets.push({ key: unitDedupeSignature(unit), label: unit.rawName, target, formSeed: unit });
+    targets.push({ key: unitDedupeSignature(unit), label: unit.rawName, points: unit.points, target, formSeed: unit });
   }
   for (const group of listResult.attachedGroups) {
     const target = attachedGroupToTarget(group);
     if (!target) continue;
-    targets.push({ key: attachedGroupDedupeSignature(group), label: target.name, target, formSeed: null });
+    const points = group.members.some((m) => m.points != null)
+      ? group.members.reduce((sum, m) => sum + (m.points ?? 0), 0)
+      : null;
+    targets.push({ key: attachedGroupDedupeSignature(group), label: target.name, points, target, formSeed: null });
   }
   return targets;
+}
+
+/** Groups identical repeated targets (dedupe key) so an army list with e.g.
+ * "4x10 Poxwalkers" as separate entries is analyzed and shown once. Shared
+ * between the auto "best way to kill it" pass and the opponent-matchups
+ * counters pass, which both need the same target list. */
+function groupAnalysisTargets(listResult: ParseArmyListResult): { entry: AnalysisTarget; multiplicity: number }[] {
+  const groups = new Map<string, { entry: AnalysisTarget; multiplicity: number }>();
+  for (const entry of buildAnalysisTargets(listResult)) {
+    const existing = groups.get(entry.key);
+    if (existing) existing.multiplicity += 1;
+    else groups.set(entry.key, { entry, multiplicity: 1 });
+  }
+  return [...groups.values()];
+}
+
+/** Short "T4, 3+ sv/5++ inv, 2W ×5" style summary of a target's defensive
+ * stats — one line per model-group (an attached Leader+Bodyguard has more
+ * than one). */
+function formatTargetStatline(target: TargetUnit): string {
+  return target.groups
+    .map((g) => {
+      const save = `${g.save}+ sv`;
+      const invuln = g.invulnSave ? `/${g.invulnSave}++ inv` : "";
+      const count = g.count > 1 ? ` ×${g.count}` : "";
+      return `${g.label}: T${g.toughness}, ${save}${invuln}, ${g.wounds}W${count}`;
+    })
+    .join(" · ");
 }
 
 // Reduced fidelity for the auto/bulk pass across an entire opponent list — the
@@ -257,6 +662,9 @@ function App() {
   const [form, setForm] = useState<TargetFormState>(DEFAULT_FORM);
   const [results, setResults] = useState<BestWayToKillItResult | null>(null);
   const [resultsLabel, setResultsLabel] = useState<string>("");
+  const [resultsTargetWounds, setResultsTargetWounds] = useState<number>(0);
+  const [resultsTarget, setResultsTarget] = useState<TargetUnit | null>(null);
+  const [sequencingCache, setSequencingCache] = useState<Record<string, SequencingCacheEntry>>({});
   const [sortKey, setSortKey] = useState<SortKey>("kill");
   const [expanded, setExpanded] = useState<number | null>(null);
   const [expandedCombo, setExpandedCombo] = useState<number | null>(null);
@@ -270,23 +678,144 @@ function App() {
   const [autoResults, setAutoResults] = useState<AutoUnitResult[]>([]);
   const [autoAnalyzing, setAutoAnalyzing] = useState(false);
   const [autoProgress, setAutoProgress] = useState({ done: 0, total: 0 });
-  const [damageSettings, setDamageSettings] = useState<DamageSettings>(DEFAULT_DAMAGE_SETTINGS);
   const targetFormRef = useRef<HTMLElement | null>(null);
   const resultsAnchorRef = useRef<HTMLDivElement | null>(null);
+
+  const [counterResults, setCounterResults] = useState<CounterUnitResult[]>([]);
+  const [counterAnalyzing, setCounterAnalyzing] = useState(false);
+  const [counterProgress, setCounterProgress] = useState({ done: 0, total: 0 });
+
+  // Stratagem/rule toggles for the Opponent matchups cards — keyed per
+  // CALCULATION (opponent unit × phase × my unit), not per my-unit alone.
+  // The same GMND appearing in the Mutilators card and the Venatari card (or
+  // in both the Shooting and Melee sections) are independent entries here,
+  // so ticking one never ticks — or visibly changes — any other box.
+  const [calcSettings, setCalcSettings] = useState<Record<string, DamageSettings>>({});
+  const calcSettingsKey = (opponentKey: string, mode: "shooting" | "melee", unitId: string) =>
+    `${opponentKey}::${mode}::${unitId}`;
+  const getCalcSettings = (opponentKey: string, mode: "shooting" | "melee", unitId: string): DamageSettings =>
+    calcSettings[calcSettingsKey(opponentKey, mode, unitId)] ?? DEFAULT_DAMAGE_SETTINGS;
+
+  // Same idea for the "Best way to kill each unit" cards — keyed per (opponent
+  // unit × my unit) only, not per phase: `unitScenarios` builds both the
+  // shooting and melee scenario for a unit from one shared settings object,
+  // so a single toggle set per my-unit already covers both.
+  const [autoCalcSettings, setAutoCalcSettings] = useState<Record<string, DamageSettings>>({});
+  const autoCalcSettingsKey = (opponentKey: string, unitId: string) => `${opponentKey}::${unitId}`;
+  const getAutoCalcSettings = (opponentKey: string, unitId: string): DamageSettings =>
+    autoCalcSettings[autoCalcSettingsKey(opponentKey, unitId)] ?? DEFAULT_DAMAGE_SETTINGS;
+
+  // Defensive toggles (-1 Wound / -1 Damage / -1 AP) — one shared set per
+  // OPPONENT UNIT, not per phase or per attacker: these reduce any incoming
+  // attack against that unit, so the same toggle applies whether it's shown
+  // in the Shooting card or the Melee card for that unit.
+  const [defensiveSettings, setDefensiveSettings] = useState<Record<string, DefensiveSettings>>({});
+  const getDefensiveSettings = (opponentKey: string): DefensiveSettings =>
+    defensiveSettings[opponentKey] ?? DEFAULT_DEFENSIVE_SETTINGS;
 
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
   };
 
-  const runAutoAnalysisForList = (result: ParseArmyListResult, settings: DamageSettings) => {
-    const allTargets = buildAnalysisTargets(result);
-    const groups = new Map<string, { entry: AnalysisTarget; multiplicity: number }>();
-    for (const entry of allTargets) {
-      const existing = groups.get(entry.key);
-      if (existing) existing.multiplicity += 1;
-      else groups.set(entry.key, { entry, multiplicity: 1 });
-    }
-    const matched = [...groups.values()];
+  /** Toggle one stratagem/rule for exactly one (opponent unit, phase, my
+   * unit) calculation. Recomputes only that single row's own numbers in
+   * place — same array position, no re-sort — instead of rebuilding or
+   * re-ranking the whole results list. Position in the list only ever
+   * changes on a fresh "Analyze list" pass, never as a side effect of
+   * toggling a stratagem, no matter how the new number compares to the
+   * other rows. */
+  const updateCalcStratagem = (
+    opponentKey: string,
+    mode: "shooting" | "melee",
+    unitId: string,
+    key: keyof DamageSettings,
+    value: boolean
+  ) => {
+    const settingsKey = calcSettingsKey(opponentKey, mode, unitId);
+    const nextUnitSettings: DamageSettings = {
+      ...(calcSettings[settingsKey] ?? DEFAULT_DAMAGE_SETTINGS),
+      [key]: value,
+    };
+    setCalcSettings((prev) => ({ ...prev, [settingsKey]: nextUnitSettings }));
+    setCounterResults((prev) =>
+      prev.map((result) => {
+        if (result.key !== opponentKey) return result;
+        const updatedEntry = computeUnitCounterEntry(unitId, result.target, nextUnitSettings, mode);
+        if (!updatedEntry) return result;
+        const list = mode === "shooting" ? result.shooting : result.melee;
+        // In-place replace only — no sort — so this row's position (and every
+        // other row's position) never moves as a result of this toggle.
+        const updated = list.map((e) => (e.unitId === unitId ? updatedEntry : e));
+        return mode === "shooting" ? { ...result, shooting: updated } : { ...result, melee: updated };
+      })
+    );
+  };
+
+  /** Toggle one stratagem/rule for one (opponent unit × my unit) pair in the
+   * "Best way to kill each unit" cards. Unlike the counter-matchup toggle
+   * above, there's no cheap single-row recompute available here — a unit's
+   * result competes against the rest of the roster for "top option" and
+   * combo-partner status, so the whole target's outcome (every unit, every
+   * scenario) is re-run. Still scoped to just this one target's `autoResults`
+   * entry, in place — every other target's card is untouched. */
+  const updateAutoCalcStratagem = (
+    opponentKey: string,
+    target: TargetUnit,
+    unitId: string,
+    key: keyof DamageSettings,
+    value: boolean
+  ) => {
+    const settingsKey = autoCalcSettingsKey(opponentKey, unitId);
+    const nextUnitSettings: DamageSettings = {
+      ...(autoCalcSettings[settingsKey] ?? DEFAULT_DAMAGE_SETTINGS),
+      [key]: value,
+    };
+    setAutoCalcSettings((prev) => ({ ...prev, [settingsKey]: nextUnitSettings }));
+    const outcome = computeBestWayToKillIt(target, {
+      iterations: AUTO_ITERATIONS,
+      comboIterations: AUTO_COMBO_ITERATIONS,
+      getUnitSettings: (id) => (id === unitId ? nextUnitSettings : getAutoCalcSettings(opponentKey, id)),
+    });
+    setAutoResults((prev) => prev.map((r) => (r.key === opponentKey ? { ...r, outcome } : r)));
+  };
+
+  /** Toggle a defensive rule for one opponent unit. Recomputes every
+   * currently-displayed row's own numbers under the new defensive setting —
+   * same rows, same order, same array positions — rather than re-running the
+   * full roster ranking, which could otherwise swap in a different unit or
+   * reorder the list purely because the new numbers compare differently. */
+  const updateDefensiveSetting = (opponentKey: string, key: keyof DefensiveSettings, value: boolean) => {
+    const nextForOpponent: DefensiveSettings = {
+      ...(defensiveSettings[opponentKey] ?? DEFAULT_DEFENSIVE_SETTINGS),
+      [key]: value,
+    };
+    setDefensiveSettings((prev) => ({ ...prev, [opponentKey]: nextForOpponent }));
+    setCounterResults((prev) =>
+      prev.map((result) => {
+        if (result.key !== opponentKey) return result;
+        const targetWithDefenses: TargetUnit = { ...result.target, defensiveSettings: nextForOpponent };
+        const recompute = (list: CounterRankedUnit[], mode: "shooting" | "melee") =>
+          list.map(
+            (entry) =>
+              computeUnitCounterEntry(
+                entry.unitId,
+                targetWithDefenses,
+                getCalcSettings(opponentKey, mode, entry.unitId),
+                mode
+              ) ?? entry
+          );
+        return {
+          ...result,
+          target: targetWithDefenses,
+          shooting: recompute(result.shooting, "shooting"),
+          melee: recompute(result.melee, "melee"),
+        };
+      })
+    );
+  };
+
+  const runAutoAnalysisForList = (result: ParseArmyListResult) => {
+    const matched = groupAnalysisTargets(result);
 
     setAutoResults([]);
     if (matched.length === 0) {
@@ -301,11 +830,11 @@ function App() {
       const outcome = computeBestWayToKillIt(entry.target, {
         iterations: AUTO_ITERATIONS,
         comboIterations: AUTO_COMBO_ITERATIONS,
-        settings,
+        getUnitSettings: (unitId) => getAutoCalcSettings(entry.key, unitId),
       });
       setAutoResults((prev) => [
         ...prev,
-        { label: entry.label, target: entry.target, formSeed: entry.formSeed, outcome, multiplicity },
+        { key: entry.key, label: entry.label, target: entry.target, formSeed: entry.formSeed, outcome, multiplicity },
       ]);
       i += 1;
       setAutoProgress({ done: i, total: matched.length });
@@ -318,27 +847,66 @@ function App() {
     setTimeout(step, 10);
   };
 
+  /** Opponent matchups: for every unit actually in the pasted list, the top 3
+   * of my units that counter it best (raw damage, points-efficiency
+   * tiebreak) — replaces the old fixed Skirmish/Big Target archetype
+   * buckets with real per-opponent-unit matchups. Each row's stratagems
+   * default to off until toggled inline on that specific card. */
+  const runCounterAnalysisForList = (result: ParseArmyListResult) => {
+    const matched = groupAnalysisTargets(result);
+
+    setCounterResults([]);
+    if (matched.length === 0) {
+      setCounterAnalyzing(false);
+      return;
+    }
+    setCounterAnalyzing(true);
+    setCounterProgress({ done: 0, total: matched.length });
+    let i = 0;
+    const step = () => {
+      const { entry, multiplicity } = matched[i];
+      const target: TargetUnit = { ...entry.target, defensiveSettings: getDefensiveSettings(entry.key) };
+      const matchups = computeTopCounters(target, (unitId, mode) => getCalcSettings(entry.key, mode, unitId));
+      setCounterResults((prev) => [
+        ...prev,
+        {
+          key: entry.key,
+          label: entry.label,
+          points: entry.points,
+          target,
+          shooting: matchups.shooting,
+          melee: matchups.melee,
+          multiplicity,
+        },
+      ]);
+      i += 1;
+      setCounterProgress({ done: i, total: matched.length });
+      if (i < matched.length) {
+        setTimeout(step, 10);
+      } else {
+        setCounterAnalyzing(false);
+      }
+    };
+    setTimeout(step, 10);
+  };
+
   const readList = async (text: string) => {
     if (!text.trim()) return;
     setReading(true);
     setReadError(null);
     setAutoResults([]);
+    setCounterResults([]);
     try {
       const result = await parseArmyList(text, datasheetProvider);
       setListResult(result);
-      runAutoAnalysisForList(result, damageSettings);
+      runAutoAnalysisForList(result);
+      runCounterAnalysisForList(result);
     } catch (err) {
       setReadError(err instanceof Error ? err.message : String(err));
       setListResult(null);
     } finally {
       setReading(false);
     }
-  };
-
-  const updateDamageSetting = <K extends keyof DamageSettings>(key: K, value: DamageSettings[K]) => {
-    const next = { ...damageSettings, [key]: value };
-    setDamageSettings(next);
-    if (listResult) runAutoAnalysisForList(listResult, next); // keep the auto pass in sync with the toggles
   };
 
   const handlePasteTextarea = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -390,8 +958,10 @@ function App() {
     // for a combined Leader+Bodyguard target.
     resultsAnchorRef.current?.scrollIntoView({ behavior: "auto", block: "start" });
     setTimeout(() => {
-      const outcome = computeBestWayToKillIt(target, { settings: damageSettings });
+      const outcome = computeBestWayToKillIt(target, { getUnitSettings: () => DEFAULT_DAMAGE_SETTINGS });
       setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
+      setResultsTargetWounds(targetTotalWounds(target));
+      setResultsTarget(target);
       setComputing(false);
     }, 30);
   };
@@ -406,8 +976,10 @@ function App() {
     // synchronous, CPU-bound simulation blocks the main thread.
     setTimeout(() => {
       const target = formToTarget(form);
-      const outcome = computeBestWayToKillIt(target, { settings: damageSettings });
+      const outcome = computeBestWayToKillIt(target, { getUnitSettings: () => DEFAULT_DAMAGE_SETTINGS });
       setResults({ singles: sortOptions(outcome.singles, sortKey), combinations: outcome.combinations });
+      setResultsTargetWounds(targetTotalWounds(target));
+      setResultsTarget(target);
       setComputing(false);
     }, 30);
   };
@@ -418,6 +990,33 @@ function App() {
   };
 
   const bestSingleKill = results?.singles[0]?.summary.killProbability ?? 0;
+
+  const sequencingKey = (opt: RankedOption) => `${opt.unitId}::${opt.mode}::${opt.scenarioLabel}`;
+
+  /** Rebuilds this option's weapon engagements (same unit/scenario the rest
+   * of its card already reflects — "Ranked options" always uses baseline,
+   * no-stratagem settings) and searches them for the firing order that
+   * minimizes overkill. Expensive (permutation search), so this only ever
+   * runs when the user explicitly asks for it, not automatically. */
+  const computeSequencingFor = (opt: RankedOption) => {
+    const target = resultsTarget;
+    if (!target) return;
+    const key = sequencingKey(opt);
+    setSequencingCache((prev) => ({ ...prev, [key]: { loading: true, result: null } }));
+    setTimeout(() => {
+      const unit = (ROSTER as UnitDefinition[]).find((u) => u.id === opt.unitId);
+      const scenario = unit
+        ? unitScenarios(unit, DEFAULT_DAMAGE_SETTINGS).find(
+            (s) => s.mode === opt.mode && s.label === opt.scenarioLabel
+          )
+        : undefined;
+      const result =
+        unit && scenario
+          ? computeOptimalSequencing(buildEngagementsForScenario(unit, target, opt.mode, scenario.scenario))
+          : null;
+      setSequencingCache((prev) => ({ ...prev, [key]: { loading: false, result } }));
+    }, 30);
+  };
 
   return (
     <div className="app">
@@ -458,58 +1057,12 @@ function App() {
         {readError && <div className="empty-state">Couldn't read that list: {readError}</div>}
       </section>
 
-      <section className="card">
-        <h2>Stratagems &amp; rules</h2>
-        <p className="section-note">
-          Choose which damage-boosting rules are assumed active — affects every calculation below (auto pass and
-          full analysis) until you change them.
-        </p>
-        <div className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={damageSettings.furyOfTitan}
-            onChange={(e) => updateDamageSetting("furyOfTitan", e.target.checked)}
-          />
-          Fury of Titan (free — re-roll Hit/Wound roll of 1 for a unit that deep struck this turn)
-        </div>
-        <div className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={damageSettings.purgationPattern}
-            onChange={(e) => updateDamageSetting("purgationPattern", e.target.checked)}
-          />
-          Purgation Pattern (1CP — Sustained Hits 1, any GK unit that deep struck & hasn't shot yet)
-        </div>
-        <div className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={damageSettings.truesilverChannelling}
-            onChange={(e) => updateDamageSetting("truesilverChannelling", e.target.checked)}
-          />
-          Truesilver Channelling (2CP — Devastating Wounds for Psychic melee weapons)
-        </div>
-        <div className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={damageSettings.focusedImmolation}
-            onChange={(e) => updateDamageSetting("focusedImmolation", e.target.checked)}
-          />
-          Focused Immolation (1CP — Devastating Wounds + Sustained Hits 1, Purgation Squad shooting)
-        </div>
-        <div className="checkbox-row">
-          <input
-            type="checkbox"
-            checked={damageSettings.nearObjective}
-            onChange={(e) => updateDamageSetting("nearObjective", e.target.checked)}
-          />
-          Target within range of an objective (Purifier Squad's Sanctity of Purpose upgrades to re-roll all failed
-          Wound rolls, not just a 1)
-        </div>
-      </section>
-
       {(autoAnalyzing || autoResults.length > 0) && (
-        <section className="card">
-          <h2>Best way to kill each unit</h2>
+        <CollapsibleCard
+          title="Best way to kill each unit"
+          defaultOpen={true}
+          badge={autoAnalyzing ? <span className="card-header-badge">analyzing…</span> : undefined}
+        >
           <p className="section-note">
             Quick pass across every matched unit in the list above (lower simulation count for speed — click "Full
             analysis" on any unit for precise numbers, percentiles, and combinations).
@@ -519,7 +1072,7 @@ function App() {
               Analyzing {autoProgress.done}/{autoProgress.total} units…
             </div>
           )}
-          {autoResults.map(({ label, target, formSeed, outcome, multiplicity }, i) => {
+          {autoResults.map(({ key: targetKey, label, target, formSeed, outcome, multiplicity }, i) => {
             const top = pickDisplayOptions(outcome);
             const bestKill = top[0]?.summary.killProbability ?? 0;
             const topCombo = bestKill < 0.85 ? outcome.combinations[0] : null;
@@ -535,12 +1088,8 @@ function App() {
                     Full analysis
                   </button>
                 </div>
+                <div className="section-note">{formatTargetStatline(target)}</div>
                 {top.length === 0 && <div className="empty-state">No viable attack options found.</div>}
-                {top.length === 2 &&
-                  STRATAGEM_LABEL_RE.test(top[0].scenarioLabel) &&
-                  !STRATAGEM_LABEL_RE.test(top[1].scenarioLabel) && (
-                    <div className="section-note">With vs. without the stratagem, same unit/range:</div>
-                  )}
                 {top.map((opt, oi) => {
                   const key = `${i}-${oi}`;
                   const isOpen = expandedAutoKey === key;
@@ -551,28 +1100,35 @@ function App() {
                         onClick={() => setExpandedAutoKey(isOpen ? null : key)}
                       >
                         <span>
-                          {opt.unitName}{" "}
+                          <span className="my-unit-name">{opt.unitName}</span>{" "}
                           <span className="section-note">
-                            ({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel}
-                            {oi === 1 && !STRATAGEM_LABEL_RE.test(opt.scenarioLabel) && top.length === 2 && STRATAGEM_LABEL_RE.test(top[0].scenarioLabel)
-                              ? ", no stratagem"
-                              : ""}
-                            )
+                            ({opt.mode === "shooting" ? "Shooting" : "Melee"} — {opt.scenarioLabel})
                           </span>
                         </span>
                         <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
-                          {(opt.summary.killProbability * 100).toFixed(0)}% kill · {opt.summary.meanDamage.toFixed(1)} dmg
+                          {(opt.summary.killProbability * 100).toFixed(0)}% kill · {opt.summary.meanDamage.toFixed(1)} dmg ·{" "}
+                          {opt.summary.meanModelsKilled.toFixed(2)} models killed
+                          {" "}
+                          <span className="section-note">
+                            ({(opt.summary.meanDamage / Math.max(opt.unitPoints, 1)).toFixed(3)} dmg/pt)
+                          </span>
                         </span>
                       </div>
+                      {(() => {
+                        const unit = (ROSTER as UnitDefinition[]).find((u) => u.id === opt.unitId);
+                        return unit ? (
+                          <InlineStratagemToggles
+                            unit={unit}
+                            settings={getAutoCalcSettings(targetKey, unit.id)}
+                            onToggle={(sKey, value) => updateAutoCalcStratagem(targetKey, target, unit.id, sKey, value)}
+                          />
+                        ) : null;
+                      })()}
                       {isOpen && (
                         <div className="auto-weapon-breakdown">
+                          <FinalDamageBreakdown summary={opt.summary} totalWounds={targetTotalWounds(target)} />
                           <div className="section-note">Each weapon fired alone (won't sum to the total — that accounts for shared overkill):</div>
-                          {opt.damageByWeapon.map((w, wi) => (
-                            <div key={wi}>
-                              <span>{w.label}</span>
-                              <span>{w.avg.toFixed(2)} dmg</span>
-                            </div>
-                          ))}
+                          <WeaponBreakdownTable rows={opt.damageByWeapon} />
                         </div>
                       )}
                     </div>
@@ -591,16 +1147,20 @@ function App() {
                           <span>Combo: {topCombo.unitNames.join(" + ")}</span>
                           <span className={topCombo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
                             {(topCombo.summary.killProbability * 100).toFixed(0)}% kill ·{" "}
-                            {topCombo.summary.meanDamage.toFixed(1)} dmg
+                            {topCombo.summary.meanDamage.toFixed(1)} dmg ·{" "}
+                            {topCombo.summary.meanModelsKilled.toFixed(2)} models killed
                           </span>
                         </div>
                         {isOpen && (
                           <div className="auto-weapon-breakdown">
-                            {topCombo.memberLabels.map((label, li) => (
-                              <div key={li}>
-                                <span>{label}</span>
-                              </div>
-                            ))}
+                            <FinalDamageBreakdown summary={topCombo.summary} totalWounds={targetTotalWounds(target)} />
+                            <div className="auto-combo-members">
+                              {topCombo.memberLabels.map((label, li) => (
+                                <div key={li}>
+                                  <span>{label}</span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         )}
                       </div>
@@ -609,12 +1169,75 @@ function App() {
               </div>
             );
           })}
-        </section>
+        </CollapsibleCard>
+      )}
+
+      {(counterAnalyzing || counterResults.length > 0) && (
+        <CollapsibleCard
+          title="Opponent matchups — Shooting"
+          defaultOpen={false}
+          badge={counterAnalyzing ? <span className="card-header-badge">analyzing…</span> : undefined}
+        >
+          <p className="section-note">
+            For every unit in the pasted list: my top 3 counters using ranged weapons only, evaluated by each of my
+            unit's single best shooting profile against that opponent unit's actual stat line — ranked by raw
+            expected damage, with points-per-damage as a tiebreaker (so it doesn't just surface my cheapest unit, or
+            let one generalist dominate every matchup). Each row's stratagem/rule toggles apply to that specific
+            calculation only.
+          </p>
+          {counterAnalyzing && (
+            <div className="loading-state">
+              Evaluating {counterProgress.done}/{counterProgress.total} units…
+            </div>
+          )}
+          {counterResults.map((result) => (
+            <CounterUnitBlock
+              result={result}
+              counters={result.shooting}
+              mode="shooting"
+              getCalcSettings={getCalcSettings}
+              onToggleCalcStratagem={updateCalcStratagem}
+              defensiveSettings={getDefensiveSettings(result.key)}
+              onToggleDefensive={(key, value) => updateDefensiveSetting(result.key, key, value)}
+              key={result.key}
+            />
+          ))}
+        </CollapsibleCard>
+      )}
+
+      {(counterAnalyzing || counterResults.length > 0) && (
+        <CollapsibleCard
+          title="Opponent matchups — Melee"
+          defaultOpen={false}
+          badge={counterAnalyzing ? <span className="card-header-badge">analyzing…</span> : undefined}
+        >
+          <p className="section-note">
+            Same matchups, evaluated independently using melee weapons only — a unit can rank top 3 in both sections
+            if it hits hard both ways, or only show up here if that's where its damage actually comes from. Each
+            row's stratagem/rule toggles apply to that specific calculation only.
+          </p>
+          {counterAnalyzing && (
+            <div className="loading-state">
+              Evaluating {counterProgress.done}/{counterProgress.total} units…
+            </div>
+          )}
+          {counterResults.map((result) => (
+            <CounterUnitBlock
+              result={result}
+              counters={result.melee}
+              mode="melee"
+              getCalcSettings={getCalcSettings}
+              onToggleCalcStratagem={updateCalcStratagem}
+              defensiveSettings={getDefensiveSettings(result.key)}
+              onToggleDefensive={(key, value) => updateDefensiveSetting(result.key, key, value)}
+              key={result.key}
+            />
+          ))}
+        </CollapsibleCard>
       )}
 
       {listResult && (
-        <section className="card">
-          <h2>Parsed units</h2>
+        <CollapsibleCard title="Parsed units" defaultOpen={false}>
           <div className="parse-result">
             <div className="section-note">
               {listResult.faction ? `Faction: ${listResult.faction}` : "Faction not detected"}
@@ -658,7 +1281,7 @@ function App() {
               </div>
             )}
           </div>
-        </section>
+        </CollapsibleCard>
       )}
 
       <section className="card" ref={targetFormRef}>
@@ -759,8 +1382,7 @@ function App() {
       {computing && <div className="loading-state">Running Monte Carlo simulations…</div>}
 
       {!computing && results && (
-        <section className="card">
-          <h2>Ranked options vs. {resultsLabel || "Enemy Unit"}</h2>
+        <CollapsibleCard title={`Ranked options vs. ${resultsLabel || "Enemy Unit"}`} defaultOpen={true}>
           <div className="sort-row">
             <span>Sort by</span>
             <select value={sortKey} onChange={(e) => changeSortKey(e.target.value as SortKey)}>
@@ -774,7 +1396,7 @@ function App() {
             <div className="option-card" key={i} onClick={() => setExpanded(expanded === i ? null : i)}>
               <div className="option-top">
                 <span className="option-rank">{i + 1}.</span>
-                <span className="option-name">{opt.unitName}</span>
+                <span className="option-name my-unit-name">{opt.unitName}</span>
                 <span className={opt.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
                   {(opt.summary.killProbability * 100).toFixed(0)}% kill
                 </span>
@@ -792,18 +1414,11 @@ function App() {
               </div>
               {expanded === i && (
                 <div className="option-detail">
+                  <FinalDamageBreakdown summary={opt.summary} totalWounds={resultsTargetWounds} />
                   <div className="detail-grid">
                     <div>
                       <span>Median dmg</span>
                       {opt.summary.medianDamage.toFixed(1)}
-                    </div>
-                    <div>
-                      <span>Std dev</span>
-                      {opt.summary.stdDevDamage.toFixed(1)}
-                    </div>
-                    <div>
-                      <span>Wipe %</span>
-                      {(opt.summary.wipeProbability * 100).toFixed(0)}%
                     </div>
                     <div>
                       <span>P10 / P90 dmg</span>
@@ -826,24 +1441,20 @@ function App() {
                     Per weapon, fired alone at a fresh target (won't sum to the total above — that already accounts
                     for shared overkill across all weapons firing together):
                   </div>
-                  <div className="weapon-breakdown">
-                    {opt.damageByWeapon.map((w, wi) => (
-                      <div key={wi}>
-                        <span>{w.label}</span>
-                        <span>{w.avg.toFixed(2)} dmg</span>
-                      </div>
-                    ))}
-                  </div>
+                  <WeaponBreakdownTable rows={opt.damageByWeapon} />
+                  <SequencingPanel
+                    entry={sequencingCache[sequencingKey(opt)]}
+                    onCompute={() => computeSequencingFor(opt)}
+                  />
                 </div>
               )}
             </div>
           ))}
-        </section>
+        </CollapsibleCard>
       )}
 
       {!computing && results && results.combinations.length > 0 && (
-        <section className="card">
-          <h2>Combine units against {resultsLabel || "Enemy Unit"}</h2>
+        <CollapsibleCard title={`Combine units against ${resultsLabel || "Enemy Unit"}`} defaultOpen={false}>
           <p className="section-note">
             {bestSingleKill >= 0.9
               ? "No single unit above is reliably needed here — shown for reference."
@@ -857,7 +1468,7 @@ function App() {
             >
               <div className="option-top">
                 <span className="option-rank">{i + 1}.</span>
-                <span className="option-name">{combo.unitNames.join(" + ")}</span>
+                <span className="option-name my-unit-name">{combo.unitNames.join(" + ")}</span>
                 <span className={combo.summary.killProbability > 0.5 ? "kill-good" : "kill-bad"}>
                   {(combo.summary.killProbability * 100).toFixed(0)}% kill
                 </span>
@@ -875,6 +1486,7 @@ function App() {
               </div>
               {expandedCombo === i && (
                 <div className="option-detail">
+                  <FinalDamageBreakdown summary={combo.summary} totalWounds={resultsTargetWounds} />
                   <div className="weapon-breakdown">
                     {combo.memberLabels.map((label, li) => (
                       <div key={li}>
@@ -888,10 +1500,6 @@ function App() {
                       {combo.summary.medianDamage.toFixed(1)}
                     </div>
                     <div>
-                      <span>Wipe %</span>
-                      {(combo.summary.wipeProbability * 100).toFixed(0)}%
-                    </div>
-                    <div>
                       <span>Wounds remaining</span>
                       {combo.summary.meanWoundsRemaining.toFixed(1)}
                     </div>
@@ -900,7 +1508,7 @@ function App() {
               )}
             </div>
           ))}
-        </section>
+        </CollapsibleCard>
       )}
     </div>
   );

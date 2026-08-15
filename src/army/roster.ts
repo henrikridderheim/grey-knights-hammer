@@ -278,7 +278,7 @@ export const ROSTER: UnitDefinition[] = [
   },
   {
     id: "purgation-squad-c",
-    name: "Purgation 5",
+    name: "Purgation 5 Psilencer",
     points: 135,
     composition: "5 models: Purgator Justicar + 4 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },

@@ -67,15 +67,64 @@ function unitHasRangeSensitiveWeapon(unit: UnitDefinition): boolean {
   );
 }
 
-function unitHasPsychicMelee(unit: UnitDefinition): boolean {
+export function unitHasPsychicMelee(unit: UnitDefinition): boolean {
   return unit.loadouts.some((l) => {
     const w = l.meleeWeapon ? WEAPONS[l.meleeWeapon] : undefined;
     return !!w?.isPsychic;
   });
 }
 
+/** Which of the 5 stratagems/rules actually apply to this unit — not every
+ * one is universal:
+ * - Fury of Titan / Purgation Pattern: any Grey Knights unit (no restriction).
+ * - Truesilver Channelling: Grey Knights INFANTRY unit with a Psychic melee
+ *   weapon (excludes e.g. the Nemesis Dreadknight, which is MONSTER not
+ *   INFANTRY even though its greathammer is Psychic).
+ * - Focused Immolation: Purgation Squad only.
+ * - "near objective" (Sanctity of Purpose upgrade): Purifier Squad only.
+ * Used to only show/offer toggles that are actually valid for a given unit,
+ * instead of showing every toggle for every unit regardless of eligibility. */
+export function eligibleStratagemKeys(unit: UnitDefinition): (keyof DamageSettings)[] {
+  const keys: (keyof DamageSettings)[] = ["furyOfTitan", "purgationPattern"];
+  if (unit.keywords.includes("INFANTRY") && unitHasPsychicMelee(unit)) keys.push("truesilverChannelling");
+  if (unit.isPurgationSquad) keys.push("focusedImmolation");
+  if (unit.hasSanctityOfPurpose) keys.push("nearObjective");
+  return keys;
+}
+
+/** Translate a target's own toggled defensive rules into the AttackContext
+ * fields that apply them — same for every weapon/engagement built against
+ * that target, in either phase, regardless of which of my units is
+ * attacking. */
+function defensiveMods(target: TargetUnit): { woundMod: number; apReduction: number; damageReduction: number } {
+  const d = target.defensiveSettings;
+  return {
+    woundMod: d?.minusOneToWound ? -1 : 0,
+    apReduction: d?.minusOneToAP ? 1 : 0,
+    damageReduction: d?.minusOneToDamage ? 1 : 0,
+  };
+}
+
 function furyOfTitanRerolls(scenario: ScenarioFlags): RerollFlags | undefined {
   return scenario.deepStruck ? { hitRerollOnes: true, woundRerollOnes: true } : undefined;
+}
+
+/** Fury of Titan (if deep struck) plus Sanctity of Purpose (Purifier Squad
+ * only) merged into one reroll set — Sanctity of Purpose is a unit-wide
+ * ability, not a shooting-only one, so it must apply to this unit's melee
+ * attacks exactly as much as its shooting: re-roll a Wound roll of 1 is
+ * always on, upgrading to re-roll any failed Wound roll near an objective.
+ * Shared by both `buildShootingEngagements` and `buildMeleeEngagements` so
+ * the two phases can never drift out of sync on this. */
+function unitRerolls(unit: UnitDefinition, scenario: ScenarioFlags): RerollFlags | undefined {
+  const baseRerolls = furyOfTitanRerolls(scenario);
+  return unit.hasSanctityOfPurpose
+    ? {
+        ...baseRerolls,
+        woundRerollOnes: true,
+        woundRerollAllFailed: scenario.nearObjective || undefined,
+      }
+    : baseRerolls;
 }
 
 /** Build one AttackContext per distinct ranged weapon across a unit's loadouts, for a shooting-phase scenario. */
@@ -86,16 +135,8 @@ export function buildShootingEngagements(
 ): WeaponEngagement[] {
   const engagements: WeaponEngagement[] = [];
   const strengthBonus = enhancementStrengthBonus(unit);
-  const baseRerolls = furyOfTitanRerolls(scenario);
-  // Sanctity of Purpose (Purifier Squad only): re-roll a Wound roll of 1 is
-  // always on; upgrades to re-roll any failed Wound roll near an objective.
-  const rerolls: RerollFlags | undefined = unit.hasSanctityOfPurpose
-    ? {
-        ...baseRerolls,
-        woundRerollOnes: true,
-        woundRerollAllFailed: scenario.nearObjective || undefined,
-      }
-    : baseRerolls;
+  const rerolls = unitRerolls(unit, scenario);
+  const { woundMod, apReduction, damageReduction } = defensiveMods(target);
 
   const focusedImmolationEligible = scenario.focusedImmolationActive && !!unit.isPurgationSquad;
   const bonusSustainedHits =
@@ -108,17 +149,26 @@ export function buildShootingEngagements(
       // Champion of the Order of Purifiers: +1 Attacks to every Purifying
       // Flame weapon in the unit Crowe is leading — including his own.
       const attacksBonus = unit.hasChampionOfPurifiers && weapon.name === "Purifying Flame" ? 1 : undefined;
+      // Cover: -1 to the Hit roll of ranged attacks against a target with the
+      // benefit of cover, unless the weapon has [IGNORES COVER] — 11e rule
+      // (10e instead gave the defender a save bonus; this app targets 11e,
+      // so it must be a hit-roll penalty, not a save change). Ranged only —
+      // cover doesn't affect melee, so this never applies in
+      // `buildMeleeEngagements` below.
+      const hitMod = target.hasCover && !weapon.keywords.ignoresCover ? -1 : 0;
       const ctx: AttackContext = {
         numAttackingModels: loadout.count,
         weapon,
         target,
         halfRange: scenario.halfRange,
-        hitMod: 0,
-        woundMod: 0,
+        hitMod,
+        woundMod,
         strengthBonus,
         attacksBonus,
         bonusSustainedHits: bonusSustainedHits > 0 ? bonusSustainedHits : undefined,
         grantDevastatingWounds: focusedImmolationEligible,
+        apReduction,
+        damageReduction,
       };
       engagements.push({ weaponLabel: `${weapon.name} (${loadout.label})`, ctx, rerolls });
     }
@@ -133,23 +183,30 @@ export function buildMeleeEngagements(
   scenario: ScenarioFlags
 ): WeaponEngagement[] {
   const engagements: WeaponEngagement[] = [];
-  const rerolls = furyOfTitanRerolls(scenario);
+  const rerolls = unitRerolls(unit, scenario);
+  const { woundMod, apReduction, damageReduction } = defensiveMods(target);
 
   for (const loadout of unit.loadouts) {
     if (!loadout.meleeWeapon) continue;
     const weapon = WEAPONS[loadout.meleeWeapon];
     if (!weapon) continue;
-    // Truesilver Channelling: Devastating Wounds for PSYCHIC weapons in a GK Infantry unit fighting.
-    const grantDevastatingWounds = scenario.truesilverChannellingActive && !!weapon.isPsychic;
+    // Truesilver Channelling: Devastating Wounds for PSYCHIC weapons in a GK
+    // Infantry unit fighting — gated on INFANTRY too, not just the weapon
+    // being Psychic (e.g. the Dreadknight's greathammer is Psychic, but the
+    // Dreadknight itself is MONSTER, not INFANTRY, so it doesn't qualify).
+    const grantDevastatingWounds =
+      scenario.truesilverChannellingActive && unit.keywords.includes("INFANTRY") && !!weapon.isPsychic;
     const ctx: AttackContext = {
       numAttackingModels: loadout.count,
       weapon,
       target,
       halfRange: false,
       hitMod: 0,
-      woundMod: 0,
+      woundMod,
       strengthBonus: 0,
       grantDevastatingWounds,
+      apReduction,
+      damageReduction,
     };
     engagements.push({ weaponLabel: `${weapon.name} (${loadout.label})`, ctx, rerolls });
   }

@@ -32,6 +32,23 @@ function stdDev(values: number[], avg: number): number {
   return Math.sqrt(variance);
 }
 
+function mode(values: number[]): number {
+  const counts = new Map<number, number>();
+  for (const v of values) {
+    const key = Math.round(v);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  let bestKey = 0;
+  let bestCount = -1;
+  for (const [key, count] of counts) {
+    if (count > bestCount) {
+      bestCount = count;
+      bestKey = key;
+    }
+  }
+  return bestKey;
+}
+
 function summarize(
   label: string,
   iterations: number,
@@ -47,6 +64,7 @@ function summarize(
     iterations,
     meanDamage: avgDamage,
     medianDamage: median(sortedDamage),
+    modeDamage: mode(damages),
     stdDevDamage: stdDev(damages, avgDamage),
     p10: percentile(sortedDamage, 10),
     p25: percentile(sortedDamage, 25),
@@ -78,6 +96,51 @@ export function runSimulation(ctx: AttackContext, options: RunOptions): Simulati
   }
 
   return summarize(options.label, iterations, damages, modelsKilledList, woundsRemainingList, wipes);
+}
+
+export interface WeaponBreakdownSummary {
+  label: string;
+  iterations: number;
+  meanAttacks: number;
+  meanHits: number;
+  meanWoundsDealt: number;
+  meanUnsavedWounds: number;
+  meanDamage: number;
+}
+
+/** Full attack-sequence stage breakdown for one weapon fired alone — Attacks
+ * → Hits → Wounds Dealt → Unsaved Wounds → Damage Dealt, matching the
+ * "Weapon Results" table format used elsewhere in the hobby's mathhammer
+ * tools, so a weapon's profile can be compared stage-by-stage rather than
+ * as a single collapsed number. */
+export function runWeaponBreakdown(ctx: AttackContext, options: RunOptions): WeaponBreakdownSummary {
+  const iterations = options.iterations ?? 10000;
+  const rng = makeRng(options.seed ?? 12345);
+
+  let attacks = 0;
+  let hits = 0;
+  let woundsDealt = 0;
+  let unsavedWounds = 0;
+  let damage = 0;
+
+  for (let i = 0; i < iterations; i++) {
+    const result = simulateEngagement(ctx, rng, options.rerolls);
+    attacks += result.totalAttacks;
+    hits += result.hits;
+    woundsDealt += result.woundsDealt;
+    unsavedWounds += result.unsavedWounds;
+    damage += result.damageDealt;
+  }
+
+  return {
+    label: options.label,
+    iterations,
+    meanAttacks: attacks / iterations,
+    meanHits: hits / iterations,
+    meanWoundsDealt: woundsDealt / iterations,
+    meanUnsavedWounds: unsavedWounds / iterations,
+    meanDamage: damage / iterations,
+  };
 }
 
 /** Run a full unit's combined weapons (shared target pool) across N Monte Carlo iterations. */

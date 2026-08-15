@@ -1,5 +1,5 @@
 import type { TargetUnit } from "../engine/types";
-import { runSimulation, runUnitPhaseSimulation } from "../engine/simulate";
+import { runWeaponBreakdown, runUnitPhaseSimulation } from "../engine/simulate";
 import { ROSTER, type UnitDefinition } from "./roster";
 import {
   buildEngagementsForScenario,
@@ -12,6 +12,21 @@ import type { SimulationSummary } from "../engine/types";
 
 export type SortKey = "kill" | "avgDamage" | "damagePerPoint";
 
+/** One weapon's full attack-sequence breakdown, fired alone at a fresh
+ * (uncapped-wounds) target — Attacks/Hits/Wounds Dealt/Unsaved Wounds match
+ * the hobby's standard "Weapon Results" table format; `avg` (Damage Dealt)
+ * is deliberately uncapped by the target's real wound pool (see
+ * `uncapTargetWounds`), so it reflects the weapon's raw output rather than
+ * how much of that gets used once overkill/model-death is considered. */
+export interface WeaponBreakdownRow {
+  label: string;
+  attacks: number;
+  hits: number;
+  woundsDealt: number;
+  unsavedWounds: number;
+  avg: number;
+}
+
 export interface RankedOption {
   unitId: string;
   unitName: string;
@@ -19,7 +34,7 @@ export interface RankedOption {
   mode: "shooting" | "melee";
   scenarioLabel: string;
   summary: SimulationSummary;
-  damageByWeapon: { label: string; avg: number }[];
+  damageByWeapon: WeaponBreakdownRow[];
 }
 
 export interface CombinationOption {
@@ -49,6 +64,22 @@ const COMBO_ITERATIONS = 1200;
  * try to). Lower iteration count since this is informational, not the
  * primary ranking metric. */
 const SOLO_WEAPON_ITERATIONS = 400;
+/** Effectively-infinite per-model wounds, used only to compute the
+ * "Damage Dealt" weapon breakdown figure below. That figure is meant to
+ * answer "how much damage does this weapon roll per unsaved wound" (its raw
+ * output — full Melta bonus, full D6+X roll, etc.), not "how much of that
+ * ends up actually applied to a model with only N wounds." Simulating
+ * against a target whose models can never run out of wounds means the
+ * engine's normal overkill cap (excess damage from a single attack doesn't
+ * carry to another model — see `applyDamageToPool`) never triggers, so the
+ * full rolled damage always comes through. Kill-count/"Models Slain" stats
+ * are computed separately, against the real target, and correctly keep that
+ * cap — this only ever affects the weapon-breakdown display number. */
+const UNCAPPED_WOUNDS = 1_000_000;
+
+function uncapTargetWounds(target: TargetUnit): TargetUnit {
+  return { ...target, groups: target.groups.map((g) => ({ ...g, wounds: UNCAPPED_WOUNDS })) };
+}
 /** How many of the best single units (by avg damage) to draw combinations from — bounds
  * combinatorial blow-up (C(6,2)+C(6,3) = 35 combos) while still covering the units most
  * likely to matter for a joint-fire recommendation. */
@@ -64,15 +95,24 @@ interface BestPerUnit {
 
 export function computeBestWayToKillIt(
   target: TargetUnit,
-  options: { iterations?: number; comboIterations?: number; settings?: DamageSettings } = {}
+  options: {
+    iterations?: number;
+    comboIterations?: number;
+    /** Resolves each ROSTER unit's own stratagem/rule toggles — settings are
+     * per-unit, not one global set applied to everything. Defaults every
+     * unit to DEFAULT_DAMAGE_SETTINGS (all off) when omitted. */
+    getUnitSettings?: (unitId: string) => DamageSettings;
+  } = {}
 ): BestWayToKillItResult {
   const iterations = options.iterations ?? DEFAULT_ITERATIONS;
   const comboIterations = options.comboIterations ?? COMBO_ITERATIONS;
-  const settings = options.settings ?? DEFAULT_DAMAGE_SETTINGS;
+  const getUnitSettings = options.getUnitSettings ?? (() => DEFAULT_DAMAGE_SETTINGS);
   const results: RankedOption[] = [];
   const bestPerUnit = new Map<string, BestPerUnit>();
+  const uncappedTarget = uncapTargetWounds(target);
 
   for (const unit of ROSTER as UnitDefinition[]) {
+    const settings = getUnitSettings(unit.id);
     for (const { mode, scenario, label } of unitScenarios(unit, settings)) {
       const engagements = buildEngagementsForScenario(unit, target, mode, scenario);
       if (engagements.length === 0) continue;
@@ -87,14 +127,25 @@ export function computeBestWayToKillIt(
         mode,
         scenarioLabel: label,
         summary,
-        damageByWeapon: engagements.map((e) => ({
-          label: e.weaponLabel,
-          avg: runSimulation(e.ctx, {
+        // Raw per-weapon breakdown: same weapon/rerolls, but fired at an
+        // uncapped-wounds clone of the target so overkill never eats into
+        // the figures (see `uncapTargetWounds` above) — this is "what does
+        // this weapon roll," not "what does it get to keep."
+        damageByWeapon: engagements.map((e) => {
+          const breakdown = runWeaponBreakdown({ ...e.ctx, target: uncappedTarget }, {
             label: e.weaponLabel,
             iterations: Math.min(iterations, SOLO_WEAPON_ITERATIONS),
             rerolls: e.rerolls,
-          }).meanDamage,
-        })),
+          });
+          return {
+            label: e.weaponLabel,
+            attacks: breakdown.meanAttacks,
+            hits: breakdown.meanHits,
+            woundsDealt: breakdown.meanWoundsDealt,
+            unsavedWounds: breakdown.meanUnsavedWounds,
+            avg: breakdown.meanDamage,
+          };
+        }),
       };
       results.push(option);
 

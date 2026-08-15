@@ -38,6 +38,55 @@
   margin-bottom: 12px;
 }
 
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  margin: -4px -4px 0;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.card-header:hover {
+  background: var(--accent-bg);
+}
+
+.card-header h2 {
+  margin-bottom: 0;
+}
+
+.card-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.card-header-badge {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.collapse-caret {
+  display: inline-block;
+  color: var(--text-dim);
+  font-size: 13px;
+  transition: transform 0.15s ease;
+}
+
+.collapse-caret.open {
+  transform: rotate(90deg);
+}
+
+/* When a section is open, its header still needs the same bottom margin the
+   old plain `<h2>` had before the body content — collapsed, there's no body
+   to separate from, so no margin is needed. */
+.card-header:has(+ *) {
+  margin-bottom: 12px;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -142,6 +191,19 @@
   white-space: nowrap;
 }
 
+.unit-stratagem-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.unit-stratagem-row:last-child {
+  border-bottom: none;
+}
+
+.unit-stratagem-row .option-name {
+  margin-bottom: 4px;
+}
+
 .auto-unit-block {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -174,6 +236,48 @@
   padding: 4px 0;
 }
 
+.counter-row {
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+}
+
+.counter-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.inline-stratagem-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  padding: 2px 0 4px;
+}
+
+.inline-stratagem-toggles .checkbox-row {
+  margin-top: 0;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.defensive-toggle-row {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  background: var(--bg);
+}
+
+.defensive-toggle-label {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+
 .auto-combo-row {
   border-top: 1px dashed var(--border);
   margin-top: 4px;
@@ -198,7 +302,10 @@
   padding: 2px 6px 6px;
 }
 
-.auto-weapon-breakdown div {
+/* Scoped to direct rows only (not `.auto-weapon-breakdown div`, which used to
+   match every div at any depth — including inside `.final-damage`, flattening
+   its title/bar/rows into one unreadable horizontal flex line). */
+.auto-combo-members > div {
   display: flex;
   justify-content: space-between;
   padding: 1px 0;
@@ -263,6 +370,16 @@
   flex: 1;
 }
 
+/* My own army's unit names specifically (Purifier Squad, GMND, Purgation,
+   etc.) — a stronger accent treatment than the generic `.option-name` (which
+   is also used for opponent-unit headers), so my units are easy to pick out
+   at a glance while scanning a card full of numbers. */
+.my-unit-name {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 15px;
+}
+
 .option-scenario {
   font-size: 12px;
   color: var(--text-dim);
@@ -297,6 +414,61 @@
   font-size: 13px;
 }
 
+.final-damage {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  background: var(--accent-bg);
+}
+
+.final-damage-title {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.final-damage-bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.final-damage-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), #38bdf8);
+}
+
+.final-damage-rows div {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-top: 1px dashed var(--border);
+  font-size: 13px;
+}
+
+.final-damage-rows div:first-child {
+  border-top: none;
+}
+
+.hint {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--text-dim);
+  font-size: 10px;
+  cursor: help;
+}
+
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -314,6 +486,69 @@
   display: flex;
   justify-content: space-between;
   padding: 2px 0;
+}
+
+.weapon-breakdown-table {
+  overflow-x: auto;
+  margin: 6px 0 4px;
+  font-size: 12px;
+}
+
+.weapon-breakdown-row {
+  display: grid;
+  grid-template-columns: 1.6fr 0.8fr 0.8fr 1fr 1.1fr 1fr;
+  gap: 6px;
+  padding: 4px 6px;
+  min-width: 480px;
+}
+
+.weapon-breakdown-row:not(.weapon-breakdown-header):nth-child(even) {
+  background: var(--accent-bg);
+  border-radius: 4px;
+}
+
+.weapon-breakdown-header {
+  color: var(--text-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+
+.weapon-breakdown-row span:not(:first-child) {
+  text-align: right;
+}
+
+.sequencing-panel {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.sequencing-order {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+
+.sequencing-order-title {
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.sequencing-order ol {
+  margin: 0 0 6px;
+  padding-left: 18px;
+  font-size: 13px;
+}
+
+.sequencing-order li {
+  padding: 1px 0;
 }
 
 .empty-state {

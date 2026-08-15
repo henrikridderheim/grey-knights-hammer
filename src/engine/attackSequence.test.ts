@@ -225,4 +225,246 @@ describe("attack sequence — analytical sanity checks", () => {
     expect(ratio).toBeGreaterThan(1.85);
     expect(ratio).toBeLessThan(2.15);
   });
+
+  describe("defensive toggles (-1 Wound / -1 Damage / -1 AP)", () => {
+    it("-1 to Wound worsens the wound roll needed by one step (S4vT4 4+ becomes effectively 5+)", () => {
+      const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 4 }); // S4vT4 = 4+ to wound = 3/6
+      const target = makeTarget({ save: 7, toughness: 4, wounds: 10_000_000, count: 1 });
+      const base = baseCtx({ weapon, target });
+      const debuffed = baseCtx({ weapon, target, woundMod: -1 });
+      const rBase = runSimulation(base, { label: "wound-mod-off", iterations: 100 });
+      const rDebuffed = runSimulation(debuffed, { label: "wound-mod-on", iterations: 100 });
+      // 4+ (3/6) -> effectively 5+ (2/6): ratio ≈ 2/3.
+      const ratio = rDebuffed.meanDamage / rBase.meanDamage;
+      expect(ratio).toBeGreaterThan(0.55);
+      expect(ratio).toBeLessThan(0.78);
+    });
+
+    it("-1 to Wound never stops a natural 6 from auto-succeeding, even against an already-6+-to-wound target", () => {
+      // S1 vs T100: S*2 (2) is not > T, so this is already the worst case, 6+ to wound.
+      const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 1 });
+      const target = makeTarget({ save: 7, toughness: 100, wounds: 10_000_000, count: 1 });
+      const ctx = baseCtx({ weapon, target, woundMod: -1 });
+      const result = runSimulation(ctx, { label: "wound-mod-floor", iterations: 100 });
+      // Hits ≈ attacks * 5/6 (nat1 excluded); of those, only a natural 6 (1/6) wounds regardless of -1.
+      const expectedDamage = 10000 * (5 / 6) * (1 / 6);
+      expect(result.meanDamage).toBeGreaterThan(expectedDamage * 0.85);
+      expect(result.meanDamage).toBeLessThan(expectedDamage * 1.15);
+    });
+
+    it("-1 to Damage reduces resolved damage per unsaved wound, floored at 1 (never reaches 0)", () => {
+      // Damage 1 flat: reducing by 1 would naively give 0, but the floor keeps it at 1 —
+      // so with-vs-without should show NO difference here.
+      const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 10, damage: 1 });
+      const target = makeTarget({ save: 7, toughness: 1, wounds: 10_000_000, count: 1 });
+      const base = baseCtx({ weapon, target });
+      const debuffed = baseCtx({ weapon, target, damageReduction: 1 });
+      const rBase = runSimulation(base, { label: "dmg-floor-off", iterations: 100 });
+      const rDebuffed = runSimulation(debuffed, { label: "dmg-floor-on", iterations: 100 });
+      const ratio = rDebuffed.meanDamage / rBase.meanDamage;
+      expect(ratio).toBeGreaterThan(0.9);
+      expect(ratio).toBeLessThan(1.1);
+    });
+
+    it("-1 to Damage reduces a Damage-2 weapon's output by roughly half (2 -> 1 per unsaved wound)", () => {
+      const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 10, damage: 2 });
+      const target = makeTarget({ save: 7, toughness: 1, wounds: 10_000_000, count: 1 });
+      const base = baseCtx({ weapon, target });
+      const debuffed = baseCtx({ weapon, target, damageReduction: 1 });
+      const rBase = runSimulation(base, { label: "dmg-half-off", iterations: 100 });
+      const rDebuffed = runSimulation(debuffed, { label: "dmg-half-on", iterations: 100 });
+      const ratio = rDebuffed.meanDamage / rBase.meanDamage;
+      expect(ratio).toBeGreaterThan(0.4);
+      expect(ratio).toBeLessThan(0.6);
+    });
+
+    it("-1 to AP makes the save easier (AP2 effectively becomes AP1)", () => {
+      const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 10, ap: 2, damage: 1 });
+      const target = makeTarget({ save: 3, toughness: 1, wounds: 10_000_000, count: 1 }); // Sv3+, AP2 -> armor 5+
+      const base = baseCtx({ weapon, target });
+      const debuffed = baseCtx({ weapon, target, apReduction: 1 });
+      const rBase = runSimulation(base, { label: "ap-reduce-off", iterations: 100 });
+      const rDebuffed = runSimulation(debuffed, { label: "ap-reduce-on", iterations: 100 });
+      // Save 5+ (fails 4/6) -> effectively save 4+ (fails 3/6): damage ratio ≈ 3/4.
+      const ratio = rDebuffed.meanDamage / rBase.meanDamage;
+      expect(ratio).toBeGreaterThan(0.65);
+      expect(ratio).toBeLessThan(0.85);
+    });
+
+    it("-1 to AP cannot improve an already-AP0 attack (floored at 0, no advantage granted)", () => {
+      const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 10, ap: 0, damage: 1 });
+      const target = makeTarget({ save: 3, toughness: 1, wounds: 10_000_000, count: 1 });
+      const base = baseCtx({ weapon, target });
+      const debuffed = baseCtx({ weapon, target, apReduction: 1 });
+      const rBase = runSimulation(base, { label: "ap-floor-off", iterations: 100 });
+      const rDebuffed = runSimulation(debuffed, { label: "ap-floor-on", iterations: 100 });
+      const ratio = rDebuffed.meanDamage / rBase.meanDamage;
+      expect(ratio).toBeGreaterThan(0.9);
+      expect(ratio).toBeLessThan(1.1);
+    });
+
+    it("all three stack together", () => {
+      const weapon = makeWeapon({ attacks: 10000, skill: 2, strength: 4, ap: 2, damage: 2 });
+      const target = makeTarget({ save: 3, toughness: 4, wounds: 10_000_000, count: 1 });
+      const base = baseCtx({ weapon, target });
+      const stacked = baseCtx({ weapon, target, woundMod: -1, apReduction: 1, damageReduction: 1 });
+      const rBase = runSimulation(base, { label: "stack-off", iterations: 100 });
+      const rStacked = runSimulation(stacked, { label: "stack-on", iterations: 100 });
+      // Each individual effect reduces damage on its own; combined should be meaningfully lower
+      // than any single one of them (roughly 0.5-0.7 * 0.75-0.85 * 0.5, well under 0.5 overall).
+      const ratio = rStacked.meanDamage / rBase.meanDamage;
+      expect(ratio).toBeGreaterThan(0.15);
+      expect(ratio).toBeLessThan(0.5);
+    });
+  });
+
+  describe("reroll timing vs. modifiers (11e core rule: rerolls happen before modifiers)", () => {
+    it("twin-linked + a wound modifier: reroll eligibility is decided on the RAW roll, not the modified one", () => {
+      // S9 vs T5 = 3+ base wound threshold (S>T, not >=2T). Twin-linked +
+      // -1 to Wound. Correct sequencing: raw roll of 3 counts as a RAW PASS
+      // (3 >= 3), so it is NOT eligible for a twin-linked reroll — the -1 is
+      // then applied to that same roll, making it fail (2 < 3), but no
+      // reroll happens. A roll of 1 or 2 raw-fails and DOES reroll.
+      // P(correct) = P(raw pass, survives or not after -1) + P(raw fail, reroll, then -1 applied to the new roll)
+      //   raw pass rolls {3,4,5,6} (4/6): after -1, only {4,5,6} (3/6 of all) still pass; roll=3 becomes a final fail, no reroll.
+      //   raw fail rolls {1,2} (2/6): reroll once, new roll r' — final success needs r'-1>=3 i.e. r' in {4,5,6} (3/6).
+      //   total = 3/6 + (2/6)(3/6) = 3/6 + 1/6 = 4/6 ≈ 0.667.
+      // The bug this guards against: deciding reroll on the MODIFIED result
+      // instead would also reroll a raw-passing roll of 3 (since 3-1=2 fails
+      // the modified check), giving it a second chance it isn't entitled to
+      // — inflating P(success) to 0.75 instead of the correct 0.667.
+      const weapon = makeWeapon({ attacks: 100000, skill: 2, strength: 9, keywords: { twinLinked: true } });
+      const target = makeTarget({ save: 7, toughness: 5, wounds: 10_000_000, count: 1 });
+      const ctx = baseCtx({ weapon, target, woundMod: -1 });
+      const result = runSimulation(ctx, { label: "reroll-timing", iterations: 60 });
+      const hitRate = 5 / 6; // BS2+, nat1 auto-fails
+      const correctWoundRate = 4 / 6;
+      const buggyWoundRate = 0.75;
+      const expectedCorrect = 100000 * hitRate * correctWoundRate;
+      const expectedBuggy = 100000 * hitRate * buggyWoundRate;
+      // Within 10% of the correct value...
+      expect(result.meanDamage).toBeGreaterThan(expectedCorrect * 0.9);
+      expect(result.meanDamage).toBeLessThan(expectedCorrect * 1.1);
+      // ...and clearly below the (higher) buggy value, not just close to it.
+      expect(result.meanDamage).toBeLessThan(expectedBuggy * 0.95);
+    });
+
+    it("reroll-all-failed-wounds (Sanctity of Purpose near objective) has the same fix applied", () => {
+      const weapon = makeWeapon({ attacks: 100000, skill: 2, strength: 9 }); // S9vT5 = 3+, no twin-linked
+      const target = makeTarget({ save: 7, toughness: 5, wounds: 10_000_000, count: 1 });
+      const ctx = baseCtx({ weapon, target, woundMod: -1 });
+      const result = runSimulation(ctx, {
+        label: "reroll-all-timing",
+        iterations: 60,
+        rerolls: { woundRerollAllFailed: true },
+      });
+      const hitRate = 5 / 6;
+      const correctWoundRate = 4 / 6; // identical math to the twin-linked case above
+      const buggyWoundRate = 0.75;
+      const expectedCorrect = 100000 * hitRate * correctWoundRate;
+      const expectedBuggy = 100000 * hitRate * buggyWoundRate;
+      expect(result.meanDamage).toBeGreaterThan(expectedCorrect * 0.9);
+      expect(result.meanDamage).toBeLessThan(expectedCorrect * 1.1);
+      expect(result.meanDamage).toBeLessThan(expectedBuggy * 0.95);
+    });
+
+    it("plain re-roll-wound-1s is unaffected by the fix (it was already correct — gated on the raw roll value directly)", () => {
+      const weapon = makeWeapon({ attacks: 100000, skill: 2, strength: 4 }); // S4vT4 = 4+ = 3/6 base
+      const target = makeTarget({ save: 7, toughness: 4, wounds: 10_000_000, count: 1 });
+      const ctx = baseCtx({ weapon, target });
+      const result = runSimulation(ctx, {
+        label: "reroll-ones-unaffected",
+        iterations: 100,
+        rerolls: { woundRerollOnes: true },
+      });
+      // 4+ base (3/6), reroll only a natural 1: 3/6 + (1/6)(3/6) = 3/6 + 1/12 = 7/12 ≈ 0.583.
+      const hitRate = 5 / 6;
+      const expected = 100000 * hitRate * (7 / 12);
+      expect(result.meanDamage).toBeGreaterThan(expected * 0.9);
+      expect(result.meanDamage).toBeLessThan(expected * 1.1);
+    });
+  });
+
+  describe("cover (-1 to Hit for ranged attacks, 11e rule — was previously unwired entirely)", () => {
+    it("a target in cover reduces the attacker's hit roll by 1", () => {
+      const weapon = makeWeapon({ attacks: 100000, skill: 3 }); // BS3+ = 4/6 base
+      const targetNoCover = makeTarget({ save: 7, wounds: 10_000_000, count: 1 });
+      const targetInCover: TargetUnit = { ...targetNoCover, hasCover: true };
+      const rNoCover = runSimulation(baseCtx({ weapon, target: targetNoCover }), {
+        label: "cover-off",
+        iterations: 60,
+      });
+      const rInCover = runSimulation(baseCtx({ weapon, target: targetInCover, hitMod: -1 }), {
+        label: "cover-on",
+        iterations: 60,
+      });
+      // 3+ (4/6) -> effectively 4+ (3/6): ratio should be ~0.75.
+      const ratio = rInCover.meanDamage / rNoCover.meanDamage;
+      expect(ratio).toBeGreaterThan(0.65);
+      expect(ratio).toBeLessThan(0.85);
+    });
+
+    it("cover never turns a natural 1 into a hit, and never stops a natural 6 from hitting", () => {
+      // BS2+ with -1 to hit still only needs a modified 2+, i.e. an unmodified
+      // 3+ — natural 1 must still always miss regardless.
+      const weapon = makeWeapon({ attacks: 100000, skill: 2 });
+      const target = makeTarget({ save: 7, wounds: 10_000_000, count: 1 });
+      const result = runSimulation(baseCtx({ weapon, target, hitMod: -1 }), {
+        label: "cover-floor",
+        iterations: 60,
+      });
+      // Modified-3+ needed (rolls 3,4,5 pass at BS2+ with -1) plus natural 6 always hits: {3,4,5,6} = 4/6.
+      const expected = 100000 * (4 / 6) * (3 / 6); // x wound rate S4vT4=4+=3/6
+      expect(result.meanDamage).toBeGreaterThan(expected * 0.9);
+      expect(result.meanDamage).toBeLessThan(expected * 1.1);
+    });
+  });
+
+  describe("attached Character exposure once the Bodyguard is wiped (was previously a bug: damage past the Bodyguard's wound pool was silently discarded, so the Character could never die without a Precision weapon)", () => {
+    const attachedTarget: TargetUnit = {
+      name: "Bodyguard + Character",
+      isAttached: true,
+      hasCover: false,
+      modelCountForBlast: 2,
+      keywords: [],
+      groups: [
+        { label: "Bodyguard", count: 1, toughness: 1, save: 7, wounds: 1 },
+        { label: "Character", count: 1, toughness: 1, save: 7, wounds: 1, isAttachedCharacter: true },
+      ],
+    };
+    // Massive overkill (20 attacks vs. a 2-wound total unit) at guaranteed-ish
+    // hit/wound/no-save so the Bodyguard's single wound is spent almost
+    // immediately and most of the damage has somewhere else to go.
+    const weapon = makeWeapon({ attacks: 20, skill: 2, strength: 20, ap: 0, damage: 1 });
+
+    it("lets damage carry over to kill the Character once the Bodyguard is dead (non-Precision, normal targeting)", () => {
+      const result = runSimulation(baseCtx({ weapon, target: attachedTarget }), {
+        label: "attached-exposure",
+        iterations: 300,
+      });
+      // Before the fix this was exactly 0 in every iteration — normal damage
+      // only ever looked at nonCharPools, so once the Bodyguard died the rest
+      // of that phase's damage vanished instead of reaching the Character.
+      expect(result.killProbability).toBeGreaterThan(0.8);
+    });
+
+    it("still protects the Character while the Bodyguard has models remaining", () => {
+      const twoBodyguards: TargetUnit = {
+        ...attachedTarget,
+        modelCountForBlast: 3,
+        groups: [
+          { label: "Bodyguard", count: 2, toughness: 1, save: 7, wounds: 1 },
+          { label: "Character", count: 1, toughness: 1, save: 7, wounds: 1, isAttachedCharacter: true },
+        ],
+      };
+      // A single attack (one wound at most) can never reach past a 2-model
+      // Bodyguard to the Character — this should stay exactly as before.
+      const oneShotWeapon = makeWeapon({ attacks: 1, skill: 2, strength: 20, ap: 0, damage: 1 });
+      const result = runSimulation(baseCtx({ weapon: oneShotWeapon, target: twoBodyguards }), {
+        label: "attached-still-protected",
+        iterations: 300,
+      });
+      expect(result.killProbability).toBe(0);
+    });
+  });
 });
