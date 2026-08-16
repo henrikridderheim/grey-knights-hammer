@@ -30,9 +30,10 @@ function bestScenarioForMode(
   unit: UnitDefinition,
   target: TargetUnit,
   settings: DamageSettings,
-  mode: "shooting" | "melee"
+  mode: "shooting" | "melee",
+  halfRange?: boolean
 ): { damage: number; scenarioLabel: string; modelsKilled: number } {
-  const scenarios = unitScenarios(unit, settings).filter((s) => s.mode === mode);
+  const scenarios = unitScenarios(unit, settings, halfRange).filter((s) => s.mode === mode);
   let best = { damage: 0, scenarioLabel: "—", modelsKilled: 0 };
   for (const { mode: m, scenario, label } of scenarios) {
     const engagements = buildEngagementsForScenario(unit, target, m, scenario);
@@ -77,11 +78,12 @@ export function computeUnitCounterEntry(
   unitId: string,
   target: TargetUnit,
   settings: DamageSettings,
-  mode: "shooting" | "melee"
+  mode: "shooting" | "melee",
+  halfRange?: boolean
 ): CounterRankedUnit | null {
   const unit = (ROSTER as UnitDefinition[]).find((u) => u.id === unitId);
   if (!unit) return null;
-  const { damage, scenarioLabel, modelsKilled } = bestScenarioForMode(unit, target, settings, mode);
+  const { damage, scenarioLabel, modelsKilled } = bestScenarioForMode(unit, target, settings, mode, halfRange);
   return {
     unitId: unit.id,
     unitName: unit.name,
@@ -129,10 +131,11 @@ const ALWAYS_SHOW_SHOOTING_UNIT_IDS = ["purgation-squad-a", "purgation-squad-b",
 function rankForMode(
   target: TargetUnit,
   mode: "shooting" | "melee",
-  resolveSettings: (unitId: string) => DamageSettings
+  resolveSettings: (unitId: string) => DamageSettings,
+  halfRange?: boolean
 ): CounterRankedUnit[] {
   const scores: CounterRankedUnit[] = (ROSTER as UnitDefinition[]).map((u) => {
-    const { damage, scenarioLabel, modelsKilled } = bestScenarioForMode(u, target, resolveSettings(u.id), mode);
+    const { damage, scenarioLabel, modelsKilled } = bestScenarioForMode(u, target, resolveSettings(u.id), mode, halfRange);
     return {
       unitId: u.id,
       unitName: u.name,
@@ -166,11 +169,14 @@ export interface PhaseCounterMatchups {
  * calculation for the same unit can carry entirely independent toggles. */
 export function computeTopCounters(
   target: TargetUnit,
-  getUnitSettings?: (unitId: string, mode: "shooting" | "melee") => DamageSettings
+  getUnitSettings?: (unitId: string, mode: "shooting" | "melee") => DamageSettings,
+  halfRange?: boolean
 ): PhaseCounterMatchups {
   const resolve = getUnitSettings ?? (() => DEFAULT_DAMAGE_SETTINGS);
   return {
-    shooting: rankForMode(target, "shooting", (id) => resolve(id, "shooting")),
+    // Half range only ever affects shooting (Rapid Fire / Melta); melee is
+    // range-agnostic, so the override is deliberately not passed there.
+    shooting: rankForMode(target, "shooting", (id) => resolve(id, "shooting"), halfRange),
     melee: rankForMode(target, "melee", (id) => resolve(id, "melee")),
   };
 }

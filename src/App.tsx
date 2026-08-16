@@ -291,6 +291,29 @@ function DefensiveToggleRow({
   );
 }
 
+/** Manual half-range toggle for a whole calculation card — forces the
+ * Rapid Fire / Melta range band on (half range) or off (full range) instead
+ * of the app auto-showing both bands as separate options. Shooting-only:
+ * melee is range-agnostic, so this row is never rendered in melee sections.
+ * Styled as its own group, distinct from the offensive and defensive toggles,
+ * so it's clear it's a range setting. */
+function HalfRangeToggleRow({
+  value,
+  onToggle,
+}: {
+  value: boolean;
+  onToggle: (value: boolean) => void;
+}) {
+  return (
+    <div className="inline-stratagem-toggles half-range-toggle-row">
+      <label className="checkbox-row">
+        <input type="checkbox" checked={value} onChange={(e) => onToggle(e.target.checked)} />
+        Half range (Rapid Fire / Melta bonus)
+      </label>
+    </div>
+  );
+}
+
 /** Total wounds across every model in the target — the "expected result"
  * needed to fully wipe it, shown as the reference point in the Final Damage
  * breakdown. */
@@ -507,6 +530,8 @@ function CounterUnitBlock({
   onToggleCalcStratagem,
   defensiveSettings,
   onToggleDefensive,
+  halfRange,
+  onToggleHalfRange,
 }: {
   result: CounterUnitResult;
   counters: CounterRankedUnit[];
@@ -521,6 +546,10 @@ function CounterUnitBlock({
   ) => void;
   defensiveSettings: DefensiveSettings;
   onToggleDefensive: (key: keyof DefensiveSettings, value: boolean) => void;
+  /** Half-range toggle — only wired for the Shooting section; omitted in
+   * Melee, where range doesn't apply. */
+  halfRange?: boolean;
+  onToggleHalfRange?: (value: boolean) => void;
 }) {
   return (
     <div className="auto-unit-block">
@@ -533,6 +562,9 @@ function CounterUnitBlock({
       </div>
       <div className="section-note">{formatTargetStatline(result.target)}</div>
       <DefensiveToggleRow settings={defensiveSettings} onToggle={onToggleDefensive} />
+      {mode === "shooting" && onToggleHalfRange && (
+        <HalfRangeToggleRow value={!!halfRange} onToggle={onToggleHalfRange} />
+      )}
       {counters.length === 0 && <div className="empty-state">No viable attack options found.</div>}
       {counters.map((c, i) => {
         const unit = (ROSTER as UnitDefinition[]).find((u) => u.id === c.unitId);
@@ -713,6 +745,14 @@ function App() {
   const getDefensiveSettings = (opponentKey: string): DefensiveSettings =>
     defensiveSettings[opponentKey] ?? DEFAULT_DEFENSIVE_SETTINGS;
 
+  // Manual half-range toggle — one per OPPONENT UNIT (shared between that
+  // unit's "Best way to kill" card and its "Opponent matchups — Shooting"
+  // card, the same way defensive settings are shared). Default false = full
+  // range; true forces the Rapid Fire / Melta half-range band. Only affects
+  // shooting calculations.
+  const [halfRangeByOpponent, setHalfRangeByOpponent] = useState<Record<string, boolean>>({});
+  const getHalfRange = (opponentKey: string): boolean => halfRangeByOpponent[opponentKey] ?? false;
+
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
   };
@@ -737,10 +777,17 @@ function App() {
       [key]: value,
     };
     setCalcSettings((prev) => ({ ...prev, [settingsKey]: nextUnitSettings }));
+    const halfRange = getHalfRange(opponentKey);
     setCounterResults((prev) =>
       prev.map((result) => {
         if (result.key !== opponentKey) return result;
-        const updatedEntry = computeUnitCounterEntry(unitId, result.target, nextUnitSettings, mode);
+        const updatedEntry = computeUnitCounterEntry(
+          unitId,
+          result.target,
+          nextUnitSettings,
+          mode,
+          mode === "shooting" ? halfRange : undefined
+        );
         if (!updatedEntry) return result;
         const list = mode === "shooting" ? result.shooting : result.melee;
         // In-place replace only — no sort — so this row's position (and every
@@ -771,10 +818,12 @@ function App() {
       [key]: value,
     };
     setAutoCalcSettings((prev) => ({ ...prev, [settingsKey]: nextUnitSettings }));
-    const outcome = computeBestWayToKillIt(target, {
+    const targetWithDefenses: TargetUnit = { ...target, defensiveSettings: getDefensiveSettings(opponentKey) };
+    const outcome = computeBestWayToKillIt(targetWithDefenses, {
       iterations: AUTO_ITERATIONS,
       comboIterations: AUTO_COMBO_ITERATIONS,
       getUnitSettings: (id) => (id === unitId ? nextUnitSettings : getAutoCalcSettings(opponentKey, id)),
+      halfRange: getHalfRange(opponentKey),
     });
     setAutoResults((prev) => prev.map((r) => (r.key === opponentKey ? { ...r, outcome } : r)));
   };
@@ -790,6 +839,7 @@ function App() {
       [key]: value,
     };
     setDefensiveSettings((prev) => ({ ...prev, [opponentKey]: nextForOpponent }));
+    const halfRange = getHalfRange(opponentKey);
     setCounterResults((prev) =>
       prev.map((result) => {
         if (result.key !== opponentKey) return result;
@@ -801,7 +851,8 @@ function App() {
                 entry.unitId,
                 targetWithDefenses,
                 getCalcSettings(opponentKey, mode, entry.unitId),
-                mode
+                mode,
+                mode === "shooting" ? halfRange : undefined
               ) ?? entry
           );
         return {
@@ -810,6 +861,62 @@ function App() {
           shooting: recompute(result.shooting, "shooting"),
           melee: recompute(result.melee, "melee"),
         };
+      })
+    );
+    // The "Best way to kill each unit" cards share the same per-opponent
+    // defensive settings, so recompute those too (full re-run, like the
+    // stratagem toggle does — a defensive change can shift which of my units
+    // ranks best).
+    setAutoResults((prev) =>
+      prev.map((r) => {
+        if (r.key !== opponentKey) return r;
+        const targetWithDefenses: TargetUnit = { ...r.target, defensiveSettings: nextForOpponent };
+        const outcome = computeBestWayToKillIt(targetWithDefenses, {
+          iterations: AUTO_ITERATIONS,
+          comboIterations: AUTO_COMBO_ITERATIONS,
+          getUnitSettings: (id) => getAutoCalcSettings(opponentKey, id),
+          halfRange,
+        });
+        return { ...r, target: targetWithDefenses, outcome };
+      })
+    );
+  };
+
+  /** Toggle the manual half-range setting for one opponent unit. Recomputes
+   * both that opponent's "Best way to kill" card (full re-run) and its
+   * "Opponent matchups — Shooting" rows (in place — melee is unaffected by
+   * range, so those rows are left untouched). */
+  const updateHalfRange = (opponentKey: string, value: boolean) => {
+    setHalfRangeByOpponent((prev) => ({ ...prev, [opponentKey]: value }));
+    const defense = getDefensiveSettings(opponentKey);
+    setAutoResults((prev) =>
+      prev.map((r) => {
+        if (r.key !== opponentKey) return r;
+        const targetWithDefenses: TargetUnit = { ...r.target, defensiveSettings: defense };
+        const outcome = computeBestWayToKillIt(targetWithDefenses, {
+          iterations: AUTO_ITERATIONS,
+          comboIterations: AUTO_COMBO_ITERATIONS,
+          getUnitSettings: (id) => getAutoCalcSettings(opponentKey, id),
+          halfRange: value,
+        });
+        return { ...r, outcome };
+      })
+    );
+    setCounterResults((prev) =>
+      prev.map((result) => {
+        if (result.key !== opponentKey) return result;
+        const targetWithDefenses: TargetUnit = { ...result.target, defensiveSettings: defense };
+        const shooting = result.shooting.map(
+          (entry) =>
+            computeUnitCounterEntry(
+              entry.unitId,
+              targetWithDefenses,
+              getCalcSettings(opponentKey, "shooting", entry.unitId),
+              "shooting",
+              value
+            ) ?? entry
+        );
+        return { ...result, shooting };
       })
     );
   };
@@ -827,14 +934,16 @@ function App() {
     let i = 0;
     const step = () => {
       const { entry, multiplicity } = matched[i];
-      const outcome = computeBestWayToKillIt(entry.target, {
+      const target: TargetUnit = { ...entry.target, defensiveSettings: getDefensiveSettings(entry.key) };
+      const outcome = computeBestWayToKillIt(target, {
         iterations: AUTO_ITERATIONS,
         comboIterations: AUTO_COMBO_ITERATIONS,
         getUnitSettings: (unitId) => getAutoCalcSettings(entry.key, unitId),
+        halfRange: getHalfRange(entry.key),
       });
       setAutoResults((prev) => [
         ...prev,
-        { key: entry.key, label: entry.label, target: entry.target, formSeed: entry.formSeed, outcome, multiplicity },
+        { key: entry.key, label: entry.label, target, formSeed: entry.formSeed, outcome, multiplicity },
       ]);
       i += 1;
       setAutoProgress({ done: i, total: matched.length });
@@ -866,7 +975,11 @@ function App() {
     const step = () => {
       const { entry, multiplicity } = matched[i];
       const target: TargetUnit = { ...entry.target, defensiveSettings: getDefensiveSettings(entry.key) };
-      const matchups = computeTopCounters(target, (unitId, mode) => getCalcSettings(entry.key, mode, unitId));
+      const matchups = computeTopCounters(
+        target,
+        (unitId, mode) => getCalcSettings(entry.key, mode, unitId),
+        getHalfRange(entry.key)
+      );
       setCounterResults((prev) => [
         ...prev,
         {
@@ -1089,6 +1202,14 @@ function App() {
                   </button>
                 </div>
                 <div className="section-note">{formatTargetStatline(target)}</div>
+                <DefensiveToggleRow
+                  settings={getDefensiveSettings(targetKey)}
+                  onToggle={(key, value) => updateDefensiveSetting(targetKey, key, value)}
+                />
+                <HalfRangeToggleRow
+                  value={getHalfRange(targetKey)}
+                  onToggle={(value) => updateHalfRange(targetKey, value)}
+                />
                 {top.length === 0 && <div className="empty-state">No viable attack options found.</div>}
                 {top.map((opt, oi) => {
                   const key = `${i}-${oi}`;
@@ -1199,6 +1320,8 @@ function App() {
               onToggleCalcStratagem={updateCalcStratagem}
               defensiveSettings={getDefensiveSettings(result.key)}
               onToggleDefensive={(key, value) => updateDefensiveSetting(result.key, key, value)}
+              halfRange={getHalfRange(result.key)}
+              onToggleHalfRange={(value) => updateHalfRange(result.key, value)}
               key={result.key}
             />
           ))}

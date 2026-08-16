@@ -1,6 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { ROSTER } from "./roster";
-import { buildMeleeEngagements, buildShootingEngagements, type ScenarioFlags } from "./engagementBuilder";
+import {
+  buildMeleeEngagements,
+  buildShootingEngagements,
+  unitScenarios,
+  DEFAULT_DAMAGE_SETTINGS,
+  type ScenarioFlags,
+} from "./engagementBuilder";
 import type { TargetUnit } from "../engine/types";
 
 const target: TargetUnit = {
@@ -84,6 +90,44 @@ describe("cover (-1 to Hit, ranged only) — was previously unwired: hitMod was 
     for (const e of engagements) {
       expect(e.ctx.hitMod).toBe(0);
     }
+  });
+});
+
+describe("unitScenarios half-range override", () => {
+  // A range-sensitive unit (Rapid Fire / Melta) auto-enumerates two shooting
+  // scenarios (half + full band); the manual override collapses that to one.
+  const rangeSensitiveUnit = ROSTER.find(
+    (u) => unitScenarios(u, DEFAULT_DAMAGE_SETTINGS).filter((s) => s.mode === "shooting").length === 2
+  )!;
+
+  it("auto-enumerates both half and full range when no override is given", () => {
+    expect(rangeSensitiveUnit).toBeDefined();
+    const shooting = unitScenarios(rangeSensitiveUnit, DEFAULT_DAMAGE_SETTINGS).filter((s) => s.mode === "shooting");
+    expect(shooting.map((s) => s.scenario.halfRange).sort()).toEqual([false, true]);
+  });
+
+  it("collapses to a single half-range scenario when override = true", () => {
+    const shooting = unitScenarios(rangeSensitiveUnit, DEFAULT_DAMAGE_SETTINGS, true).filter((s) => s.mode === "shooting");
+    expect(shooting).toHaveLength(1);
+    expect(shooting[0].scenario.halfRange).toBe(true);
+  });
+
+  it("collapses to a single full-range scenario when override = false", () => {
+    const shooting = unitScenarios(rangeSensitiveUnit, DEFAULT_DAMAGE_SETTINGS, false).filter((s) => s.mode === "shooting");
+    expect(shooting).toHaveLength(1);
+    expect(shooting[0].scenario.halfRange).toBe(false);
+  });
+
+  it("never forces half range on a unit with no Rapid Fire / Melta weapon", () => {
+    const plainRangedUnit = ROSTER.find(
+      (u) =>
+        u.loadouts.some((l) => l.rangedWeapons.length > 0) &&
+        unitScenarios(u, DEFAULT_DAMAGE_SETTINGS).filter((s) => s.mode === "shooting").length === 1
+    );
+    if (!plainRangedUnit) return; // roster has none; nothing to assert
+    const shooting = unitScenarios(plainRangedUnit, DEFAULT_DAMAGE_SETTINGS, true).filter((s) => s.mode === "shooting");
+    expect(shooting).toHaveLength(1);
+    expect(shooting[0].scenario.halfRange).toBe(false);
   });
 });
 

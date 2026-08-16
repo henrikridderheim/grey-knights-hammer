@@ -229,10 +229,21 @@ function scenarioLabel(base: string, unit: UnitDefinition, scenario: ScenarioFla
 /** One scenario per range-band (shooting) / one for melee, reflecting the
  * current global `settings` toggles — not an auto-generated matrix of every
  * combination. Toggle the settings and re-run to compare "with" vs "without"
- * any given rule directly. */
+ * any given rule directly.
+ *
+ * `halfRangeOverride` controls the shooting range band for range-sensitive
+ * (Rapid Fire / Melta) units:
+ *   - undefined → auto: enumerate BOTH half-range and full-range scenarios
+ *     (the original behaviour — lets a caller compare or auto-pick the best).
+ *   - true  → half range only (the bonus is active).
+ *   - false → full range only (no bonus).
+ * A manual per-calculation half-range toggle in the UI passes true/false here
+ * to force a single band instead of the auto pair. Non-range-sensitive units
+ * always resolve to a single "shooting" scenario regardless. */
 export function unitScenarios(
   unit: UnitDefinition,
-  settings: DamageSettings
+  settings: DamageSettings,
+  halfRangeOverride?: boolean
 ): { mode: "shooting" | "melee"; scenario: ScenarioFlags; label: string }[] {
   const scenarios: { mode: "shooting" | "melee"; scenario: ScenarioFlags; label: string }[] = [];
   const rangeSensitive = unitHasRangeSensitiveWeapon(unit);
@@ -240,7 +251,12 @@ export function unitScenarios(
   const hasMelee = unit.loadouts.some((l) => l.meleeWeapon);
 
   if (hasRanged) {
-    const ranges = rangeSensitive ? [true, false] : [false];
+    const ranges =
+      halfRangeOverride === undefined
+        ? rangeSensitive
+          ? [true, false]
+          : [false]
+        : [rangeSensitive ? halfRangeOverride : false];
     for (const halfRange of ranges) {
       const rangeLabel = rangeSensitive ? (halfRange ? "half range" : "full range") : "shooting";
       const scenario: ScenarioFlags = {

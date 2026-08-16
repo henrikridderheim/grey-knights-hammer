@@ -102,18 +102,23 @@ export function computeBestWayToKillIt(
      * per-unit, not one global set applied to everything. Defaults every
      * unit to DEFAULT_DAMAGE_SETTINGS (all off) when omitted. */
     getUnitSettings?: (unitId: string) => DamageSettings;
+    /** Manual half-range toggle for range-sensitive (Rapid Fire / Melta)
+     * shooting: true = half range, false = full range. When omitted, both
+     * range bands are auto-enumerated as separate options (legacy behaviour). */
+    halfRange?: boolean;
   } = {}
 ): BestWayToKillItResult {
   const iterations = options.iterations ?? DEFAULT_ITERATIONS;
   const comboIterations = options.comboIterations ?? COMBO_ITERATIONS;
   const getUnitSettings = options.getUnitSettings ?? (() => DEFAULT_DAMAGE_SETTINGS);
+  const halfRange = options.halfRange;
   const results: RankedOption[] = [];
   const bestPerUnit = new Map<string, BestPerUnit>();
   const uncappedTarget = uncapTargetWounds(target);
 
   for (const unit of ROSTER as UnitDefinition[]) {
     const settings = getUnitSettings(unit.id);
-    for (const { mode, scenario, label } of unitScenarios(unit, settings)) {
+    for (const { mode, scenario, label } of unitScenarios(unit, settings, halfRange)) {
       const engagements = buildEngagementsForScenario(unit, target, mode, scenario);
       if (engagements.length === 0) continue;
       const summary = runUnitPhaseSimulation(
