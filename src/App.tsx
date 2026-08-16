@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   DEFAULT_DEFENSIVE_SETTINGS,
@@ -690,6 +690,39 @@ function formatTargetStatline(target: TargetUnit): string {
 const AUTO_ITERATIONS = 500;
 const AUTO_COMBO_ITERATIONS = 400;
 
+/** Everything needed to restore a working session on next visit: the pasted
+ * army list plus every per-opponent toggle set. Results themselves aren't
+ * stored — they're re-derived from the list on load, so they always reflect
+ * the current roster/engine rather than a stale snapshot. Bump the version
+ * suffix if this shape ever changes, so old saved blobs are ignored rather
+ * than mis-parsed. */
+const SESSION_STORAGE_KEY = "gk-hammer-session-v1";
+
+interface PersistedSession {
+  pasteText: string;
+  calcSettings: Record<string, DamageSettings>;
+  autoCalcSettings: Record<string, DamageSettings>;
+  defensiveSettings: Record<string, DefensiveSettings>;
+  halfRangeByOpponent: Record<string, boolean>;
+}
+
+function loadSession(): PersistedSession | null {
+  try {
+    const raw = localStorage.getItem(SESSION_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as PersistedSession) : null;
+  } catch {
+    return null; // private mode, disabled storage, or corrupt data — start fresh
+  }
+}
+
+function saveSession(session: PersistedSession): void {
+  try {
+    localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+  } catch {
+    // ignore write failures (private mode / quota) — persistence is best-effort
+  }
+}
+
 function App() {
   const [form, setForm] = useState<TargetFormState>(DEFAULT_FORM);
   const [results, setResults] = useState<BestWayToKillItResult | null>(null);
@@ -1021,6 +1054,39 @@ function App() {
       setReading(false);
     }
   };
+
+  // --- Session persistence (localStorage) ---------------------------------
+  // `hydrated` gates saving until AFTER the initial restore has been applied,
+  // so the empty first-render state can never clobber a saved session.
+  const [hydrated, setHydrated] = useState(false);
+
+  // Restore a saved session once, on first mount.
+  useEffect(() => {
+    const saved = loadSession();
+    if (saved) {
+      setPasteText(saved.pasteText ?? "");
+      setCalcSettings(saved.calcSettings ?? {});
+      setAutoCalcSettings(saved.autoCalcSettings ?? {});
+      setDefensiveSettings(saved.defensiveSettings ?? {});
+      setHalfRangeByOpponent(saved.halfRangeByOpponent ?? {});
+    }
+    setHydrated(true);
+  }, []);
+
+  // After hydration, re-run the analysis for the restored list so the cards
+  // come back populated (results are derived on the fly, not stored). Once.
+  const reanalyzedRef = useRef(false);
+  useEffect(() => {
+    if (!hydrated || reanalyzedRef.current) return;
+    reanalyzedRef.current = true;
+    if (pasteText.trim()) void readList(pasteText);
+  }, [hydrated]);
+
+  // Persist the list + every toggle set whenever they change (post-hydration).
+  useEffect(() => {
+    if (!hydrated) return;
+    saveSession({ pasteText, calcSettings, autoCalcSettings, defensiveSettings, halfRangeByOpponent });
+  }, [hydrated, pasteText, calcSettings, autoCalcSettings, defensiveSettings, halfRangeByOpponent]);
 
   const handlePasteTextarea = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const text = e.clipboardData.getData("text");

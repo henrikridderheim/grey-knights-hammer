@@ -274,6 +274,11 @@ export const ROSTER: UnitDefinition[] = [
       "Righteous Persecution: after this unit shoots, pick one hit non-MONSTER/VEHICLE enemy unit: -2 Move and -2 Charge until your next turn.",
     ],
     keywords: ["INFANTRY", "PSYKER"],
+    // Boons of Deimos (+2 S to ranged attacks) — per the updated list this
+    // 4-psycannon squad now carries it too. Note: Boons of Deimos is a unique
+    // enhancement, also assigned to Purgation 10 above; both are modelled here
+    // at the user's request, which is not matched-play legal (one copy only).
+    enhancement: "Boons of Deimos",
     isPurgationSquad: true,
   },
   {
@@ -286,8 +291,8 @@ export const ROSTER: UnitDefinition[] = [
       // Justicar carries a Nemesis force weapon, not a Close combat weapon —
       // corrected against the actual army list export.
       { label: "Justicar", count: 1, meleeWeapon: "Nemesis force weapon", rangedWeapons: ["Storm bolter"] },
-      { label: "1 Purgator (psilencer)", count: 1, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psilencer"] },
-      { label: "3 Purgator (psycannon)", count: 3, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psycannon"] },
+      { label: "2 Purgator (psilencer)", count: 2, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psilencer"] },
+      { label: "2 Purgator (psycannon)", count: 2, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psycannon"] },
     ],
     abilities: [
       "Righteous Persecution: after this unit shoots, pick one hit non-MONSTER/VEHICLE enemy unit: -2 Move and -2 Charge until your next turn.",
