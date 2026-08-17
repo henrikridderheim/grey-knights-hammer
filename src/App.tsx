@@ -24,6 +24,7 @@ import {
   type DamageSettings,
 } from "./army/engagementBuilder";
 import { computeOptimalSequencing, type SequencingResult } from "./army/sequencing";
+import { computeThreatAnalysis, type ThreatAnalysisResult, type ThreatVerdict } from "./army/threatAnalysis";
 import {
   parseArmyList,
   type AttachedGroup,
@@ -690,6 +691,23 @@ function formatTargetStatline(target: TargetUnit): string {
 const AUTO_ITERATIONS = 500;
 const AUTO_COMBO_ITERATIONS = 400;
 
+const ARCHETYPE_PHRASE: Record<"dreadknight" | "elite" | "light", string> = {
+  dreadknight: "anti-Dreadknight (anti-tank)",
+  elite: "anti-elite-infantry",
+  light: "anti-light-infantry",
+};
+
+/** Plain-language summary of what the list, taken as a whole, is built to kill —
+ * derived from the points-weighted mix of its units' individual specialties. */
+function describeLeaning(v: ThreatVerdict): string {
+  const pct = (k: "dreadknight" | "elite" | "light") => (v.weights[k] * 100).toFixed(0);
+  const mix = `${pct("dreadknight")}% anti-tank · ${pct("elite")}% anti-elite · ${pct("light")}% anti-light infantry`;
+  if (v.leaning === "balanced") {
+    return `Taken as a whole, his list is fairly balanced across target types (${mix}).`;
+  }
+  return `Taken as a whole, his list is weighted toward ${ARCHETYPE_PHRASE[v.leaning]} (${mix}).`;
+}
+
 /** Everything needed to restore a working session on next visit: the pasted
  * army list plus every per-opponent toggle set. Results themselves aren't
  * stored — they're re-derived from the list on load, so they always reflect
@@ -749,6 +767,10 @@ function App() {
   const [counterResults, setCounterResults] = useState<CounterUnitResult[]>([]);
   const [counterAnalyzing, setCounterAnalyzing] = useState(false);
   const [counterProgress, setCounterProgress] = useState({ done: 0, total: 0 });
+
+  // Reverse "what threatens me" analysis over the pasted opponent list.
+  const [threatResult, setThreatResult] = useState<ThreatAnalysisResult | null>(null);
+  const [threatAnalyzing, setThreatAnalyzing] = useState(false);
 
   // Stratagem/rule toggles for the Opponent matchups cards — keyed per
   // CALCULATION (opponent unit × phase × my unit), not per my-unit alone.
@@ -1036,17 +1058,31 @@ function App() {
     setTimeout(step, 10);
   };
 
+  /** Reverse analysis: which of the opponent's units most threaten mine, and
+   * whether the list leans anti-Dreadknight or anti-infantry. Deferred a tick
+   * so the "analyzing…" state can paint before the (synchronous) sim runs. */
+  const runThreatAnalysisForList = (result: ParseArmyListResult) => {
+    setThreatResult(null);
+    setThreatAnalyzing(true);
+    setTimeout(() => {
+      setThreatResult(computeThreatAnalysis(result));
+      setThreatAnalyzing(false);
+    }, 10);
+  };
+
   const readList = async (text: string) => {
     if (!text.trim()) return;
     setReading(true);
     setReadError(null);
     setAutoResults([]);
     setCounterResults([]);
+    setThreatResult(null);
     try {
       const result = await parseArmyList(text, datasheetProvider);
       setListResult(result);
       runAutoAnalysisForList(result);
       runCounterAnalysisForList(result);
+      runThreatAnalysisForList(result);
     } catch (err) {
       setReadError(err instanceof Error ? err.message : String(err));
       setListResult(null);
@@ -1235,6 +1271,88 @@ function App() {
 
         {readError && <div className="empty-state">Couldn't read that list: {readError}</div>}
       </section>
+
+      {(threatAnalyzing || threatResult) && (
+        <CollapsibleCard
+          title="Biggest threats to your army"
+          defaultOpen={true}
+          badge={threatAnalyzing ? <span className="card-header-badge">analyzing…</span> : undefined}
+        >
+          <p className="section-note">
+            Each unit in the pasted list, evaluated on its own: its best attack (shooting or melee) simulated into a
+            representative of each of your unit types — a Dreadknight, elite infantry, and light infantry. Raw weapon
+            profiles only (no enemy stratagems, detachment rules, or buffs), so treat these as a floor.
+          </p>
+          {threatAnalyzing && <div className="loading-state">Assessing threats…</div>}
+          {threatResult && (
+            <>
+              {threatResult.archetypes.length > 0 && (
+                <div className="section-note">
+                  Reference targets:{" "}
+                  {threatResult.archetypes
+                    .map((a) => `${a.label} (${a.repName}, ${a.wounds}W${a.models > 1 ? `, ${a.models} models` : ""})`)
+                    .join(" · ")}
+                </div>
+              )}
+
+              <span className="defensive-toggle-label">Top 3 biggest threats</span>
+              {threatResult.topThreats.length === 0 ? (
+                <div className="empty-state">No evaluable threats found (no matched weapons in the list).</div>
+              ) : (
+                threatResult.topThreats.map((p, i) => (
+                  <div className="auto-option-row" key={i}>
+                    <span>
+                      {i + 1}. <span className="my-unit-name">{p.attackerName}</span>
+                      {p.attackerPoints != null && <span className="section-note"> ({p.attackerPoints}pts)</span>}
+                      {p.multiplicity > 1 && <span className="multiplicity-badge">×{p.multiplicity} in list</span>}
+                    </span>
+                    <span className="threat-figure">
+                      clears ~{(p.bestMatchup.fractionDestroyed * 100).toFixed(0)}% of a {p.bestMatchup.label} unit/turn
+                    </span>
+                  </div>
+                ))
+              )}
+
+              <div className="threat-verdict">
+                <span className="defensive-toggle-label">What his list is built to kill</span>
+                <div className="section-note">{describeLeaning(threatResult.verdict)}</div>
+              </div>
+
+              {threatResult.profiles.length > 0 && (
+                <>
+                  <span className="defensive-toggle-label">Per-unit matchups (average damage into each)</span>
+                  {threatResult.profiles.map((p, i) => {
+                    const specialtyLabel = p.matchups.find((m) => m.key === p.specialty)?.label ?? "—";
+                    return (
+                      <div className="auto-unit-block" key={i}>
+                        <div className="auto-option-row">
+                          <span>
+                            <span className="my-unit-name">{p.attackerName}</span>
+                            {p.attackerPoints != null && <span className="section-note"> ({p.attackerPoints}pts)</span>}
+                            {p.multiplicity > 1 && <span className="multiplicity-badge">×{p.multiplicity} in list</span>}
+                          </span>
+                          <span className="section-note">best at: {specialtyLabel}</span>
+                        </div>
+                        <div className="section-note">
+                          {p.matchups
+                            .map((m) => `${m.label}: ${m.meanDamage.toFixed(1)} dmg (${(m.fractionDestroyed * 100).toFixed(0)}%)`)
+                            .join(" · ")}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+
+              {threatResult.skipped.length > 0 && (
+                <div className="section-note">
+                  Couldn't evaluate (no matched weapons): {threatResult.skipped.join(", ")}
+                </div>
+              )}
+            </>
+          )}
+        </CollapsibleCard>
+      )}
 
       {(autoAnalyzing || autoResults.length > 0) && (
         <CollapsibleCard
