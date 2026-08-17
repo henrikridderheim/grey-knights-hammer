@@ -285,6 +285,30 @@
   margin-bottom: 8px;
 }
 
+.ability-toggle-row {
+  border: 1px solid var(--accent, #6b5bd2);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  background: var(--bg);
+}
+
+.conditional-badge {
+  margin-left: 4px;
+  font-size: 10px;
+  color: #d6a94e;
+  border: 1px solid #d6a94e;
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.ability-unmodeled {
+  display: block;
+  width: 100%;
+  margin-top: 2px;
+  font-style: italic;
+}
+
 /* Threat figures read as a warning (danger to the player), not a win. */
 .threat-figure {
   color: #e06c6c;

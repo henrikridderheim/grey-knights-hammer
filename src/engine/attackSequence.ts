@@ -274,7 +274,11 @@ export function fireWeaponAtPools(
     }
     let success = isCritWound;
     if (!success) {
-      const effectiveRoll = applyModifier ? roll + clampMod(ctx.woundMod) : roll;
+      // Rugged Resilience: -1 to the wound roll when the attack's Strength
+      // exceeds this unit's Toughness. Combined with any defensive -1-to-Wound
+      // toggle, then clamped, so the net modifier still respects the ±1 cap.
+      const ruggedPenalty = target.ruggedResilience && effectiveStrength > effectiveToughness ? -1 : 0;
+      const effectiveRoll = applyModifier ? roll + clampMod(ctx.woundMod + ruggedPenalty) : roll;
       success = effectiveRoll >= woundThreshold(effectiveStrength, effectiveToughness);
     }
     return { success, isCritWound };

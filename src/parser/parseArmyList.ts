@@ -75,6 +75,10 @@ export interface ParseArmyListResult {
    * all). Never silently dropped — always surfaced here for the user to review. */
   unresolved: string[];
   totalPoints: number | null;
+  /** Faction-wide shared ability names (see computeSharedAbilityNames) — used to
+   * filter the dataset's polluted per-unit ability lists during defensive
+   * auto-detection. */
+  sharedAbilityNames: string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -450,6 +454,21 @@ async function parseUnitBlocks(
       const { text: withoutPoints, points } = extractTrailingPoints(line.cleaned);
       const matched = await resolveUnit(withoutPoints);
 
+      // Flat exports (e.g. the Warhammer app's) put some wargear on un-bulleted
+      // lines flush with the unit name — "4x Storm Shield", "1x Frostfang",
+      // "9x Bolt pistol" — which otherwise look top-level. A real unit line
+      // carries a points value or resolves to a datasheet; a line with neither,
+      // under an existing unit, is that unit's wargear, not a new (spurious)
+      // unit. Attach it as wargear (never as a model-count line, so it can't
+      // inflate the unit's size) and move on.
+      if (points === null && !matched && current) {
+        const { text: withoutCount, count } = extractCount(withoutPoints);
+        const matchedWeapon =
+          current.datasheet?.weapons.find((w) => weaponNameMatches(withoutCount, w.name)) ?? null;
+        current.wargear.push({ rawText: withoutCount, count, matchedWeaponName: matchedWeapon?.name ?? null });
+        continue;
+      }
+
       if (!matched && !sawFirstMatchedUnit && hasFactionIndex) {
         continue; // preamble noise, absorbed silently — see comment above
       }
@@ -653,5 +672,29 @@ export async function parseArmyList(
     .sort((a, b) => a - b)
     .map((index) => ({ index, members: units.filter((u) => u.attachedGroupIndex === index) }));
 
-  return { faction: factionName, detachment, units, attachedGroups, unresolved, totalPoints };
+  return {
+    faction: factionName,
+    detachment,
+    units,
+    attachedGroups,
+    unresolved,
+    totalPoints,
+    sharedAbilityNames: computeSharedAbilityNames(factionData),
+  };
+}
+
+/** Ability names that appear across a large fraction of the faction's units —
+ * the dataset's shared pool of detachment rules, enhancements and other units'
+ * abilities that gets attached to every datasheet. A unit's OWN abilities are
+ * rare; these are common, so they're excluded from defensive auto-detection. */
+function computeSharedAbilityNames(factionData: NormalizedFactionFile | null): string[] {
+  if (!factionData || factionData.units.length < 4) return [];
+  const counts = new Map<string, number>();
+  for (const u of factionData.units) {
+    for (const name of new Set(u.abilities.map((a) => a.name))) {
+      counts.set(name, (counts.get(name) ?? 0) + 1);
+    }
+  }
+  const threshold = Math.max(4, factionData.units.length * 0.3);
+  return [...counts.entries()].filter(([, c]) => c >= threshold).map(([name]) => name);
 }

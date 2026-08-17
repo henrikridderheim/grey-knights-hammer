@@ -98,11 +98,21 @@ export function eligibleStratagemKeys(unit: UnitDefinition): (keyof DamageSettin
  * attacking. */
 function defensiveMods(target: TargetUnit): { woundMod: number; apReduction: number; damageReduction: number } {
   const d = target.defensiveSettings;
+  const inc = target.incoming;
   return {
-    woundMod: d?.minusOneToWound ? -1 : 0,
+    // Manual -1-to-Wound toggle and any auto-detected -1-to-Wound ability stack
+    // here (the engine clamps the net wound modifier to the ±1 core-rules cap).
+    woundMod: (d?.minusOneToWound ? -1 : 0) - (inc?.woundPenalty ?? 0),
     apReduction: d?.minusOneToAP ? 1 : 0,
-    damageReduction: d?.minusOneToDamage ? 1 : 0,
+    damageReduction: (d?.minusOneToDamage ? 1 : 0) + (inc?.damageReduction ?? 0),
   };
+}
+
+/** Target-imposed penalty to incoming Hit rolls (e.g. an auto-detected -1 to
+ * Hit / Stealth ability). Cover is handled separately, per-weapon, since it's
+ * negated by [IGNORES COVER]. */
+function incomingHitMod(target: TargetUnit): number {
+  return -(target.incoming?.hitPenalty ?? 0);
 }
 
 function furyOfTitanRerolls(scenario: ScenarioFlags): RerollFlags | undefined {
@@ -155,7 +165,11 @@ export function buildShootingEngagements(
       // so it must be a hit-roll penalty, not a save change). Ranged only —
       // cover doesn't affect melee, so this never applies in
       // `buildMeleeEngagements` below.
-      const hitMod = target.hasCover && !weapon.keywords.ignoresCover ? -1 : 0;
+      // Cover (-1, negated by [IGNORES COVER]) plus any auto-detected -1-to-Hit
+      // ability (e.g. Stealth, which is a ranged-only penalty — hence applied
+      // here in the shooting builder, not in melee). Engine clamps the total.
+      const hitMod =
+        (target.hasCover && !weapon.keywords.ignoresCover ? -1 : 0) + incomingHitMod(target);
       const ctx: AttackContext = {
         numAttackingModels: loadout.count,
         weapon,

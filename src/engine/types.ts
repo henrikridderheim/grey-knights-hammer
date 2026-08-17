@@ -85,6 +85,21 @@ export interface TargetUnit {
    * attack made against it (any attacker, any phase). Undefined/omitted
    * means none active. */
   defensiveSettings?: DefensiveSettings;
+  /** Rugged Resilience (datasheet ability): -1 to the incoming Wound roll on
+   * any attack whose (effective) Strength is greater than this unit's
+   * Toughness. Stacks with (and is clamped together with) any other wound
+   * modifier, so the net wound modifier can never exceed the ±1 core-rules cap. */
+  ruggedResilience?: boolean;
+  /** Aggregate always-on modifiers this unit imposes on incoming attacks, from
+   * auto-detected datasheet/wargear defensive abilities (e.g. -1 to Hit,
+   * unconditional -1 to Wound, "reduce incoming Damage by 1"). Positive numbers
+   * mean "worse for the attacker". Combined with cover / manual toggles by the
+   * engagement builder, then clamped by the engine. */
+  incoming?: {
+    hitPenalty?: number; // subtract from incoming Hit rolls
+    woundPenalty?: number; // subtract from incoming Wound rolls
+    damageReduction?: number; // subtract from each incoming attack's Damage (floored at 1)
+  };
 }
 
 export interface AttackContext {

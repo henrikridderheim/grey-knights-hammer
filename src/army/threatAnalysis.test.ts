@@ -58,7 +58,7 @@ function parsedUnit(rawName: string, ds: NormalizedUnit, wargear: { name: string
 }
 
 function listOf(units: ParsedUnit[]): ParseArmyListResult {
-  return { faction: "Test", detachment: null, units, attachedGroups: [], unresolved: [], totalPoints: null };
+  return { faction: "Test", detachment: null, units, attachedGroups: [], unresolved: [], totalPoints: null, sharedAbilityNames: [] };
 }
 
 function attachedListOf(members: ParsedUnit[]): ParseArmyListResult {
@@ -70,6 +70,7 @@ function attachedListOf(members: ParsedUnit[]): ParseArmyListResult {
     attachedGroups: [{ index: 1, members: withIndex }],
     unresolved: [],
     totalPoints: null,
+    sharedAbilityNames: [],
   };
 }
 

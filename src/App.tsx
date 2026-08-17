@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   DEFAULT_DEFENSIVE_SETTINGS,
+  type DefenseModelGroup,
   type DefensiveSettings,
   type SimulationSummary,
   type TargetUnit,
@@ -31,6 +32,12 @@ import {
   type ParseArmyListResult,
   type ParsedUnit,
 } from "./parser/parseArmyList";
+import {
+  buildUnitDefense,
+  detectDefensiveAbilities,
+  setSharedAbilityPool,
+  type DetectedAbility,
+} from "./army/opponentDefenses";
 import { createFetchDatasheetProvider } from "./parser/fetchDatasheetProvider";
 
 const datasheetProvider = createFetchDatasheetProvider();
@@ -90,27 +97,53 @@ function defaultModelCountFromComposition(composition: string | undefined): numb
   return match ? Number(match[0]) : 5;
 }
 
-function parsedUnitToTarget(unit: ParsedUnit): TargetUnit | null {
+const NO_DISABLED: ReadonlySet<string> = new Set();
+
+/** A parsed opponent we can rebuild a target from when its ability toggles
+ * change — a standalone unit or an attached (Leader+Bodyguard) group. */
+type TargetSource = { kind: "unit"; unit: ParsedUnit } | { kind: "group"; group: AttachedGroup };
+
+/** Detected defensive abilities for a source (merged across an attached group's
+ * members), for the toggle UI. */
+function detectForSource(source: TargetSource): { detected: DetectedAbility[]; unmodeled: string[] } {
+  if (source.kind === "unit") {
+    return source.unit.datasheet
+      ? detectDefensiveAbilities(source.unit.datasheet, source.unit.wargear)
+      : { detected: [], unmodeled: [] };
+  }
+  const detected: DetectedAbility[] = [];
+  const seen = new Set<string>();
+  const unmodeled = new Set<string>();
+  for (const m of source.group.members) {
+    if (!m.datasheet) continue;
+    const d = detectDefensiveAbilities(m.datasheet, m.wargear);
+    for (const a of d.detected) if (!seen.has(a.id)) (seen.add(a.id), detected.push(a));
+    for (const u of d.unmodeled) unmodeled.add(u);
+  }
+  return { detected, unmodeled: [...unmodeled] };
+}
+
+function buildTargetFromSource(source: TargetSource, disabled: ReadonlySet<string>): TargetUnit | null {
+  return source.kind === "unit"
+    ? parsedUnitToTarget(source.unit, disabled)
+    : attachedGroupToTarget(source.group, disabled);
+}
+
+function parsedUnitToTarget(unit: ParsedUnit, disabled: ReadonlySet<string> = NO_DISABLED): TargetUnit | null {
   const sheet = unit.datasheet;
   if (!sheet) return null;
   const name = unit.rawName || sheet.name;
   const count = unit.modelCount ?? defaultModelCountFromComposition(sheet.composition);
+  const def = buildUnitDefense(sheet, name, count, unit.wargear, disabled);
   return {
     name,
     isAttached: false,
     hasCover: false,
     modelCountForBlast: count,
     keywords: sheet.keywords.map((k) => k.toUpperCase()),
-    groups: [
-      {
-        label: name,
-        count,
-        toughness: sheet.statline.toughness,
-        save: sheet.statline.save,
-        invulnSave: sheet.statline.invulnSave,
-        wounds: sheet.statline.wounds,
-      },
-    ],
+    ruggedResilience: def.ruggedResilience,
+    incoming: def.incoming,
+    groups: def.groups,
   };
 }
 
@@ -127,7 +160,7 @@ function isInfantryDatasheet(unit: ParsedUnit): boolean {
  * "Character in an Attached unit can't be allocated normal damage, only
  * Precision" and "wound rolls use the highest Toughness among Bodyguard
  * models" (both verified against the live 11e core rules). */
-function attachedGroupToTarget(group: AttachedGroup): TargetUnit | null {
+function attachedGroupToTarget(group: AttachedGroup, disabled: ReadonlySet<string> = NO_DISABLED): TargetUnit | null {
   const bodyguard = group.members.find((m) => m.attachedRole === "bodyguard" && m.datasheet);
   if (!bodyguard?.datasheet) return null;
   // Safety net: dedupe attached characters by datasheet so a group can never
@@ -144,37 +177,30 @@ function attachedGroupToTarget(group: AttachedGroup): TargetUnit | null {
   });
 
   const bodyguardCount = bodyguard.modelCount ?? defaultModelCountFromComposition(bodyguard.datasheet.composition);
-  const groups: TargetUnit["groups"] = [
-    {
-      label: bodyguard.rawName,
-      count: bodyguardCount,
-      toughness: bodyguard.datasheet.statline.toughness,
-      save: bodyguard.datasheet.statline.save,
-      invulnSave: bodyguard.datasheet.statline.invulnSave,
-      wounds: bodyguard.datasheet.statline.wounds,
-    },
-  ];
+  const bgDef = buildUnitDefense(bodyguard.datasheet, bodyguard.rawName, bodyguardCount, bodyguard.wargear, disabled);
+  const groups: DefenseModelGroup[] = [...bgDef.groups];
   let totalModels = bodyguardCount;
+  let ruggedResilience = bgDef.ruggedResilience;
+  const incoming = { ...bgDef.incoming };
   for (const ch of characters) {
     if (!ch.datasheet) continue;
     const count = ch.modelCount ?? defaultModelCountFromComposition(ch.datasheet.composition);
     totalModels += count;
-    groups.push({
-      label: ch.rawName,
-      count,
-      toughness: ch.datasheet.statline.toughness,
-      save: ch.datasheet.statline.save,
-      invulnSave: ch.datasheet.statline.invulnSave,
-      wounds: ch.datasheet.statline.wounds,
-      isAttachedCharacter: true,
-    });
+    const chDef = buildUnitDefense(ch.datasheet, ch.rawName, count, ch.wargear, disabled, true);
+    groups.push(...chDef.groups);
+    // A defensive ability held by any member applies to the whole combined
+    // unit; take the strongest of each (they don't stack).
+    ruggedResilience = ruggedResilience || chDef.ruggedResilience;
+    incoming.hitPenalty = Math.max(incoming.hitPenalty, chDef.incoming.hitPenalty);
+    incoming.woundPenalty = Math.max(incoming.woundPenalty, chDef.incoming.woundPenalty);
+    incoming.damageReduction = Math.max(incoming.damageReduction, chDef.incoming.damageReduction);
   }
   const name = [bodyguard.rawName, ...characters.map((c) => c.rawName)].join(" + ");
   // Anti-X keyword gating uses the Bodyguard's own keywords (the unit's
   // majority profile) — the attached Character(s) may have different
   // keywords, but per-model keyword mixing isn't modeled here.
   const keywords = bodyguard.datasheet.keywords.map((k) => k.toUpperCase());
-  return { name, isAttached: true, hasCover: false, modelCountForBlast: totalModels, keywords, groups };
+  return { name, isAttached: true, hasCover: false, modelCountForBlast: totalModels, keywords, ruggedResilience, incoming, groups };
 }
 
 /** A single thing to run "best way to kill it" against — either one standalone
@@ -188,6 +214,11 @@ interface AnalysisTarget {
   points: number | null;
   target: TargetUnit;
   formSeed: ParsedUnit | null;
+  /** Parsed source, so the target can be rebuilt when ability toggles change. */
+  source: TargetSource;
+  /** Auto-detected defensive abilities + the ones we couldn't model, for the UI. */
+  detected: DetectedAbility[];
+  unmodeled: string[];
 }
 
 interface AutoUnitResult {
@@ -199,6 +230,9 @@ interface AutoUnitResult {
   /** How many identical copies of this unit/group (same datasheet(s), size(s),
    * wargear) appeared in the pasted list — shown once, not repeated. */
   multiplicity: number;
+  source: TargetSource;
+  detected: DetectedAbility[];
+  unmodeled: string[];
 }
 
 interface CounterUnitResult {
@@ -209,6 +243,9 @@ interface CounterUnitResult {
   shooting: CounterRankedUnit[];
   melee: CounterRankedUnit[];
   multiplicity: number;
+  source: TargetSource;
+  detected: DetectedAbility[];
+  unmodeled: string[];
 }
 
 interface SequencingCacheEntry {
@@ -322,6 +359,42 @@ function HalfRangeToggleRow({
         <input type="checkbox" checked={value} onChange={(e) => onToggle(e.target.checked)} />
         Half range (Rapid Fire / Melta bonus)
       </label>
+    </div>
+  );
+}
+
+/** Auto-detected opponent defensive abilities, shown as pre-checked toggles so
+ * the user can switch off any that were mis-detected or don't apply, plus a
+ * note of abilities we spotted but couldn't model. */
+function DefensiveAbilityToggles({
+  detected,
+  unmodeled,
+  disabled,
+  onToggle,
+}: {
+  detected: DetectedAbility[];
+  unmodeled: string[];
+  disabled: ReadonlySet<string>;
+  onToggle: (id: string) => void;
+}) {
+  if (detected.length === 0 && unmodeled.length === 0) return null;
+  return (
+    <div className="inline-stratagem-toggles ability-toggle-row">
+      {detected.length > 0 && (
+        <>
+          <span className="defensive-toggle-label">Detected abilities (auto-applied to this unit):</span>
+          {detected.map((a) => (
+            <label className="checkbox-row" key={a.id} title={a.source}>
+              <input type="checkbox" checked={!disabled.has(a.id)} onChange={() => onToggle(a.id)} />
+              {a.label}
+              {a.conditional && <span className="conditional-badge">check condition</span>}
+            </label>
+          ))}
+        </>
+      )}
+      {unmodeled.length > 0 && (
+        <span className="section-note ability-unmodeled">Not modelled (check manually): {unmodeled.join(", ")}</span>
+      )}
     </div>
   );
 }
@@ -544,6 +617,8 @@ function CounterUnitBlock({
   onToggleDefensive,
   halfRange,
   onToggleHalfRange,
+  disabledAbilities,
+  onToggleAbility,
 }: {
   result: CounterUnitResult;
   counters: CounterRankedUnit[];
@@ -562,6 +637,8 @@ function CounterUnitBlock({
    * Melee, where range doesn't apply. */
   halfRange?: boolean;
   onToggleHalfRange?: (value: boolean) => void;
+  disabledAbilities: ReadonlySet<string>;
+  onToggleAbility: (id: string) => void;
 }) {
   return (
     <div className="auto-unit-block">
@@ -573,6 +650,12 @@ function CounterUnitBlock({
         {result.points != null && <span className="option-scenario">{result.points}pts</span>}
       </div>
       <div className="section-note">{formatTargetStatline(result.target)}</div>
+      <DefensiveAbilityToggles
+        detected={result.detected}
+        unmodeled={result.unmodeled}
+        disabled={disabledAbilities}
+        onToggle={onToggleAbility}
+      />
       <DefensiveToggleRow settings={defensiveSettings} onToggle={onToggleDefensive} />
       {mode === "shooting" && onToggleHalfRange && (
         <HalfRangeToggleRow value={!!halfRange} onToggle={onToggleHalfRange} />
@@ -649,21 +732,30 @@ function pickDisplayOptions(outcome: BestWayToKillItResult): RankedOption[] {
 
 /** Standalone matched units plus combined attached (Leader+Bodyguard) groups,
  * unified into one list of analysis targets. */
-function buildAnalysisTargets(listResult: ParseArmyListResult): AnalysisTarget[] {
+function buildAnalysisTargets(
+  listResult: ParseArmyListResult,
+  getDisabled: (key: string) => ReadonlySet<string>
+): AnalysisTarget[] {
   const targets: AnalysisTarget[] = [];
   for (const unit of listResult.units) {
     if (!unit.datasheet || unit.attachedGroupIndex !== null) continue;
-    const target = parsedUnitToTarget(unit);
+    const key = unitDedupeSignature(unit);
+    const source: TargetSource = { kind: "unit", unit };
+    const target = parsedUnitToTarget(unit, getDisabled(key));
     if (!target) continue;
-    targets.push({ key: unitDedupeSignature(unit), label: unit.rawName, points: unit.points, target, formSeed: unit });
+    const { detected, unmodeled } = detectForSource(source);
+    targets.push({ key, label: unit.rawName, points: unit.points, target, formSeed: unit, source, detected, unmodeled });
   }
   for (const group of listResult.attachedGroups) {
-    const target = attachedGroupToTarget(group);
+    const key = attachedGroupDedupeSignature(group);
+    const source: TargetSource = { kind: "group", group };
+    const target = attachedGroupToTarget(group, getDisabled(key));
     if (!target) continue;
     const points = group.members.some((m) => m.points != null)
       ? group.members.reduce((sum, m) => sum + (m.points ?? 0), 0)
       : null;
-    targets.push({ key: attachedGroupDedupeSignature(group), label: target.name, points, target, formSeed: null });
+    const { detected, unmodeled } = detectForSource(source);
+    targets.push({ key, label: target.name, points, target, formSeed: null, source, detected, unmodeled });
   }
   return targets;
 }
@@ -672,9 +764,12 @@ function buildAnalysisTargets(listResult: ParseArmyListResult): AnalysisTarget[]
  * "4x10 Poxwalkers" as separate entries is analyzed and shown once. Shared
  * between the auto "best way to kill it" pass and the opponent-matchups
  * counters pass, which both need the same target list. */
-function groupAnalysisTargets(listResult: ParseArmyListResult): { entry: AnalysisTarget; multiplicity: number }[] {
+function groupAnalysisTargets(
+  listResult: ParseArmyListResult,
+  getDisabled: (key: string) => ReadonlySet<string>
+): { entry: AnalysisTarget; multiplicity: number }[] {
   const groups = new Map<string, { entry: AnalysisTarget; multiplicity: number }>();
-  for (const entry of buildAnalysisTargets(listResult)) {
+  for (const entry of buildAnalysisTargets(listResult, getDisabled)) {
     const existing = groups.get(entry.key);
     if (existing) existing.multiplicity += 1;
     else groups.set(entry.key, { entry, multiplicity: 1 });
@@ -733,6 +828,7 @@ interface PersistedSession {
   autoCalcSettings: Record<string, DamageSettings>;
   defensiveSettings: Record<string, DefensiveSettings>;
   halfRangeByOpponent: Record<string, boolean>;
+  disabledAbilities?: Record<string, string[]>;
 }
 
 function loadSession(): PersistedSession | null {
@@ -818,6 +914,12 @@ function App() {
   // shooting calculations.
   const [halfRangeByOpponent, setHalfRangeByOpponent] = useState<Record<string, boolean>>({});
   const getHalfRange = (opponentKey: string): boolean => halfRangeByOpponent[opponentKey] ?? false;
+
+  // Auto-detected opponent defensive abilities are all ON by default; this
+  // holds the ability ids the user has switched OFF, per opponent unit.
+  const [disabledAbilities, setDisabledAbilities] = useState<Record<string, string[]>>({});
+  const getDisabledAbilities = (opponentKey: string): ReadonlySet<string> =>
+    new Set(disabledAbilities[opponentKey] ?? []);
 
   const updateField = <K extends keyof TargetFormState>(key: K, value: TargetFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
@@ -987,8 +1089,59 @@ function App() {
     );
   };
 
+  /** Toggle one auto-detected defensive ability on/off for an opponent unit.
+   * Rebuilds that unit's target from its parsed source under the new set (which
+   * can change model wounds, Feel No Pain, and incoming modifiers) and recomputes
+   * both its "Best way to kill" card and its matchup rows. */
+  const updateAbility = (opponentKey: string, abilityId: string) => {
+    const next = new Set(disabledAbilities[opponentKey] ?? []);
+    if (next.has(abilityId)) next.delete(abilityId);
+    else next.add(abilityId);
+    setDisabledAbilities((prev) => ({ ...prev, [opponentKey]: [...next] }));
+
+    const defense = getDefensiveSettings(opponentKey);
+    const halfRange = getHalfRange(opponentKey);
+
+    setAutoResults((prev) =>
+      prev.map((r) => {
+        if (r.key !== opponentKey) return r;
+        const rebuilt = buildTargetFromSource(r.source, next);
+        if (!rebuilt) return r;
+        const target: TargetUnit = { ...rebuilt, defensiveSettings: defense };
+        const outcome = computeBestWayToKillIt(target, {
+          iterations: AUTO_ITERATIONS,
+          comboIterations: AUTO_COMBO_ITERATIONS,
+          getUnitSettings: (id) => getAutoCalcSettings(opponentKey, id),
+          halfRange,
+        });
+        return { ...r, target, outcome };
+      })
+    );
+
+    setCounterResults((prev) =>
+      prev.map((result) => {
+        if (result.key !== opponentKey) return result;
+        const rebuilt = buildTargetFromSource(result.source, next);
+        if (!rebuilt) return result;
+        const target: TargetUnit = { ...rebuilt, defensiveSettings: defense };
+        const recompute = (list: CounterRankedUnit[], mode: "shooting" | "melee") =>
+          list.map(
+            (entry) =>
+              computeUnitCounterEntry(
+                entry.unitId,
+                target,
+                getCalcSettings(opponentKey, mode, entry.unitId),
+                mode,
+                mode === "shooting" ? halfRange : undefined
+              ) ?? entry
+          );
+        return { ...result, target, shooting: recompute(result.shooting, "shooting"), melee: recompute(result.melee, "melee") };
+      })
+    );
+  };
+
   const runAutoAnalysisForList = (result: ParseArmyListResult) => {
-    const matched = groupAnalysisTargets(result);
+    const matched = groupAnalysisTargets(result, getDisabledAbilities);
 
     setAutoResults([]);
     if (matched.length === 0) {
@@ -1009,7 +1162,17 @@ function App() {
       });
       setAutoResults((prev) => [
         ...prev,
-        { key: entry.key, label: entry.label, target, formSeed: entry.formSeed, outcome, multiplicity },
+        {
+          key: entry.key,
+          label: entry.label,
+          target,
+          formSeed: entry.formSeed,
+          outcome,
+          multiplicity,
+          source: entry.source,
+          detected: entry.detected,
+          unmodeled: entry.unmodeled,
+        },
       ]);
       i += 1;
       setAutoProgress({ done: i, total: matched.length });
@@ -1028,7 +1191,7 @@ function App() {
    * buckets with real per-opponent-unit matchups. Each row's stratagems
    * default to off until toggled inline on that specific card. */
   const runCounterAnalysisForList = (result: ParseArmyListResult) => {
-    const matched = groupAnalysisTargets(result);
+    const matched = groupAnalysisTargets(result, getDisabledAbilities);
 
     setCounterResults([]);
     if (matched.length === 0) {
@@ -1056,6 +1219,9 @@ function App() {
           shooting: matchups.shooting,
           melee: matchups.melee,
           multiplicity,
+          source: entry.source,
+          detected: entry.detected,
+          unmodeled: entry.unmodeled,
         },
       ]);
       i += 1;
@@ -1090,6 +1256,9 @@ function App() {
     setThreatResult(null);
     try {
       const result = await parseArmyList(text, datasheetProvider);
+      // Exclude the faction's shared ability pool from defensive auto-detection
+      // before any target is built for analysis.
+      setSharedAbilityPool(result.sharedAbilityNames);
       setListResult(result);
       runAutoAnalysisForList(result);
       runCounterAnalysisForList(result);
@@ -1116,6 +1285,7 @@ function App() {
       setAutoCalcSettings(saved.autoCalcSettings ?? {});
       setDefensiveSettings(saved.defensiveSettings ?? {});
       setHalfRangeByOpponent(saved.halfRangeByOpponent ?? {});
+      setDisabledAbilities(saved.disabledAbilities ?? {});
     }
     setHydrated(true);
   }, []);
@@ -1132,8 +1302,8 @@ function App() {
   // Persist the list + every toggle set whenever they change (post-hydration).
   useEffect(() => {
     if (!hydrated) return;
-    saveSession({ pasteText, calcSettings, autoCalcSettings, defensiveSettings, halfRangeByOpponent });
-  }, [hydrated, pasteText, calcSettings, autoCalcSettings, defensiveSettings, halfRangeByOpponent]);
+    saveSession({ pasteText, calcSettings, autoCalcSettings, defensiveSettings, halfRangeByOpponent, disabledAbilities });
+  }, [hydrated, pasteText, calcSettings, autoCalcSettings, defensiveSettings, halfRangeByOpponent, disabledAbilities]);
 
   const handlePasteTextarea = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const text = e.clipboardData.getData("text");
@@ -1380,7 +1550,7 @@ function App() {
               Analyzing {autoProgress.done}/{autoProgress.total} units…
             </div>
           )}
-          {autoResults.map(({ key: targetKey, label, target, formSeed, outcome, multiplicity }, i) => {
+          {autoResults.map(({ key: targetKey, label, target, formSeed, outcome, multiplicity, detected, unmodeled }, i) => {
             const top = pickDisplayOptions(outcome);
             const bestKill = top[0]?.summary.killProbability ?? 0;
             const topCombo = bestKill < 0.85 ? outcome.combinations[0] : null;
@@ -1397,6 +1567,12 @@ function App() {
                   </button>
                 </div>
                 <div className="section-note">{formatTargetStatline(target)}</div>
+                <DefensiveAbilityToggles
+                  detected={detected}
+                  unmodeled={unmodeled}
+                  disabled={getDisabledAbilities(targetKey)}
+                  onToggle={(id) => updateAbility(targetKey, id)}
+                />
                 <DefensiveToggleRow
                   settings={getDefensiveSettings(targetKey)}
                   onToggle={(key, value) => updateDefensiveSetting(targetKey, key, value)}
@@ -1517,6 +1693,8 @@ function App() {
               onToggleDefensive={(key, value) => updateDefensiveSetting(result.key, key, value)}
               halfRange={getHalfRange(result.key)}
               onToggleHalfRange={(value) => updateHalfRange(result.key, value)}
+              disabledAbilities={getDisabledAbilities(result.key)}
+              onToggleAbility={(id) => updateAbility(result.key, id)}
               key={result.key}
             />
           ))}
@@ -1548,6 +1726,8 @@ function App() {
               onToggleCalcStratagem={updateCalcStratagem}
               defensiveSettings={getDefensiveSettings(result.key)}
               onToggleDefensive={(key, value) => updateDefensiveSetting(result.key, key, value)}
+              disabledAbilities={getDisabledAbilities(result.key)}
+              onToggleAbility={(id) => updateAbility(result.key, id)}
               key={result.key}
             />
           ))}

@@ -131,6 +131,34 @@ describe("unitScenarios half-range override", () => {
   });
 });
 
+describe("auto-detected incoming modifiers (target.incoming)", () => {
+  const gmnd = ROSTER.find((u) => u.id === "gmnd-2")!;
+
+  it("threads a -1-to-Hit ability into shooting ctx.hitMod, but not melee", () => {
+    const stealthed: TargetUnit = { ...target, incoming: { hitPenalty: 1 } };
+    for (const e of buildShootingEngagements(gmnd, stealthed, baseScenario)) {
+      expect(e.ctx.hitMod).toBe(-1);
+    }
+    for (const e of buildMeleeEngagements(gmnd, stealthed, baseScenario)) {
+      expect(e.ctx.hitMod).toBe(0); // -1 to Hit (Stealth) is ranged-only
+    }
+  });
+
+  it("threads -1 to Wound and -1 Damage into both shooting and melee", () => {
+    const warded: TargetUnit = { ...target, incoming: { woundPenalty: 1, damageReduction: 1 } };
+    for (const e of [...buildShootingEngagements(gmnd, warded, baseScenario), ...buildMeleeEngagements(gmnd, warded, baseScenario)]) {
+      expect(e.ctx.woundMod).toBe(-1);
+      expect(e.ctx.damageReduction).toBe(1);
+    }
+  });
+
+  it("stacks a -1-to-Hit ability with cover (engine clamps the total)", () => {
+    const stealthedInCover: TargetUnit = { ...target, hasCover: true, incoming: { hitPenalty: 1 } };
+    const frag = buildShootingEngagements(gmnd, stealthedInCover, baseScenario).find((e) => e.weaponLabel.includes("Fragstorm"))!;
+    expect(frag.ctx.hitMod).toBe(-2); // combined; the engine clamps to -1 at roll time
+  });
+});
+
 describe("target defensive toggles (-1 Wound / -1 Damage / -1 AP)", () => {
   const gmnd = ROSTER.find((u) => u.id === "gmnd-2")!;
 

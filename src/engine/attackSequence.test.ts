@@ -58,6 +58,31 @@ function baseCtx(overrides: Partial<AttackContext> = {}): AttackContext {
   };
 }
 
+describe("Rugged Resilience (-1 to wound when attacker S > target T)", () => {
+  const target = (rugged: boolean): TargetUnit => ({
+    ...makeTarget({ toughness: 5, save: 7, wounds: 1, count: 40 }),
+    ruggedResilience: rugged,
+  });
+
+  it("reduces wounding when Strength exceeds Toughness (S6 vs T5: 3+ becomes an effective 4+)", () => {
+    const weapon = makeWeapon({ strength: 6, skill: 2, attacks: 20 }); // S6 > T5, hits on 2+
+    const on = runSimulation(baseCtx({ weapon, target: target(true) }), { label: "rugged-on", iterations: 20000 });
+    const off = runSimulation(baseCtx({ weapon, target: target(false) }), { label: "rugged-off", iterations: 20000 });
+    // off: 20 * 5/6 hit * 4/6 wound ≈ 11.1 ; on: * 3/6 wound ≈ 8.33
+    expect(off.meanDamage).toBeGreaterThan(10.3);
+    expect(on.meanDamage).toBeGreaterThan(7.5);
+    expect(on.meanDamage).toBeLessThan(9.1);
+    expect(on.meanDamage).toBeLessThan(off.meanDamage - 1.5);
+  });
+
+  it("does NOT apply when Strength is not greater than Toughness (S5 vs T5 unchanged)", () => {
+    const weapon = makeWeapon({ strength: 5, skill: 2, attacks: 20 }); // S5 == T5, not greater
+    const on = runSimulation(baseCtx({ weapon, target: target(true) }), { label: "eqT-on", iterations: 20000 });
+    const off = runSimulation(baseCtx({ weapon, target: target(false) }), { label: "eqT-off", iterations: 20000 });
+    expect(Math.abs(on.meanDamage - off.meanDamage)).toBeLessThan(0.6);
+  });
+});
+
 describe("attack sequence — analytical sanity checks", () => {
   it("10 attacks, BS3+, S4 vs T4 (4+ to wound), no save: expected damage ≈ 3.33", () => {
     const ctx = baseCtx();
