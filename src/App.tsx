@@ -130,7 +130,18 @@ function isInfantryDatasheet(unit: ParsedUnit): boolean {
 function attachedGroupToTarget(group: AttachedGroup): TargetUnit | null {
   const bodyguard = group.members.find((m) => m.attachedRole === "bodyguard" && m.datasheet);
   if (!bodyguard?.datasheet) return null;
-  const characters = group.members.filter((m) => m.attachedRole !== "bodyguard" && m.datasheet);
+  // Safety net: dedupe attached characters by datasheet so a group can never
+  // render the same leader twice (you can't attach two of the same character to
+  // one unit — if a parse ever produced a duplicate, it'd be a bug, not a real
+  // list). Also drop any character that's actually the bodyguard entry.
+  const seenChar = new Set<string>();
+  const characters = group.members.filter((m) => {
+    if (m.attachedRole === "bodyguard" || !m.datasheet || m === bodyguard) return false;
+    const sig = m.matchedUnitId ?? m.rawName;
+    if (seenChar.has(sig)) return false;
+    seenChar.add(sig);
+    return true;
+  });
 
   const bodyguardCount = bodyguard.modelCount ?? defaultModelCountFromComposition(bodyguard.datasheet.composition);
   const groups: TargetUnit["groups"] = [
