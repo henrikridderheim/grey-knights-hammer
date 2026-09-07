@@ -64,7 +64,7 @@ export const ROSTER: UnitDefinition[] = [
     // wrong, it was just never the whole attached unit).
     id: "purifier-squad",
     name: "Purifier Squad + Castellan Crowe",
-    points: 380,
+    points: 360,
     composition: "10 models: 1 Knight of the Flame + 9 Purifiers, plus attached Castellan Crowe",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
     loadouts: [
@@ -231,7 +231,7 @@ export const ROSTER: UnitDefinition[] = [
   {
     id: "purgation-squad-a",
     name: "Purgation 10",
-    points: 240,
+    points: 230,
     composition: "10 models: Purgator Justicar + 9 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
     loadouts: [
@@ -261,7 +261,7 @@ export const ROSTER: UnitDefinition[] = [
   {
     id: "purgation-squad-b",
     name: "Purgation 5",
-    points: 130,
+    points: 145,
     composition: "5 models: Purgator Justicar + 4 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
     loadouts: [
@@ -274,30 +274,30 @@ export const ROSTER: UnitDefinition[] = [
       "Righteous Persecution: after this unit shoots, pick one hit non-MONSTER/VEHICLE enemy unit: -2 Move and -2 Charge until your next turn.",
     ],
     keywords: ["INFANTRY", "PSYKER"],
-    // Boons of Deimos (+2 S to ranged attacks) — per the updated list this
-    // 4-psycannon squad now carries it too. Note: Boons of Deimos is a unique
-    // enhancement, also assigned to Purgation 10 above; both are modelled here
-    // at the user's request, which is not matched-play legal (one copy only).
+    // Boons of Deimos (+2 S to ranged attacks). Per the current list it's a
+    // repeatable Upgrade ("Boons of Deimos (Upgrade)"), taken on all three
+    // Purgation Squads — so modelling it on each is matched-play legal.
     enhancement: "Boons of Deimos",
     isPurgationSquad: true,
   },
   {
     id: "purgation-squad-c",
-    name: "Purgation 5 Psilencer",
-    points: 135,
+    name: "Purgation 5 (3 psycannon)",
+    points: 150,
     composition: "5 models: Purgator Justicar + 4 Purgator",
     statline: { move: "6\"", toughness: 4, save: 2, wounds: 2, leadership: "6+", oc: 1 },
     loadouts: [
       // Justicar carries a Nemesis force weapon, not a Close combat weapon —
       // corrected against the actual army list export.
       { label: "Justicar", count: 1, meleeWeapon: "Nemesis force weapon", rangedWeapons: ["Storm bolter"] },
-      { label: "2 Purgator (psilencer)", count: 2, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psilencer"] },
-      { label: "2 Purgator (psycannon)", count: 2, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psycannon"] },
+      { label: "1 Purgator (psilencer)", count: 1, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psilencer"] },
+      { label: "3 Purgator (psycannon)", count: 3, meleeWeapon: "Close combat weapon", rangedWeapons: ["Psycannon"] },
     ],
     abilities: [
       "Righteous Persecution: after this unit shoots, pick one hit non-MONSTER/VEHICLE enemy unit: -2 Move and -2 Charge until your next turn.",
     ],
     keywords: ["INFANTRY", "PSYKER"],
+    enhancement: "Boons of Deimos",
     isPurgationSquad: true,
   },
 ];
