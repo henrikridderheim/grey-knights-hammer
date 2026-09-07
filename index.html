@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Never cache this entry page, so a new deploy is picked up immediately.
+         The built JS/CSS have content-hashed filenames, so they're still cached
+         safely — only this tiny HTML shell revalidates each load. This stops the
+         "phone shows an old version" problem after each deploy. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>grey-knights-hammer</title>
   </head>
   <body>
