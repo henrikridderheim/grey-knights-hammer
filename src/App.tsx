@@ -1308,6 +1308,11 @@ function App() {
   const handlePasteTextarea = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const text = e.clipboardData.getData("text");
     if (!text) return;
+    // Replace, don't append. Without preventDefault the browser also inserts the
+    // pasted text into the (controlled) textarea on top of whatever's already
+    // there — e.g. a restored session's list — so pasteText would become
+    // old+new, get persisted, and double every unit on the next re-analysis.
+    e.preventDefault();
     setPasteText(text);
     void readList(text);
   };

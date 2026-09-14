@@ -422,6 +422,14 @@ async function parseUnitBlocks(
   // Warhammer 40,000 app's own numbering — reset to null once a real section
   // header (CHARACTER, OTHER DATASHEETS, ...) ends the attached-units block.
   let currentAttachedGroupIndex: number | null = null;
+  // Some exports (e.g. certain Tyranid lists) format an attached unit as a
+  // single "Unit A + Unit B (pts)" header line with the real member units
+  // indented beneath it — no "Attached unit N" / "Attached as:" markers. While
+  // inside such a block, `combinedHeaderIndent` holds that header's indent and
+  // its member units are grouped under a synthetic index (COMBINED_GROUP_BASE+).
+  let combinedHeaderIndent: number | null = null;
+  let combinedGroupCounter = 0;
+  const COMBINED_GROUP_BASE = 1000;
 
   for (const line of lines) {
     if (isAttachedUnitSubHeader(line.cleaned)) {
@@ -443,6 +451,7 @@ async function parseUnitBlocks(
       // handled above and never reaches here.
       if (isLikelyHeader(stripPlusDecoration(line.cleaned)) && !isAttachedUnitSubHeader(line.cleaned)) {
         currentAttachedGroupIndex = null;
+        combinedHeaderIndent = null;
       }
       continue;
     }
@@ -453,6 +462,28 @@ async function parseUnitBlocks(
     if (isTopLevel) {
       const { text: withoutPoints, points } = extractTrailingPoints(line.cleaned);
       const matched = await resolveUnit(withoutPoints);
+
+      // Combined attached-unit header: "Unit A + Unit B (pts)" — a points-bearing
+      // line that doesn't itself resolve to a datasheet and joins two names with
+      // "+". The real member units follow indented beneath it (they DO resolve
+      // and carry their own points), so open a new attached group and let those
+      // children attach to it, instead of treating this header as a junk unit.
+      if (points !== null && !matched && / \+ /.test(withoutPoints)) {
+        combinedGroupCounter += 1;
+        currentAttachedGroupIndex = COMBINED_GROUP_BASE + combinedGroupCounter;
+        combinedHeaderIndent = line.indent;
+        current = null;
+        currentUnitIndent = null; // children are indented below; treat them as units
+        continue;
+      }
+
+      // A top-level line back at or above the combined header's indent ends the
+      // block — a following section header or standalone unit must not inherit
+      // the group.
+      if (combinedHeaderIndent !== null && line.indent <= combinedHeaderIndent) {
+        combinedHeaderIndent = null;
+        currentAttachedGroupIndex = null;
+      }
 
       // Flat exports (e.g. the Warhammer app's) put some wargear on un-bulleted
       // lines flush with the unit name — "4x Storm Shield", "1x Frostfang",
@@ -488,6 +519,11 @@ async function parseUnitBlocks(
         attachedGroupIndex: currentAttachedGroupIndex,
       };
       units.push(current);
+      // Inside a combined-header attached block, infer each member's role from
+      // whether its datasheet is a Character (the leader) or not (the bodyguard).
+      if (combinedHeaderIndent !== null && matched) {
+        current.attachedRole = matched.isCharacter ? "leader" : "bodyguard";
+      }
       currentUnitIndent = line.indent;
       currentGroupIndent = null;
       continue;

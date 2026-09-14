@@ -804,3 +804,64 @@ function byNameOf(result: { units: ParsedUnit[] }, name: string): ParsedUnit {
   if (!found) throw new Error(`unit "${name}" not found in parse result`);
   return found;
 }
+
+// ---------------------------------------------------------------------------
+// Combined-header attached format (e.g. some Tyranid exports): one
+// "Unit A + Unit B (pts)" header line with the member units indented beneath
+// it, and no "Attached unit N" / "Attached as:" markers. Regression for the
+// bug where this became a junk unresolved unit, split the members apart, and
+// silently dropped the second such block.
+// ---------------------------------------------------------------------------
+
+describe("parseArmyList — combined-header attached format", () => {
+  const COMBINED_LIST = `My List (500 Points)
+
+Necrons
+Awakened Dynasty (3 Detachment Points)
+Strike Force (2,000 Points)
+
+Attached Units:
+Technomancer + Necron Warriors (155 pts)
+  Technomancer (75 pts)
+    • Staff of Light
+  Necron Warriors (80 pts)
+    • 10x Necron Warrior
+      • 10x Gauss flayer
+
+Technomancer + Necron Warriors (155 pts)
+  Technomancer (75 pts)
+    • Staff of Light
+  Necron Warriors (80 pts)
+    • 10x Necron Warrior
+      • 10x Gauss flayer
+
+OTHER DATASHEETS
+
+Necron Warriors (80 pts)
+  • 10x Gauss flayer
+`;
+
+  it("groups each combined header + indented members into ONE attached unit, no doubling, no junk", async () => {
+    const result = await parseArmyList(COMBINED_LIST, provider);
+    expect(result.faction).toBe("Necrons");
+    expect(result.unresolved).toEqual([]);
+
+    expect(result.attachedGroups).toHaveLength(2);
+    for (const g of result.attachedGroups) {
+      expect(g.members.map((m) => [m.matchedUnitName, m.attachedRole])).toEqual([
+        ["Technomancer", "leader"],
+        ["Necron Warriors", "bodyguard"],
+      ]);
+      const bodyguard = g.members.find((m) => m.attachedRole === "bodyguard")!;
+      expect(bodyguard.modelCount).toBe(10); // "10x Gauss flayer" survives
+    }
+
+    // The standalone Necron Warriors after the header is NOT swept into a group.
+    const standalone = result.units.filter(
+      (u) => u.attachedGroupIndex === null && u.matchedUnitName === "Necron Warriors"
+    );
+    expect(standalone).toHaveLength(1);
+    // The "A + B" header never becomes a spurious unit.
+    expect(result.units.some((u) => /\+/.test(u.rawName))).toBe(false);
+  });
+});
