@@ -108,7 +108,7 @@ type TargetSource = { kind: "unit"; unit: ParsedUnit } | { kind: "group"; group:
 function detectForSource(source: TargetSource): { detected: DetectedAbility[]; unmodeled: string[] } {
   if (source.kind === "unit") {
     return source.unit.datasheet
-      ? detectDefensiveAbilities(source.unit.datasheet, source.unit.wargear)
+      ? detectDefensiveAbilities(source.unit.datasheet, source.unit.wargear, source.unit.enhancement)
       : { detected: [], unmodeled: [] };
   }
   const detected: DetectedAbility[] = [];
@@ -116,7 +116,7 @@ function detectForSource(source: TargetSource): { detected: DetectedAbility[]; u
   const unmodeled = new Set<string>();
   for (const m of source.group.members) {
     if (!m.datasheet) continue;
-    const d = detectDefensiveAbilities(m.datasheet, m.wargear);
+    const d = detectDefensiveAbilities(m.datasheet, m.wargear, m.enhancement);
     for (const a of d.detected) if (!seen.has(a.id)) (seen.add(a.id), detected.push(a));
     for (const u of d.unmodeled) unmodeled.add(u);
   }
@@ -134,7 +134,7 @@ function parsedUnitToTarget(unit: ParsedUnit, disabled: ReadonlySet<string> = NO
   if (!sheet) return null;
   const name = unit.rawName || sheet.name;
   const count = unit.modelCount ?? defaultModelCountFromComposition(sheet.composition);
-  const def = buildUnitDefense(sheet, name, count, unit.wargear, disabled);
+  const def = buildUnitDefense(sheet, name, count, unit.wargear, disabled, undefined, unit.enhancement);
   return {
     name,
     isAttached: false,
@@ -177,7 +177,7 @@ function attachedGroupToTarget(group: AttachedGroup, disabled: ReadonlySet<strin
   });
 
   const bodyguardCount = bodyguard.modelCount ?? defaultModelCountFromComposition(bodyguard.datasheet.composition);
-  const bgDef = buildUnitDefense(bodyguard.datasheet, bodyguard.rawName, bodyguardCount, bodyguard.wargear, disabled);
+  const bgDef = buildUnitDefense(bodyguard.datasheet, bodyguard.rawName, bodyguardCount, bodyguard.wargear, disabled, undefined, bodyguard.enhancement);
   const groups: DefenseModelGroup[] = [...bgDef.groups];
   let totalModels = bodyguardCount;
   let ruggedResilience = bgDef.ruggedResilience;
@@ -186,7 +186,7 @@ function attachedGroupToTarget(group: AttachedGroup, disabled: ReadonlySet<strin
     if (!ch.datasheet) continue;
     const count = ch.modelCount ?? defaultModelCountFromComposition(ch.datasheet.composition);
     totalModels += count;
-    const chDef = buildUnitDefense(ch.datasheet, ch.rawName, count, ch.wargear, disabled, true);
+    const chDef = buildUnitDefense(ch.datasheet, ch.rawName, count, ch.wargear, disabled, true, ch.enhancement);
     groups.push(...chDef.groups);
     // A defensive ability held by any member applies to the whole combined
     // unit; take the strongest of each (they don't stack).
@@ -308,6 +308,7 @@ function InlineStratagemToggles({
 }
 
 const DEFENSIVE_TOGGLE_LABELS: Record<keyof DefensiveSettings, string> = {
+  minusOneToHit: "-1 to Hit (shooting & melee)",
   minusOneToWound: "-1 to Wound (min 2+ needed)",
   minusOneToDamage: "-1 to Damage (min 1 per attack)",
   minusOneToAP: "-1 to AP (min AP0)",
@@ -905,7 +906,9 @@ function App() {
   // in the Shooting card or the Melee card for that unit.
   const [defensiveSettings, setDefensiveSettings] = useState<Record<string, DefensiveSettings>>({});
   const getDefensiveSettings = (opponentKey: string): DefensiveSettings =>
-    defensiveSettings[opponentKey] ?? DEFAULT_DEFENSIVE_SETTINGS;
+    // Merge over the defaults so a session saved before a toggle existed still
+    // has every key defined (a missing key would make its checkbox uncontrolled).
+    ({ ...DEFAULT_DEFENSIVE_SETTINGS, ...defensiveSettings[opponentKey] });
 
   // Manual half-range toggle — one per OPPONENT UNIT (shared between that
   // unit's "Best way to kill" card and its "Opponent matchups — Shooting"

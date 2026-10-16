@@ -15,7 +15,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUT_DIR = path.join(__dirname, "..", "public", "data");
+// SYNC_OUT_DIR lets a run write somewhere else (e.g. a scratch folder to diff
+// against the committed data) instead of overwriting public/data.
+const OUT_DIR = process.env.SYNC_OUT_DIR
+  ? path.resolve(process.env.SYNC_OUT_DIR)
+  : path.join(__dirname, "..", "public", "data");
 
 const GITHUB_API_LISTING = "https://api.github.com/repos/BSData/wh40k-11e/contents/";
 // Raw file URLs come from each listing entry's own `download_url`, so no base
@@ -125,6 +129,40 @@ function collectProfilesDeep(node, byId, profileById = new Map(), visited = new 
   }
   walk(node);
   return profiles;
+}
+
+/** For every profile reachable from a unit entry (same walk, same order, same
+ * visited-guard as collectProfilesDeep), the name of the nearest enclosing
+ * optional `upgrade` selection entry — or null if the profile belongs to the
+ * unit itself. Enhancements, wargear options and Crusade upgrades are all
+ * `upgrade` entries nested under the unit, so without this the unit's ability
+ * list silently included every option a player *could* take (e.g. Animus
+ * Damper on a C'tan Shard that didn't take it). Returns Map<profile, string|null>. */
+function collectProfileOptions(node, byId, profileById = new Map()) {
+  const optionOf = new Map();
+  const visited = new Set();
+  function walk(n, option) {
+    if (!n || typeof n !== "object") return;
+    if (n.id) {
+      if (visited.has(n.id)) return;
+      visited.add(n.id);
+    }
+    const here = n.type === "upgrade" ? n.name : option;
+    for (const p of n.profiles || []) optionOf.set(p, here);
+    for (const child of n.selectionEntries || []) walk(child, here);
+    for (const group of n.selectionEntryGroups || []) walk(group, /crusade/i.test(group.name || "") ? "Crusade" : here);
+    for (const link of n.entryLinks || []) {
+      const target = byId.get(link.targetId);
+      if (target) walk(target, here);
+    }
+    for (const link of n.infoLinks || []) {
+      if (link.type !== "profile") continue;
+      const profile = profileById.get(link.targetId);
+      if (profile) optionOf.set(profile, here);
+    }
+  }
+  walk(node, null);
+  return optionOf;
 }
 
 // ---------------------------------------------------------------------------
@@ -311,17 +349,37 @@ function guessComposition(entry) {
   return "1 model";
 }
 
-function parseAbilities(entry, allProfiles, ruleIndex) {
-  const abilities = [];
-  const seen = new Set();
-
+function parseAbilities(entry, allProfiles, ruleIndex, optionOf = new Map()) {
+  // name -> { text, options: Set<upgradeName>, intrinsic: boolean }. An ability
+  // is intrinsic if ANY occurrence is outside an optional upgrade; otherwise it
+  // only exists when the player takes one of the upgrades that provide it, and
+  // is emitted with `options` so the app can apply it only when selected.
+  const byName = new Map();
+  const order = [];
   for (const profile of allProfiles) {
     if (profile.typeName !== "Abilities") continue;
     const text = charText(profile, "Description") ?? "";
-    if (seen.has(profile.name)) continue;
-    seen.add(profile.name);
-    abilities.push({ name: profile.name, text });
+    const option = optionOf.get(profile) ?? null;
+    let rec = byName.get(profile.name);
+    if (!rec) {
+      rec = { text, options: new Set(), intrinsic: false };
+      byName.set(profile.name, rec);
+      order.push(profile.name);
+    }
+    if (option === null) {
+      if (!rec.intrinsic) rec.text = text; // prefer the unit's own wording
+      rec.intrinsic = true;
+    } else {
+      rec.options.add(option);
+    }
   }
+  const abilities = order.map((name) => {
+    const rec = byName.get(name);
+    return rec.intrinsic || rec.options.size === 0
+      ? { name, text: rec.text }
+      : { name, text: rec.text, options: [...rec.options] };
+  });
+  const seen = new Set(order);
 
   for (const link of entry.infoLinks || []) {
     if (link.type !== "rule") continue;
@@ -333,6 +391,48 @@ function parseAbilities(entry, allProfiles, ruleIndex) {
   }
 
   return abilities;
+}
+
+// Core abilities that appear on a datasheet as a *link* to a rule defined in the
+// core game-system file (not as an "Abilities" profile), with the value carried
+// by a modifier on the link itself — e.g. rule "Feel No Pain" + name-append
+// "5+". parseAbilities can't see these (the rule text isn't in the faction
+// catalogue, and the value isn't in the rule text), so before this existed
+// every core Feel No Pain / Stealth was silently dropped. The defensive ones are
+// what the app's opponent-defence detection needs; the rest are kept for
+// completeness.
+const CORE_RULE_NAMES = new Set([
+  "Feel No Pain",
+  "Stealth",
+  "Deadly Demise",
+  "Deep Strike",
+  "Scouts",
+  "Infiltrators",
+  "Lone Operative",
+  "Fights First",
+]);
+
+/** Unit-level core abilities as display strings, e.g. ["Deadly Demise D6",
+ * "Deep Strike", "Feel No Pain 5+"]. Skips links that are hidden by default or
+ * hidden by a condition (BSData uses that for "only while a Technomancer is
+ * attached"-style rules) — those aren't always-on, so they must not be applied
+ * as if they were. Only unit-level links are read, not links on individual
+ * model entries, so a rule that belongs to one model is never applied to the
+ * whole unit. */
+function parseCoreAbilities(entry) {
+  const out = [];
+  for (const link of entry.infoLinks || []) {
+    if (link.type !== "rule" || !CORE_RULE_NAMES.has(link.name)) continue;
+    const mods = link.modifiers || [];
+    if (link.hidden === true || mods.some((m) => m.field === "hidden")) continue;
+    const suffix = mods
+      .filter((m) => m.field === "name" && m.type === "append" && !(m.conditions?.length || m.conditionGroups?.length))
+      .map((m) => String(m.value).trim())
+      .filter(Boolean);
+    const display = [link.name, ...suffix].join(" ");
+    if (!out.includes(display)) out.push(display);
+  }
+  return out;
 }
 
 function parseCanLead(abilities) {
@@ -403,7 +503,8 @@ function normalizeUnit(entry, faction, byId, ruleIndex, profileIndex) {
     }
   }
 
-  const abilities = parseAbilities(entry, allProfiles, ruleIndex);
+  const abilities = parseAbilities(entry, allProfiles, ruleIndex, collectProfileOptions(entry, byId, profileIndex));
+  const coreAbilities = parseCoreAbilities(entry);
   const canLead = parseCanLead(abilities);
 
   const categoryLinks = (entry.categoryLinks || []).map((c) => c.name);
@@ -443,6 +544,7 @@ function normalizeUnit(entry, faction, byId, ruleIndex, profileIndex) {
     keywords,
     weapons,
     abilities,
+    ...(coreAbilities.length ? { coreAbilities } : {}),
     isCharacter,
     canLead,
     ...(isLegends ? { legends: true } : {}),

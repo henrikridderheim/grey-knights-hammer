@@ -119,7 +119,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -127,7 +130,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "custodian-guard",
@@ -229,11 +235,17 @@
         },
         {
           "name": "Vexilla",
-          "text": "Add 1 to the Objective Control characteristic of models in the bearer's unit."
+          "text": "Add 1 to the Objective Control characteristic of models in the bearer's unit.",
+          "options": [
+            "Vexilla"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -241,7 +253,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "aleya",
@@ -313,6 +328,9 @@
         "Prosecutors",
         "Vigilators",
         "Witchseekers"
+      ],
+      "coreAbilities": [
+        "Scouts 6\""
       ]
     },
     {
@@ -392,11 +410,17 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Daughter of the Abyss",
@@ -408,7 +432,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D3"
+      ]
     },
     {
       "id": "blade-champion",
@@ -493,119 +520,206 @@
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -616,6 +730,9 @@
       "canLead": [
         "Custodian Guard",
         "Custodian Wardens"
+      ],
+      "coreAbilities": [
+        "Deep Strike"
       ]
     },
     {
@@ -701,11 +818,17 @@
         },
         {
           "name": "Vexilla",
-          "text": "Add 1 to the Objective Control characteristic of models in the bearer’s unit."
+          "text": "Add 1 to the Objective Control characteristic of models in the bearer’s unit.",
+          "options": [
+            "Vexilla"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -713,7 +836,11 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike",
+        "Feel No Pain"
+      ]
     },
     {
       "id": "knight-centura",
@@ -819,119 +946,206 @@
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Daughter of the Abyss",
@@ -947,6 +1161,9 @@
         "Prosecutors",
         "Vigilators",
         "Witchseekers"
+      ],
+      "coreAbilities": [
+        "Scouts 6\""
       ]
     },
     {
@@ -1005,11 +1222,17 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Daughter of the Abyss",
@@ -1162,123 +1385,213 @@
         },
         {
           "name": "Praesidium Shield",
-          "text": "Add 1 to the bearer's Wounds characteristic."
+          "text": "Add 1 to the bearer's Wounds characteristic.",
+          "options": [
+            "Pyrithite Spear & Praesidium shield"
+          ]
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Strategic Mastery",
@@ -1293,6 +1606,9 @@
       "canLead": [
         "Custodian Guard",
         "Custodian Wardens"
+      ],
+      "coreAbilities": [
+        "Deep Strike"
       ]
     },
     {
@@ -1399,119 +1715,206 @@
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Strategic Mastery",
@@ -1525,6 +1928,9 @@
       "isCharacter": true,
       "canLead": [
         "Allarus Custodians"
+      ],
+      "coreAbilities": [
+        "Deep Strike"
       ]
     },
     {
@@ -1615,119 +2021,206 @@
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Strategic Mastery",
@@ -1818,6 +2311,10 @@
       "canLead": [
         "Custodian Guard",
         "Custodian Wardens"
+      ],
+      "coreAbilities": [
+        "Deep Strike",
+        "Feel No Pain 5+"
       ]
     },
     {
@@ -1892,6 +2389,10 @@
       "canLead": [
         "Custodian Guard",
         "Custodian Wardens"
+      ],
+      "coreAbilities": [
+        "Feel No Pain 6+",
+        "Deep Strike"
       ]
     },
     {
@@ -1986,127 +2487,220 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Interred Expertise",
-          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1."
+          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1.",
+          "options": [
+            "Interred Expertise"
+          ]
         },
         {
           "name": "Auramite Sarcophagus",
-          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**."
+          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**.",
+          "options": [
+            "Auramite Sarcophagus"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2114,7 +2708,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 1"
+      ]
     },
     {
       "id": "venerable-land-raider",
@@ -2227,7 +2824,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2235,7 +2835,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D6"
+      ]
     },
     {
       "id": "vertus-praetors",
@@ -2321,7 +2924,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2378,11 +2984,17 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Daughter of the Abyss",
@@ -2456,11 +3068,17 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Daughter of the Abyss",
@@ -2472,7 +3090,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Scouts 6\""
+      ]
     },
     {
       "id": "custodian-guard-with-adrasite-and-pyrithite-spears",
@@ -2560,7 +3181,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2568,7 +3192,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "sagittarum-custodians",
@@ -2630,7 +3257,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2638,7 +3268,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "aquilon-custodians",
@@ -2748,7 +3381,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2756,7 +3392,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "agamatus-custodians",
@@ -2850,7 +3489,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2950,11 +3592,17 @@
         },
         {
           "name": "Tarsis Buckler",
-          "text": "The bearer has a Wounds characteristic of 4."
+          "text": "The bearer has a Wounds characteristic of 4.",
+          "options": [
+            "Tarsis buckler"
+          ]
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -2962,7 +3610,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "contemptor-galatus-dreadnought",
@@ -3028,127 +3679,220 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Interred Expertise",
-          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1."
+          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1.",
+          "options": [
+            "Interred Expertise"
+          ]
         },
         {
           "name": "Auramite Sarcophagus",
-          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**."
+          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**.",
+          "options": [
+            "Auramite Sarcophagus"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -3156,7 +3900,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 1"
+      ]
     },
     {
       "id": "contemptor-achillus-dreadnought",
@@ -3269,127 +4016,220 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Interred Expertise",
-          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1."
+          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1.",
+          "options": [
+            "Interred Expertise"
+          ]
         },
         {
           "name": "Auramite Sarcophagus",
-          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**."
+          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**.",
+          "options": [
+            "Auramite Sarcophagus"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -3397,7 +4237,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 1"
+      ]
     },
     {
       "id": "pallas-grav-attack",
@@ -3459,11 +4302,17 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D3"
+      ]
     },
     {
       "id": "caladius-grav-tank",
@@ -3564,7 +4413,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -3572,7 +4424,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D3"
+      ]
     },
     {
       "id": "telemon-heavy-dreadnought",
@@ -3702,127 +4557,220 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Raptor Blade",
-          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead."
+          "text": "Add 1 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons. While the bearer is within Engagement Range of one or more enemy **^^Psyker^^** units that are Battle-shocked, add 2 to the Attacks, Strength and Damage characteristics of the bearer's melee weapons instead.",
+          "options": [
+            "Raptor Blade"
+          ]
         },
         {
           "name": "Castellan's Mark",
-          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves."
+          "text": "After both players have deployed their armies, you can select up to two **ADEPTUS CUSTODES** units from your army (excluding **ANATHEMA PSYKANA** units) and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how  any units are already in Strategic Reserves.",
+          "options": [
+            "Castellan's Mark"
+          ]
         },
         {
           "name": "Panoptispex",
-          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+          "text": "While the bearer is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability.",
+          "options": [
+            "Panoptispex"
+          ]
         },
         {
           "name": "From the Hall of Armouries",
-          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons."
+          "text": "Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.",
+          "options": [
+            "From the Hall of Armouries"
+          ]
         },
         {
           "name": "Radiant Mantle",
-          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll."
+          "text": "Each time an attack targets the bearer's unit, if the attacking model is within 12\", subtract 1 from the Hit roll.",
+          "options": [
+            "Radiant Mantle"
+          ]
         },
         {
           "name": "Aegis Projector",
-          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0."
+          "text": "Once per turn, the first time a saving throw is failed for the bearer's unit, change the Damage characteristic of that attack to 0.",
+          "options": [
+            "Aegis Projector"
+          ]
         },
         {
           "name": "Gift of Terran Artifice",
-          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll."
+          "text": "Each time the bearer makes a melee attack, add 1 to the Wound roll.",
+          "options": [
+            "Gift of Terran Artifice"
+          ]
         },
         {
           "name": "Champion of the Imperium",
-          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\"."
+          "text": "The range of the bearer’s Null Aegis or Deadly Unity ability is increased to 9\".",
+          "options": [
+            "Champion of the Imperium"
+          ]
         },
         {
           "name": "Auric Mantle",
-          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic."
+          "text": "**^^Shield-Captain^^** or **^^Blade Champion^^** model only. Add 2 to the bearer's Wounds characteristic.",
+          "options": [
+            "Auric Mantle"
+          ]
         },
         {
           "name": "Enhanced Voidsheen Cloak",
-          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead."
+          "text": "Each time an attack is allocated to the bearer, subtract 1 from the Damage characteristic of that attack. If that attack was made by a **^^Psyker^^** or Battle-shocked model, change the Damage characteristic of that attack to 1 instead.",
+          "options": [
+            "Enhanced Voidsheen Cloak"
+          ]
         },
         {
           "name": "Huntress' Eye",
-          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test."
+          "text": "In your Command phase, select one enemy unit within 12\" of the bearer. That unit must take a Battle-shock test.",
+          "options": [
+            "Huntress' Eye"
+          ]
         },
         {
           "name": "Oblivion Knight",
-          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well."
+          "text": "While the bearer is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll. If that attack targeted an enemy **^^Psyker^^** unit, add 1 to the Wound roll as well.",
+          "options": [
+            "Oblivion Knight"
+          ]
         },
         {
           "name": "Blade Imperator",
-          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test."
+          "text": "Each time the bearer's unit ends a Charge move, select one enemy unit within Engagement Range of the bearer and roll one D6: on a 4+, that enemy unit suffers D3 mortal wounds. Once per battle, when the bearer's unit ends a Charge move, all enemy units within 6\" of the bearer must take a Battle-shock test.",
+          "options": [
+            "Blade Imperator"
+          ]
         },
         {
           "name": "Inspirational Exemplar",
-          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked."
+          "text": "The bearer has a Leadership characteristic of 5+. Once per battle, at the start of any phase, you can select one friendly **^^Adeptus Custodes^^** unit that is Battle-shocked and within 12\" of the bearer: that unit is no longer Battle-shocked.",
+          "options": [
+            "Inspirational Exemplar"
+          ]
         },
         {
           "name": "Veiled Blade",
-          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn."
+          "text": "Add 2 to the Attacks characteristic of the bearer's melee weapons. Once per battle, at the start of any Command phase, triple the bearer's Objective Control characteristic until the end of the turn.",
+          "options": [
+            "Veiled Blade"
+          ]
         },
         {
           "name": "Martial Philosopher",
-          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+          "text": "Once per battle, in your opponent's Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of the bearer, if the bearer's unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\".",
+          "options": [
+            "Martial Philosopher"
+          ]
         },
         {
           "name": "Honoured Fallen",
-          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1."
+          "text": "ADEPTUS CUSTODES VEHICLE model only. While a friendly ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED unit is within 6\" of the bearer, each time a model in that unit makes  an attack, re‑roll a Hit roll of 1.",
+          "options": [
+            "Honoured Fallen (Aura)"
+          ]
         },
         {
           "name": "Augury Uplink",
-          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability."
+          "text": "ADEPTUS CUSTODES model only. The bearer has the Feel No Pain 5+ ability.",
+          "options": [
+            "Augury Uplink"
+          ]
         },
         {
           "name": "Adamantine Talisman",
-          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1."
+          "text": "**^^Adeptus Custodes^^** model only. Improve the Attacks, Strength and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          "options": [
+            "Adamantine Talisman"
+          ]
         },
         {
           "name": "Veteran of the Kataphraktoi",
-          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back."
+          "text": "ADEPTUS CUSTODES INFANTRY or ADEPTUS CUSTODES MOUNTED model only. In your Command phase, select one ADEPTUS CUSTODES VEHICLE or ADEPTUS CUSTODES MOUNTED unit within 6\" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.",
+          "options": [
+            "Veteran of the Kataphraktoi"
+          ]
         },
         {
           "name": "Superior Creation",
-          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining."
+          "text": "**^^Adeptus Custodes Infantry^^** model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with its full wounds remaining.",
+          "options": [
+            "Superior Creation"
+          ]
         },
         {
           "name": "Praesidius",
-          "text": "The bearer has the Lone Operative and Stealth abilities."
+          "text": "The bearer has the Lone Operative and Stealth abilities.",
+          "options": [
+            "Praesidius"
+          ]
         },
         {
           "name": "Fierce Conqueror",
-          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down)."
+          "text": "At the start of the Fight phase, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer for every 5 enemy models within 6\" of the bearer (rounding  down).",
+          "options": [
+            "Fierce Conqueror"
+          ]
         },
         {
           "name": "Admonimortis",
-          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1."
+          "text": "**^^Shield‑Captain^^** model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by  1.",
+          "options": [
+            "Admonimortis"
+          ]
         },
         {
           "name": "Encircling Hunter",
-          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**."
+          "text": "When both players have deployed their armies, you can redeploy up to three friendly **ANATHEMA PSYKANA INFANTRY** units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.",
+          "options": [
+            "Encircling Hunter"
+          ]
         },
         {
           "name": "Efficient Aggression",
-          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\"."
+          "text": "(Once per turn, per army) In your opponent’s Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **surge move** of up to D6+1\".",
+          "options": [
+            "Efficient Aggression"
+          ]
         },
         {
           "name": "Mnemo-locked Shrine Cipher",
-          "text": "In your first Movement phase, this unit can make an **ingress move**."
+          "text": "In your first Movement phase, this unit can make an **ingress move**.",
+          "options": [
+            "Mnemo-locked Shrine Cipher"
+          ]
         },
         {
           "name": "Psyk-out Grenades",
-          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound."
+          "text": "- This unit has EXPLOSIVES. \n- When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re‑roll rolls to determine whether that enemy unit suffers a mortal wound.",
+          "options": [
+            "Psyk-out Grenades"
+          ]
         },
         {
           "name": "Interred Expertise",
-          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1."
+          "text": "This unit’s attacks can: \n- Re‑roll **hit rolls** of 1. \n- Re‑roll **wound rolls** of 1.",
+          "options": [
+            "Interred Expertise"
+          ]
         },
         {
           "name": "Auramite Sarcophagus",
-          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**."
+          "text": "When you target this unit with the **Crushing Impact stratagem**, that use is ‑1 **CP**.",
+          "options": [
+            "Auramite Sarcophagus"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -3830,7 +4778,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D3"
+      ]
     },
     {
       "id": "coronus-grav-carrier",
@@ -3913,7 +4864,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -3921,7 +4875,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D6"
+      ]
     },
     {
       "id": "ares-gunship",
@@ -3999,7 +4956,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -4007,7 +4967,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D6"
+      ]
     },
     {
       "id": "orion-assault-dropship",
@@ -4106,7 +5069,10 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -4114,7 +5080,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D6"
+      ]
     },
     {
       "id": "guardian-of-the-throne-crucible",
@@ -4450,19 +5419,31 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Abyssal Void",
-          "text": "Models in this unit have the Lone Operative ability."
+          "text": "Models in this unit have the Lone Operative ability.",
+          "options": [
+            "Abyssal Void"
+          ]
         },
         {
           "name": "Singular Expertise",
-          "text": "While this model is not leading a unit, each time this model makes a melee attack, you can re-roll the Hit roll and you can re-roll the Wound roll."
+          "text": "While this model is not leading a unit, each time this model makes a melee attack, you can re-roll the Hit roll and you can re-roll the Wound roll.",
+          "options": [
+            "Singular Expertise"
+          ]
         },
         {
           "name": "Swift Onslaught",
-          "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit."
+          "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit.",
+          "options": [
+            "Swift Onslaught"
+          ]
         },
         {
           "name": "Martial Ka'tah",
@@ -4470,7 +5451,10 @@
         }
       ],
       "isCharacter": true,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "null-maiden-crucible",
@@ -4807,23 +5791,38 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Abyssal Void",
-          "text": "Models in this unit have the Lone Operative ability."
+          "text": "Models in this unit have the Lone Operative ability.",
+          "options": [
+            "Abyssal Void"
+          ]
         },
         {
           "name": "Singular Expertise",
-          "text": "While this model is not leading a unit, each time this model makes a melee attack, you can re-roll the Hit roll and you can re-roll the Wound roll."
+          "text": "While this model is not leading a unit, each time this model makes a melee attack, you can re-roll the Hit roll and you can re-roll the Wound roll.",
+          "options": [
+            "Singular Expertise"
+          ]
         },
         {
           "name": "Swift Onslaught",
-          "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit."
+          "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit.",
+          "options": [
+            "Swift Onslaught"
+          ]
         }
       ],
       "isCharacter": true,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Scouts 6\""
+      ]
     },
     {
       "id": "kataphraktoi-exemplar-crucible",
@@ -5161,19 +6160,31 @@
         },
         {
           "name": "Earned Name",
-          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one."
+          "text": "Each time this model's unit is selected to fight, both Ka'tah Stances are active for that unit, instead of only one.",
+          "options": [
+            "Earning of A Name"
+          ]
         },
         {
           "name": "Abyssal Void",
-          "text": "Models in this unit have the Lone Operative ability."
+          "text": "Models in this unit have the Lone Operative ability.",
+          "options": [
+            "Abyssal Void"
+          ]
         },
         {
           "name": "Singular Expertise",
-          "text": "While this model is not leading a unit, each time this model makes a melee attack, you can re-roll the Hit roll and you can re-roll the Wound roll."
+          "text": "While this model is not leading a unit, each time this model makes a melee attack, you can re-roll the Hit roll and you can re-roll the Wound roll.",
+          "options": [
+            "Singular Expertise"
+          ]
         },
         {
           "name": "Swift Onslaught",
-          "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit."
+          "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit.",
+          "options": [
+            "Swift Onslaught"
+          ]
         },
         {
           "name": "Martial Ka'tah",

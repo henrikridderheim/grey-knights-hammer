@@ -52,6 +52,11 @@ export interface DefenseModelGroup {
  * modifier already in play.
  */
 export interface DefensiveSettings {
+  /** -1 to incoming Hit rolls (manual — for when a unit has a -1-to-Hit rule
+   * that wasn't auto-detected, or to test "what if"). Stacks with cover and
+   * any auto-detected hit penalty; the engine clamps the net hit modifier to
+   * ±1. Leave off when attackers ignore hit modifiers. */
+  minusOneToHit: boolean;
   /** -1 to incoming Wound rolls. Cannot take the required roll below a 2+
    * (handled naturally by the existing hit/wound-roll modifier math: a
    * natural 1 always fails and a natural 6 always succeeds regardless of
@@ -66,6 +71,7 @@ export interface DefensiveSettings {
 }
 
 export const DEFAULT_DEFENSIVE_SETTINGS: DefensiveSettings = {
+  minusOneToHit: false,
   minusOneToWound: false,
   minusOneToDamage: false,
   minusOneToAP: false,

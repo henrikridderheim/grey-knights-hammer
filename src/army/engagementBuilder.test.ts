@@ -171,7 +171,7 @@ describe("target defensive toggles (-1 Wound / -1 Damage / -1 AP)", () => {
   });
 
   it("threads -1 to Wound into ctx.woundMod for both shooting and melee", () => {
-    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToWound: true, minusOneToDamage: false, minusOneToAP: false } };
+    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToHit: false, minusOneToWound: true, minusOneToDamage: false, minusOneToAP: false } };
     for (const e of buildShootingEngagements(gmnd, debuffed, baseScenario)) {
       expect(e.ctx.woundMod).toBe(-1);
     }
@@ -181,7 +181,7 @@ describe("target defensive toggles (-1 Wound / -1 Damage / -1 AP)", () => {
   });
 
   it("threads -1 to Damage into ctx.damageReduction for both shooting and melee", () => {
-    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToWound: false, minusOneToDamage: true, minusOneToAP: false } };
+    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToHit: false, minusOneToWound: false, minusOneToDamage: true, minusOneToAP: false } };
     for (const e of buildShootingEngagements(gmnd, debuffed, baseScenario)) {
       expect(e.ctx.damageReduction).toBe(1);
     }
@@ -191,7 +191,7 @@ describe("target defensive toggles (-1 Wound / -1 Damage / -1 AP)", () => {
   });
 
   it("threads -1 to AP into ctx.apReduction for both shooting and melee", () => {
-    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToWound: false, minusOneToDamage: false, minusOneToAP: true } };
+    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToHit: false, minusOneToWound: false, minusOneToDamage: false, minusOneToAP: true } };
     for (const e of buildShootingEngagements(gmnd, debuffed, baseScenario)) {
       expect(e.ctx.apReduction).toBe(1);
     }
@@ -200,8 +200,27 @@ describe("target defensive toggles (-1 Wound / -1 Damage / -1 AP)", () => {
     }
   });
 
+  it("-1 to Hit toggle applies to both shooting and melee, and is off by default", () => {
+    const off: TargetUnit = { ...target, defensiveSettings: { minusOneToHit: false, minusOneToWound: false, minusOneToDamage: false, minusOneToAP: false } };
+    for (const e of buildShootingEngagements(gmnd, off, baseScenario)) expect(e.ctx.hitMod).toBe(0);
+    for (const e of buildMeleeEngagements(gmnd, off, baseScenario)) expect(e.ctx.hitMod).toBe(0);
+
+    const on: TargetUnit = { ...target, defensiveSettings: { minusOneToHit: true, minusOneToWound: false, minusOneToDamage: false, minusOneToAP: false } };
+    for (const e of buildShootingEngagements(gmnd, on, baseScenario)) expect(e.ctx.hitMod).toBe(-1);
+    for (const e of buildMeleeEngagements(gmnd, on, baseScenario)) expect(e.ctx.hitMod).toBe(-1);
+  });
+
+  it("-1 to Hit stacks with an auto-detected hit penalty (engine clamps the net to -1)", () => {
+    const both: TargetUnit = {
+      ...target,
+      incoming: { hitPenalty: 1, woundPenalty: 0, damageReduction: 0 },
+      defensiveSettings: { minusOneToHit: true, minusOneToWound: false, minusOneToDamage: false, minusOneToAP: false },
+    };
+    for (const e of buildShootingEngagements(gmnd, both, baseScenario)) expect(e.ctx.hitMod).toBe(-2);
+  });
+
   it("stacks all three at once", () => {
-    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToWound: true, minusOneToDamage: true, minusOneToAP: true } };
+    const debuffed: TargetUnit = { ...target, defensiveSettings: { minusOneToHit: false, minusOneToWound: true, minusOneToDamage: true, minusOneToAP: true } };
     for (const e of buildShootingEngagements(gmnd, debuffed, baseScenario)) {
       expect(e.ctx.woundMod).toBe(-1);
       expect(e.ctx.damageReduction).toBe(1);

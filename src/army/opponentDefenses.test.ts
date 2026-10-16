@@ -6,6 +6,7 @@ import {
   detectDefensiveAbilities,
   buildUnitDefense,
   setSharedAbilityPool,
+  isOptionSelected,
 } from "./opponentDefenses";
 
 // The shared-ability pool is module-global; reset it so tests don't leak.
@@ -61,6 +62,146 @@ describe("stormShieldInfo", () => {
     expect(stormShieldInfo(sheet({ abilities: [] }), wargear([{ rawText: "Storm Shield", count: 4 }]))).toBeNull();
   });
 });
+
+describe("core abilities (Feel No Pain / Stealth from the datasheet's core-ability list)", () => {
+  // Regression: the data sync used to drop core abilities entirely, so a
+  // C'tan Shard's printed "Feel No Pain 5+" was never applied to anything.
+  const ctan = (overrides: Partial<NormalizedUnit> = {}) =>
+    sheet({
+      id: "ctan-shard-of-the-void-dragon",
+      name: "C'tan Shard of the Void Dragon",
+      abilities: [ab("Necrodermis", "Each time an attack is allocated to this model, subtract 1 from the Damage characteristic of that attack.")],
+      coreAbilities: ["Deadly Demise D6", "Deep Strike", "Feel No Pain 5+"],
+      ...overrides,
+    });
+
+  it("detects a core Feel No Pain, unconditional, alongside Necrodermis", () => {
+    const d = detectDefensiveAbilities(ctan(), []);
+    const fnp = d.detected.find((x) => x.effect.kind === "feelNoPain");
+    expect(fnp?.effect).toEqual({ kind: "feelNoPain", value: 5 });
+    expect(fnp?.conditional).toBe(false);
+    expect(fnp?.label).toMatch(/core ability/i);
+    expect(d.detected.some((x) => x.effect.kind === "reduceDamage")).toBe(true);
+  });
+
+  it("applies the core Feel No Pain to the target's model groups", () => {
+    const def = buildUnitDefense(ctan(), "C'tan", 1, [], new Set());
+    expect(def.groups[0].feelNoPain).toBe(5);
+    expect(def.incoming.damageReduction).toBe(1);
+  });
+
+  it("the user can switch it off like any other detected ability", () => {
+    const id = detectDefensiveAbilities(ctan(), []).detected.find((x) => x.effect.kind === "feelNoPain")!.id;
+    expect(buildUnitDefense(ctan(), "C'tan", 1, [], new Set([id])).groups[0].feelNoPain).toBeUndefined();
+  });
+
+  it("is not suppressed by the faction-wide shared-ability pool", () => {
+    setSharedAbilityPool(["Necrodermis", "Feel No Pain 5+", "Feel No Pain"]);
+    const fnp = detectDefensiveAbilities(ctan(), []).detected.find((x) => x.effect.kind === "feelNoPain");
+    expect(fnp?.effect).toEqual({ kind: "feelNoPain", value: 5 });
+  });
+
+  it("detects core Stealth as a -1 to be hit", () => {
+    const d = detectDefensiveAbilities(ctan({ coreAbilities: ["Stealth", "Deep Strike"] }), []);
+    expect(d.detected.some((x) => x.effect.kind === "hitPenalty" && !x.conditional)).toBe(true);
+    expect(buildUnitDefense(ctan({ coreAbilities: ["Stealth"] }), "x", 1, [], new Set()).incoming.hitPenalty).toBe(1);
+  });
+
+  it("a better unconditional Feel No Pain elsewhere beats the core value", () => {
+    const u = ctan({ abilities: [ab("Warded", "The bearer has the Feel No Pain 4+ ability.")] });
+    expect(buildUnitDefense(u, "x", 1, [], new Set()).groups[0].feelNoPain).toBe(4);
+  });
+
+  it("ignores core abilities that aren't defensive, and units with none", () => {
+    expect(detectDefensiveAbilities(ctan({ abilities: [], coreAbilities: ["Deep Strike", "Deadly Demise D6"] }), []).detected).toHaveLength(0);
+    expect(detectDefensiveAbilities(sheet({ abilities: [] }), []).detected).toHaveLength(0);
+  });
+});
+
+describe("optional upgrades (enhancements / wargear options) only apply when the list takes them", () => {
+  // Regression: the datasheet lists every option a player COULD take. A C'tan
+  // Shard that didn't take Animus Damper still got its -1 hit / -1 wound, and
+  // both Skorpekh Lords got Feel No Pain 4+ though only one took Enaegic Dermal Bond.
+  const wg = (...names: string[]): ParsedWargearLine[] =>
+    names.map((n) => ({ rawText: n, count: 1, matchedWeaponName: null }));
+  const dermal = { ...ab("Enaegic Dermal Bond", "NECRONS model only. The bearer has the Feel No Pain 4+ ability."), options: ["Enaegic Dermal Bond"] };
+  const lord = sheet({ id: "skorpekh-lord", name: "Skorpekh Lord", abilities: [dermal] });
+  const fnpOf = (enh?: string | null, w: ParsedWargearLine[] = []) => buildUnitDefense(lord, "Lord", 1, w, new Set(), undefined, enh).groups[0].feelNoPain;
+
+  it("is applied when it is the chosen enhancement (case/punctuation-insensitive)", () => {
+    expect(fnpOf("Enaegic Dermal Bond")).toBe(4);
+    expect(fnpOf("enaegic dermal-bond")).toBe(4);
+  });
+
+  it("is NOT applied when the unit has no enhancement, or a different one", () => {
+    expect(fnpOf(null)).toBeUndefined();
+    expect(fnpOf(undefined)).toBeUndefined();
+    expect(fnpOf("Warrior Noble")).toBeUndefined();
+  });
+
+  it("an optional wargear ability applies only when that wargear line is present", () => {
+    const damper = { ...ab("Animus Damper", "Each time an attack targets this unit, subtract 1 from the Hit roll."), options: ["Animus Damper"] };
+    const u = sheet({ abilities: [damper] });
+    expect(detectDefensiveAbilities(u, wg("Spear of the Void Dragon"), null).detected).toHaveLength(0);
+    expect(detectDefensiveAbilities(u, wg("Animus Damper"), null).detected).toHaveLength(1);
+  });
+
+  it("an ability with no `options` is the unit's own and always applies", () => {
+    const own = ab("Necrodermis", "Each time an attack is allocated to this model, subtract 1 from the Damage characteristic of that attack.");
+    expect(detectDefensiveAbilities(sheet({ abilities: [own] }), [], null).detected).toHaveLength(1);
+  });
+
+  it("an ability provided by several upgrades applies if any one is taken", () => {
+    const a = { ...ab("Veil", "The bearer has the Feel No Pain 5+ ability."), options: ["Veil A", "Veil B"] };
+    expect(detectDefensiveAbilities(sheet({ abilities: [a] }), [], "Veil B").detected).toHaveLength(1);
+    expect(detectDefensiveAbilities(sheet({ abilities: [a] }), [], "Veil C").detected).toHaveLength(0);
+  });
+
+  it("isOptionSelected: wargear lines may carry a suffix such as (Aura); short names don't false-match", () => {
+    expect(isOptionSelected(["Nullstone field generator"], wg("Nullstone Field Generator (Aura)"))).toBe(true);
+    expect(isOptionSelected(["Animus Damper"], wg("Spear of the Void Dragon"))).toBe(false);
+    expect(isOptionSelected(["Spear of the Void Dragon"], wg("Spear"))).toBe(false); // too short to trust
+    expect(isOptionSelected([], wg("Anything"), "Anything")).toBe(false);
+  });
+});
+
+describe("offensive-only hit/wound penalties are NOT treated as defences", () => {
+  // Regression: the C'tan Shard of the Void Dragon showed a "-1 to be wounded" /
+  // "-1 to be hit" toggle that isn't on its datasheet. Both came from Animus
+  // Damper, which debuffs a selected enemy Vehicle's attacks.
+  const animusDamper = ab(
+    "Animus Damper",
+    "Once per turn, at the start of your opponent’s Shooting phase, select one enemy Vehicle unit visible to the bearer. That unit must take a Leadership test. Until the end of the phase, each time a model in that unit makes an attack, subtract 1 from the Hit roll and, if that Leadership test was failed, subtract 1 from the Wound roll as well."
+  );
+  const damaged = ab("Damaged: 1-4 wounds remaining", "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll.");
+
+  it("Animus Damper yields no -1 to be hit and no -1 to be wounded, and isn't listed as unmodelled", () => {
+    const d = detectDefensiveAbilities(withAbilities([animusDamper]), []);
+    expect(d.detected).toHaveLength(0);
+    expect(d.unmodeled).toHaveLength(0);
+    const def = buildUnitDefense(withAbilities([animusDamper]), "x", 1, [], new Set());
+    expect(def.incoming).toEqual({ hitPenalty: 0, woundPenalty: 0, damageReduction: 0 });
+  });
+
+  it("a model's own 'Damaged' attack penalty is not a defence", () => {
+    const d = detectDefensiveAbilities(withAbilities([damaged]), []);
+    expect(d.detected).toHaveLength(0);
+    expect(d.unmodeled).toHaveLength(0);
+  });
+
+  it("still detects real defensive wording, including when the text also mentions the unit's own attacks", () => {
+    const both = ab("Warded Advance", "Each time a ranged attack targets this unit, subtract 1 from the Hit roll. Each time this model makes an attack, add 1 to the Hit roll.");
+    expect(effectsOfUnit(withAbilities([both]))).toContain("hitPenalty");
+    const against = ab("Warp-forged", "Each time an attack is made against this unit, subtract 1 from the Wound roll.");
+    expect(effectsOfUnit(withAbilities([against]))).toContain("woundPenalty");
+  });
+
+  it("wording it doesn't recognise either way is left as before (never silently dropped)", () => {
+    const vague = ab("Veil", "Subtract 1 from the Hit roll.");
+    expect(effectsOfUnit(withAbilities([vague]))).toContain("hitPenalty");
+  });
+});
+const effectsOfUnit = (u: NormalizedUnit) => detectDefensiveAbilities(u, []).detected.map((d) => d.effect.kind);
 
 describe("detectDefensiveAbilities", () => {
   const effectsOf = (u: NormalizedUnit) => detectDefensiveAbilities(u, []).detected.map((d) => d.effect.kind).sort();

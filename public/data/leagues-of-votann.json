@@ -223,7 +223,10 @@
         },
         {
           "name": "Weavefield crest",
-          "text": "Models in the bearer's unit have a 5+ invulnerable save."
+          "text": "Models in the bearer's unit have a 5+ invulnerable save.",
+          "options": [
+            "Weavefield crest"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -306,7 +309,10 @@
         },
         {
           "name": "Rampart crest",
-          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save."
+          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save.",
+          "options": [
+            "Rampart crest"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -410,123 +416,213 @@
         },
         {
           "name": "Rampart crest",
-          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save."
+          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save.",
+          "options": [
+            "Rampart crest"
+          ]
         },
         {
           "name": "Teleport crest",
-          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability."
+          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability.",
+          "options": [
+            "Teleport crest"
+          ]
         },
         {
           "name": "Bastion Shield",
-          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead."
+          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead.",
+          "options": [
+            "Bastion Shield"
+          ]
         },
         {
           "name": "High Kâhl",
-          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
+          "options": [
+            "High Kâhl"
+          ]
         },
         {
           "name": "Ironskein",
-          "text": "Add 2 to the bearer’s Wounds characteristic."
+          "text": "Add 2 to the bearer’s Wounds characteristic.",
+          "options": [
+            "Ironskein"
+          ]
         },
         {
           "name": "Quake Multigenerator",
-          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Quake Multigenerator"
+          ]
         },
         {
           "name": "Oathbound Speculator",
-          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll.",
+          "options": [
+            "Oathbound Speculator"
+          ]
         },
         {
           "name": "Writ of Acquisition",
-          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP)."
+          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP).",
+          "options": [
+            "Writ of Acquisition"
+          ]
         },
         {
           "name": "Surgical Saboteur",
-          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned."
+          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned.",
+          "options": [
+            "Surgical Saboteur"
+          ]
         },
         {
           "name": "Nomad Strategist",
-          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units)."
+          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units).",
+          "options": [
+            "Nomad Strategist"
+          ]
         },
         {
           "name": "Eye For Weakness",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll.",
+          "options": [
+            "Eye For Weakness"
+          ]
         },
         {
           "name": "Dead Reckoning",
-          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP."
+          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP.",
+          "options": [
+            "Dead Reckoning"
+          ]
         },
         {
           "name": "Iron Ambassador",
-          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons."
+          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons.",
+          "options": [
+            "Iron Ambassador"
+          ]
         },
         {
           "name": "Ancestral Crest",
-          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP."
+          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP.",
+          "options": [
+            "Ancestral Crest"
+          ]
         },
         {
           "name": "Fârstryder Node",
-          "text": "Models in the bearer's unit have the Deep Strike abilty."
+          "text": "Models in the bearer's unit have the Deep Strike abilty.",
+          "options": [
+            "Fârstryder Node"
+          ]
         },
         {
           "name": "Graviton Vault",
-          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Graviton Vault"
+          ]
         },
         {
           "name": "Mantle of Elders",
-          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP."
+          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP.",
+          "options": [
+            "Mantle of Elders"
+          ]
         },
         {
           "name": "Calculated Tenacity",
-          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit."
+          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit.",
+          "options": [
+            "Calculated Tenacity"
+          ]
         },
         {
           "name": "Dêlvwerke Navigator",
-          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit."
+          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit.",
+          "options": [
+            "Dêlvwerke Navigator"
+          ]
         },
         {
           "name": "Quake Supervisor",
-          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll."
+          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll.",
+          "options": [
+            "Quake Supervisor"
+          ]
         },
         {
           "name": "Piledriver",
-          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons."
+          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons.",
+          "options": [
+            "Piledriver"
+          ]
         },
         {
           "name": "Multiwave System Jammer",
-          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is."
+          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is.",
+          "options": [
+            "Multiwave System Jammer"
+          ]
         },
         {
           "name": "Tactical Alchemy",
-          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP."
+          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP.",
+          "options": [
+            "Tactical Alchemy"
+          ]
         },
         {
           "name": "Trivârg Cyber Implant",
-          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability."
+          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability.",
+          "options": [
+            "Trivârg Cyber Implant"
+          ]
         },
         {
           "name": "Precursive Judgement",
-          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem."
+          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem.",
+          "options": [
+            "Precursive Judgement"
+          ]
         },
         {
           "name": "Signature Restoration",
-          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound."
+          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound.",
+          "options": [
+            "Signature Restoration"
+          ]
         },
         {
           "name": "Mercenary Prospector",
-          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP."
+          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP.",
+          "options": [
+            "Mercenary Prospector"
+          ]
         },
         {
           "name": "Metaphysical Brokerage",
-          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference."
+          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference.",
+          "options": [
+            "Metaphysical Brokerage"
+          ]
         },
         {
           "name": "Etacarn SB9 Targeting Implant",
-          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability."
+          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability.",
+          "options": [
+            "Etacarn SB9 Targeting Implant"
+          ]
         },
         {
           "name": "Asset Manipulator",
-          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit."
+          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit.",
+          "options": [
+            "Asset Manipulator"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -617,123 +713,213 @@
         },
         {
           "name": "Weavefield crest",
-          "text": "The bearer has a 4+ invulnerable save."
+          "text": "The bearer has a 4+ invulnerable save.",
+          "options": [
+            "Weavefield crest"
+          ]
         },
         {
           "name": "Teleport crest",
-          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability."
+          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability.",
+          "options": [
+            "Teleport crest"
+          ]
         },
         {
           "name": "Bastion Shield",
-          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead."
+          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead.",
+          "options": [
+            "Bastion Shield"
+          ]
         },
         {
           "name": "High Kâhl",
-          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
+          "options": [
+            "High Kâhl"
+          ]
         },
         {
           "name": "Ironskein",
-          "text": "Add 2 to the bearer’s Wounds characteristic."
+          "text": "Add 2 to the bearer’s Wounds characteristic.",
+          "options": [
+            "Ironskein"
+          ]
         },
         {
           "name": "Quake Multigenerator",
-          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Quake Multigenerator"
+          ]
         },
         {
           "name": "Oathbound Speculator",
-          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll.",
+          "options": [
+            "Oathbound Speculator"
+          ]
         },
         {
           "name": "Writ of Acquisition",
-          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP)."
+          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP).",
+          "options": [
+            "Writ of Acquisition"
+          ]
         },
         {
           "name": "Surgical Saboteur",
-          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned."
+          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned.",
+          "options": [
+            "Surgical Saboteur"
+          ]
         },
         {
           "name": "Nomad Strategist",
-          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units)."
+          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units).",
+          "options": [
+            "Nomad Strategist"
+          ]
         },
         {
           "name": "Eye For Weakness",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll.",
+          "options": [
+            "Eye For Weakness"
+          ]
         },
         {
           "name": "Dead Reckoning",
-          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP."
+          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP.",
+          "options": [
+            "Dead Reckoning"
+          ]
         },
         {
           "name": "Iron Ambassador",
-          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons."
+          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons.",
+          "options": [
+            "Iron Ambassador"
+          ]
         },
         {
           "name": "Ancestral Crest",
-          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP."
+          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP.",
+          "options": [
+            "Ancestral Crest"
+          ]
         },
         {
           "name": "Fârstryder Node",
-          "text": "Models in the bearer's unit have the Deep Strike abilty."
+          "text": "Models in the bearer's unit have the Deep Strike abilty.",
+          "options": [
+            "Fârstryder Node"
+          ]
         },
         {
           "name": "Graviton Vault",
-          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Graviton Vault"
+          ]
         },
         {
           "name": "Mantle of Elders",
-          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP."
+          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP.",
+          "options": [
+            "Mantle of Elders"
+          ]
         },
         {
           "name": "Calculated Tenacity",
-          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit."
+          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit.",
+          "options": [
+            "Calculated Tenacity"
+          ]
         },
         {
           "name": "Dêlvwerke Navigator",
-          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit."
+          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit.",
+          "options": [
+            "Dêlvwerke Navigator"
+          ]
         },
         {
           "name": "Quake Supervisor",
-          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll."
+          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll.",
+          "options": [
+            "Quake Supervisor"
+          ]
         },
         {
           "name": "Piledriver",
-          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons."
+          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons.",
+          "options": [
+            "Piledriver"
+          ]
         },
         {
           "name": "Multiwave System Jammer",
-          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is."
+          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is.",
+          "options": [
+            "Multiwave System Jammer"
+          ]
         },
         {
           "name": "Tactical Alchemy",
-          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP."
+          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP.",
+          "options": [
+            "Tactical Alchemy"
+          ]
         },
         {
           "name": "Trivârg Cyber Implant",
-          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability."
+          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability.",
+          "options": [
+            "Trivârg Cyber Implant"
+          ]
         },
         {
           "name": "Precursive Judgement",
-          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem."
+          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem.",
+          "options": [
+            "Precursive Judgement"
+          ]
         },
         {
           "name": "Signature Restoration",
-          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound."
+          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound.",
+          "options": [
+            "Signature Restoration"
+          ]
         },
         {
           "name": "Mercenary Prospector",
-          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP."
+          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP.",
+          "options": [
+            "Mercenary Prospector"
+          ]
         },
         {
           "name": "Metaphysical Brokerage",
-          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference."
+          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference.",
+          "options": [
+            "Metaphysical Brokerage"
+          ]
         },
         {
           "name": "Etacarn SB9 Targeting Implant",
-          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability."
+          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability.",
+          "options": [
+            "Etacarn SB9 Targeting Implant"
+          ]
         },
         {
           "name": "Asset Manipulator",
-          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit."
+          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit.",
+          "options": [
+            "Asset Manipulator"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -864,115 +1050,199 @@
         },
         {
           "name": "Bastion Shield",
-          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead."
+          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead.",
+          "options": [
+            "Bastion Shield"
+          ]
         },
         {
           "name": "High Kâhl",
-          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
+          "options": [
+            "High Kâhl"
+          ]
         },
         {
           "name": "Ironskein",
-          "text": "Add 2 to the bearer’s Wounds characteristic."
+          "text": "Add 2 to the bearer’s Wounds characteristic.",
+          "options": [
+            "Ironskein"
+          ]
         },
         {
           "name": "Quake Multigenerator",
-          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Quake Multigenerator"
+          ]
         },
         {
           "name": "Oathbound Speculator",
-          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll.",
+          "options": [
+            "Oathbound Speculator"
+          ]
         },
         {
           "name": "Writ of Acquisition",
-          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP)."
+          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP).",
+          "options": [
+            "Writ of Acquisition"
+          ]
         },
         {
           "name": "Surgical Saboteur",
-          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned."
+          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned.",
+          "options": [
+            "Surgical Saboteur"
+          ]
         },
         {
           "name": "Nomad Strategist",
-          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units)."
+          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units).",
+          "options": [
+            "Nomad Strategist"
+          ]
         },
         {
           "name": "Eye For Weakness",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll.",
+          "options": [
+            "Eye For Weakness"
+          ]
         },
         {
           "name": "Dead Reckoning",
-          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP."
+          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP.",
+          "options": [
+            "Dead Reckoning"
+          ]
         },
         {
           "name": "Iron Ambassador",
-          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons."
+          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons.",
+          "options": [
+            "Iron Ambassador"
+          ]
         },
         {
           "name": "Ancestral Crest",
-          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP."
+          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP.",
+          "options": [
+            "Ancestral Crest"
+          ]
         },
         {
           "name": "Fârstryder Node",
-          "text": "Models in the bearer's unit have the Deep Strike abilty."
+          "text": "Models in the bearer's unit have the Deep Strike abilty.",
+          "options": [
+            "Fârstryder Node"
+          ]
         },
         {
           "name": "Graviton Vault",
-          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Graviton Vault"
+          ]
         },
         {
           "name": "Mantle of Elders",
-          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP."
+          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP.",
+          "options": [
+            "Mantle of Elders"
+          ]
         },
         {
           "name": "Calculated Tenacity",
-          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit."
+          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit.",
+          "options": [
+            "Calculated Tenacity"
+          ]
         },
         {
           "name": "Dêlvwerke Navigator",
-          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit."
+          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit.",
+          "options": [
+            "Dêlvwerke Navigator"
+          ]
         },
         {
           "name": "Quake Supervisor",
-          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll."
+          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll.",
+          "options": [
+            "Quake Supervisor"
+          ]
         },
         {
           "name": "Piledriver",
-          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons."
+          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons.",
+          "options": [
+            "Piledriver"
+          ]
         },
         {
           "name": "Multiwave System Jammer",
-          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is."
+          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is.",
+          "options": [
+            "Multiwave System Jammer"
+          ]
         },
         {
           "name": "Tactical Alchemy",
-          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP."
+          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP.",
+          "options": [
+            "Tactical Alchemy"
+          ]
         },
         {
           "name": "Trivârg Cyber Implant",
-          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability."
+          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability.",
+          "options": [
+            "Trivârg Cyber Implant"
+          ]
         },
         {
           "name": "Precursive Judgement",
-          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem."
+          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem.",
+          "options": [
+            "Precursive Judgement"
+          ]
         },
         {
           "name": "Signature Restoration",
-          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound."
+          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound.",
+          "options": [
+            "Signature Restoration"
+          ]
         },
         {
           "name": "Mercenary Prospector",
-          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP."
+          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP.",
+          "options": [
+            "Mercenary Prospector"
+          ]
         },
         {
           "name": "Metaphysical Brokerage",
-          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference."
+          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference.",
+          "options": [
+            "Metaphysical Brokerage"
+          ]
         },
         {
           "name": "Etacarn SB9 Targeting Implant",
-          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability."
+          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability.",
+          "options": [
+            "Etacarn SB9 Targeting Implant"
+          ]
         },
         {
           "name": "Asset Manipulator",
-          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit."
+          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit.",
+          "options": [
+            "Asset Manipulator"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -1127,115 +1397,199 @@
         },
         {
           "name": "Bastion Shield",
-          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead."
+          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead.",
+          "options": [
+            "Bastion Shield"
+          ]
         },
         {
           "name": "High Kâhl",
-          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
+          "options": [
+            "High Kâhl"
+          ]
         },
         {
           "name": "Ironskein",
-          "text": "Add 2 to the bearer’s Wounds characteristic."
+          "text": "Add 2 to the bearer’s Wounds characteristic.",
+          "options": [
+            "Ironskein"
+          ]
         },
         {
           "name": "Quake Multigenerator",
-          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Quake Multigenerator"
+          ]
         },
         {
           "name": "Oathbound Speculator",
-          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll.",
+          "options": [
+            "Oathbound Speculator"
+          ]
         },
         {
           "name": "Writ of Acquisition",
-          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP)."
+          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP).",
+          "options": [
+            "Writ of Acquisition"
+          ]
         },
         {
           "name": "Surgical Saboteur",
-          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned."
+          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned.",
+          "options": [
+            "Surgical Saboteur"
+          ]
         },
         {
           "name": "Nomad Strategist",
-          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units)."
+          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units).",
+          "options": [
+            "Nomad Strategist"
+          ]
         },
         {
           "name": "Eye For Weakness",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll.",
+          "options": [
+            "Eye For Weakness"
+          ]
         },
         {
           "name": "Dead Reckoning",
-          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP."
+          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP.",
+          "options": [
+            "Dead Reckoning"
+          ]
         },
         {
           "name": "Iron Ambassador",
-          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons."
+          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons.",
+          "options": [
+            "Iron Ambassador"
+          ]
         },
         {
           "name": "Ancestral Crest",
-          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP."
+          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP.",
+          "options": [
+            "Ancestral Crest"
+          ]
         },
         {
           "name": "Fârstryder Node",
-          "text": "Models in the bearer's unit have the Deep Strike abilty."
+          "text": "Models in the bearer's unit have the Deep Strike abilty.",
+          "options": [
+            "Fârstryder Node"
+          ]
         },
         {
           "name": "Graviton Vault",
-          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Graviton Vault"
+          ]
         },
         {
           "name": "Mantle of Elders",
-          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP."
+          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP.",
+          "options": [
+            "Mantle of Elders"
+          ]
         },
         {
           "name": "Calculated Tenacity",
-          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit."
+          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit.",
+          "options": [
+            "Calculated Tenacity"
+          ]
         },
         {
           "name": "Dêlvwerke Navigator",
-          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit."
+          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit.",
+          "options": [
+            "Dêlvwerke Navigator"
+          ]
         },
         {
           "name": "Quake Supervisor",
-          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll."
+          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll.",
+          "options": [
+            "Quake Supervisor"
+          ]
         },
         {
           "name": "Piledriver",
-          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons."
+          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons.",
+          "options": [
+            "Piledriver"
+          ]
         },
         {
           "name": "Multiwave System Jammer",
-          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is."
+          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is.",
+          "options": [
+            "Multiwave System Jammer"
+          ]
         },
         {
           "name": "Tactical Alchemy",
-          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP."
+          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP.",
+          "options": [
+            "Tactical Alchemy"
+          ]
         },
         {
           "name": "Trivârg Cyber Implant",
-          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability."
+          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability.",
+          "options": [
+            "Trivârg Cyber Implant"
+          ]
         },
         {
           "name": "Precursive Judgement",
-          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem."
+          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem.",
+          "options": [
+            "Precursive Judgement"
+          ]
         },
         {
           "name": "Signature Restoration",
-          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound."
+          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound.",
+          "options": [
+            "Signature Restoration"
+          ]
         },
         {
           "name": "Mercenary Prospector",
-          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP."
+          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP.",
+          "options": [
+            "Mercenary Prospector"
+          ]
         },
         {
           "name": "Metaphysical Brokerage",
-          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference."
+          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference.",
+          "options": [
+            "Metaphysical Brokerage"
+          ]
         },
         {
           "name": "Etacarn SB9 Targeting Implant",
-          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability."
+          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability.",
+          "options": [
+            "Etacarn SB9 Targeting Implant"
+          ]
         },
         {
           "name": "Asset Manipulator",
-          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit."
+          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit.",
+          "options": [
+            "Asset Manipulator"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -1369,11 +1723,17 @@
         },
         {
           "name": "Teleport crest",
-          "text": "Models in the bearer's unit have the Deep Strike ability."
+          "text": "Models in the bearer's unit have the Deep Strike ability.",
+          "options": [
+            "Teleport crest"
+          ]
         },
         {
           "name": "Weavefield crest",
-          "text": "Models in the bearer's unit have a 5+ invulnerable save."
+          "text": "Models in the bearer's unit have a 5+ invulnerable save.",
+          "options": [
+            "Weavefield crest"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -1490,7 +1850,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Feel No Pain 4+"
+      ]
     },
     {
       "id": "hernkyn-pioneers",
@@ -1609,19 +1972,31 @@
         },
         {
           "name": "Comms array",
-          "text": "Each time you target the bearer’s unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
+          "text": "Each time you target the bearer’s unit with a Stratagem, roll one D6: on a 5+, you gain 1CP.",
+          "options": [
+            "Comms array"
+          ]
         },
         {
           "name": "Pan-spectral scanner",
-          "text": "Each time a model in the bearer's unit makes a ranged attack, re-roll a Hit roll of 1."
+          "text": "Each time a model in the bearer's unit makes a ranged attack, re-roll a Hit roll of 1.",
+          "options": [
+            "Pan-spectral scanner"
+          ]
         },
         {
           "name": "Rollbar searchlight",
-          "text": "Each time a model in the bearer's unit makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
+          "text": "Each time a model in the bearer's unit makes a ranged attack, you can ignore any or all modifiers to the Hit roll.",
+          "options": [
+            "Rollbar searchlight"
+          ]
         },
         {
           "name": "Pan-spectral Lockons",
-          "text": "In your Shooting phase, you can select one **visible** enemy unit within 12\" of this unit. That enemy unit is **spotted**: \n- While a unit is spotted, that unit has +3\" **detection range**."
+          "text": "In your Shooting phase, you can select one **visible** enemy unit within 12\" of this unit. That enemy unit is **spotted**: \n- While a unit is spotted, that unit has +3\" **detection range**.",
+          "options": [
+            "Pan-spectral Lockons"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -1633,7 +2008,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Scouts 9\""
+      ]
     },
     {
       "id": "sagitaur",
@@ -1770,11 +2148,17 @@
         },
         {
           "name": "Saturation Rounds",
-          "text": "This unit’s ranged attacks have [IGNORES COVER]."
+          "text": "This unit’s ranged attacks have [IGNORES COVER].",
+          "options": [
+            "Saturation Rounds"
+          ]
         },
         {
           "name": "Optimised Attack Lines",
-          "text": "This unit has MOBILE."
+          "text": "This unit has MOBILE.",
+          "options": [
+            "Optimised Attack Lines"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -1790,7 +2174,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 1"
+      ]
     },
     {
       "id": "br-khyr-thunderkyn",
@@ -2070,7 +2457,10 @@
         },
         {
           "name": "Pan spectral scanner",
-          "text": "Each time a model in the bearer's unit makes a ranged attack, re-roll a Hit roll of 1."
+          "text": "Each time a model in the bearer's unit makes a ranged attack, re-roll a Hit roll of 1.",
+          "options": [
+            "Pan spectral scanner"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -2086,7 +2476,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D6"
+      ]
     },
     {
       "id": "hernkyn-yaegirs",
@@ -2206,7 +2599,10 @@
         },
         {
           "name": "Shroudwërke Talismans",
-          "text": "This unit has -3\" **detection range**."
+          "text": "This unit has -3\" **detection range**.",
+          "options": [
+            "Shroudwërke Talismans"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -2218,7 +2614,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Infiltrators"
+      ]
     },
     {
       "id": "buri-aegnirssen",
@@ -2302,7 +2701,11 @@
         }
       ],
       "isCharacter": true,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Lone Operative",
+        "Stealth"
+      ]
     },
     {
       "id": "memnyr-strategist",
@@ -2365,115 +2768,199 @@
         },
         {
           "name": "Bastion Shield",
-          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead."
+          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead.",
+          "options": [
+            "Bastion Shield"
+          ]
         },
         {
           "name": "High Kâhl",
-          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
+          "options": [
+            "High Kâhl"
+          ]
         },
         {
           "name": "Ironskein",
-          "text": "Add 2 to the bearer’s Wounds characteristic."
+          "text": "Add 2 to the bearer’s Wounds characteristic.",
+          "options": [
+            "Ironskein"
+          ]
         },
         {
           "name": "Quake Multigenerator",
-          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Quake Multigenerator"
+          ]
         },
         {
           "name": "Oathbound Speculator",
-          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll.",
+          "options": [
+            "Oathbound Speculator"
+          ]
         },
         {
           "name": "Writ of Acquisition",
-          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP)."
+          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP).",
+          "options": [
+            "Writ of Acquisition"
+          ]
         },
         {
           "name": "Surgical Saboteur",
-          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned."
+          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned.",
+          "options": [
+            "Surgical Saboteur"
+          ]
         },
         {
           "name": "Nomad Strategist",
-          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units)."
+          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units).",
+          "options": [
+            "Nomad Strategist"
+          ]
         },
         {
           "name": "Eye For Weakness",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll.",
+          "options": [
+            "Eye For Weakness"
+          ]
         },
         {
           "name": "Dead Reckoning",
-          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP."
+          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP.",
+          "options": [
+            "Dead Reckoning"
+          ]
         },
         {
           "name": "Iron Ambassador",
-          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons."
+          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons.",
+          "options": [
+            "Iron Ambassador"
+          ]
         },
         {
           "name": "Ancestral Crest",
-          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP."
+          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP.",
+          "options": [
+            "Ancestral Crest"
+          ]
         },
         {
           "name": "Fârstryder Node",
-          "text": "Models in the bearer's unit have the Deep Strike abilty."
+          "text": "Models in the bearer's unit have the Deep Strike abilty.",
+          "options": [
+            "Fârstryder Node"
+          ]
         },
         {
           "name": "Graviton Vault",
-          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Graviton Vault"
+          ]
         },
         {
           "name": "Mantle of Elders",
-          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP."
+          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP.",
+          "options": [
+            "Mantle of Elders"
+          ]
         },
         {
           "name": "Calculated Tenacity",
-          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit."
+          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit.",
+          "options": [
+            "Calculated Tenacity"
+          ]
         },
         {
           "name": "Dêlvwerke Navigator",
-          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit."
+          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit.",
+          "options": [
+            "Dêlvwerke Navigator"
+          ]
         },
         {
           "name": "Quake Supervisor",
-          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll."
+          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll.",
+          "options": [
+            "Quake Supervisor"
+          ]
         },
         {
           "name": "Piledriver",
-          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons."
+          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons.",
+          "options": [
+            "Piledriver"
+          ]
         },
         {
           "name": "Multiwave System Jammer",
-          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is."
+          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is.",
+          "options": [
+            "Multiwave System Jammer"
+          ]
         },
         {
           "name": "Tactical Alchemy",
-          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP."
+          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP.",
+          "options": [
+            "Tactical Alchemy"
+          ]
         },
         {
           "name": "Trivârg Cyber Implant",
-          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability."
+          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability.",
+          "options": [
+            "Trivârg Cyber Implant"
+          ]
         },
         {
           "name": "Precursive Judgement",
-          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem."
+          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem.",
+          "options": [
+            "Precursive Judgement"
+          ]
         },
         {
           "name": "Signature Restoration",
-          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound."
+          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound.",
+          "options": [
+            "Signature Restoration"
+          ]
         },
         {
           "name": "Mercenary Prospector",
-          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP."
+          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP.",
+          "options": [
+            "Mercenary Prospector"
+          ]
         },
         {
           "name": "Metaphysical Brokerage",
-          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference."
+          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference.",
+          "options": [
+            "Metaphysical Brokerage"
+          ]
         },
         {
           "name": "Etacarn SB9 Targeting Implant",
-          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability."
+          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability.",
+          "options": [
+            "Etacarn SB9 Targeting Implant"
+          ]
         },
         {
           "name": "Asset Manipulator",
-          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit."
+          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit.",
+          "options": [
+            "Asset Manipulator"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -2581,115 +3068,199 @@
         },
         {
           "name": "Bastion Shield",
-          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead."
+          "text": "Each time a ranged attack targets the bearer’s unit, if the attacking model is within 12\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1. If you spend 1YP, until the end of the phase, if the attacking model is within 18\" of the bearer’s unit, worsen the Armour Penetration characteristic of that attack by 1 instead.",
+          "options": [
+            "Bastion Shield"
+          ]
         },
         {
           "name": "High Kâhl",
-          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+          "text": "Each time a model in the bearer’s unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
+          "options": [
+            "High Kâhl"
+          ]
         },
         {
           "name": "Ironskein",
-          "text": "Add 2 to the bearer’s Wounds characteristic."
+          "text": "Add 2 to the bearer’s Wounds characteristic.",
+          "options": [
+            "Ironskein"
+          ]
         },
         {
           "name": "Quake Multigenerator",
-          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, select one enemy unit (excluding TITANIC units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Quake Multigenerator"
+          ]
         },
         {
           "name": "Oathbound Speculator",
-          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack, re-roll a Wound roll of 1. Each time the bearer's unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer's unit makes an attack, add 1 to the Wound roll.",
+          "options": [
+            "Oathbound Speculator"
+          ]
         },
         {
           "name": "Writ of Acquisition",
-          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP)."
+          "text": "In your Shooting phase, after the bearer's unit has shot, you gain 1YP for each assailed unit hit by one or more of those attacks (to a maximum of 3YP).",
+          "options": [
+            "Writ of Acquisition"
+          ]
         },
         {
           "name": "Surgical Saboteur",
-          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned."
+          "text": "In your Shooting phase, after this model has shot, select one ^^**Monster^^** or ^^**Vehicle^^** unit hit by one or more of those attacks; until the start of your next Shooting phase, that model is pinned.",
+          "options": [
+            "Surgical Saboteur"
+          ]
         },
         {
           "name": "Nomad Strategist",
-          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units)."
+          "text": "Once per battle, at the end of your opponent's Fight phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one ^^**Hernkyn^^** unit from your army, and, for every 2YP you just spent, select up to one additional ^^**Hernkyn^^** unit from your army. You can remove those units from the battlefield and place them into Strategic Reserves. You cannot select a unit that is within Engagement Range of one or more enemy units (excluding assailed units).",
+          "options": [
+            "Nomad Strategist"
+          ]
         },
         {
           "name": "Eye For Weakness",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an assailed unit, add 1 to the Wound roll.",
+          "options": [
+            "Eye For Weakness"
+          ]
         },
         {
           "name": "Dead Reckoning",
-          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP."
+          "text": "**^^Leagues of Votann^^** model only. At the end of the turn, if the bearer is on the battlefield and you spent no YP in that turn, you gain 1YP.",
+          "options": [
+            "Dead Reckoning"
+          ]
         },
         {
           "name": "Iron Ambassador",
-          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons."
+          "text": "**^^Leagues of Votann^^** model equipped with an Autoch-pattern combi-bolter only. Once per battle, when the bearer's unit is selected to shoot, the bearer can use this Enhancement. If it does, spend up to 3YP, and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's ranged weapons.",
+          "options": [
+            "Iron Ambassador"
+          ]
         },
         {
           "name": "Ancestral Crest",
-          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP."
+          "text": "Once per turn, when you target the bearer's unit with the Command Re-roll Stratagem, the bearer can use this Enhancement. If it does, spend 1YP and reduces the CP cost of that Stratagem by 1CP.",
+          "options": [
+            "Ancestral Crest"
+          ]
         },
         {
           "name": "Fârstryder Node",
-          "text": "Models in the bearer's unit have the Deep Strike abilty."
+          "text": "Models in the bearer's unit have the Deep Strike abilty.",
+          "options": [
+            "Fârstryder Node"
+          ]
         },
         {
           "name": "Graviton Vault",
-          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+          "text": "In your Shooting phase, after the bearer has shot, and in the Fight phase, after the bearer has fought, select one enemy ^^**Monster^^** or ^^**Vehicle**^^ unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          "options": [
+            "Graviton Vault"
+          ]
         },
         {
           "name": "Mantle of Elders",
-          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP."
+          "text": "Each time the bearer's unit is selected to shoot, if you spend YP using the Optimal Application Detachment rule when doing so, you can roll one D6: on a 2+, you gain 1YP.",
+          "options": [
+            "Mantle of Elders"
+          ]
         },
         {
           "name": "Calculated Tenacity",
-          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit."
+          "text": "While the bearer is leading a unit, add 1 to the Objective Control characteristic of models in that unit.",
+          "options": [
+            "Calculated Tenacity"
+          ]
         },
         {
           "name": "Dêlvwerke Navigator",
-          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit."
+          "text": "In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly ^^**Cthonian Beserks^^** unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding ^^**Character**^^ models) to that unit, and then, for every 2YP you just spent, return up to one additional destroyed model (excluding ^^**Character**^^ models) to that unit.",
+          "options": [
+            "Dêlvwerke Navigator"
+          ]
         },
         {
           "name": "Quake Supervisor",
-          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll."
+          "text": "While the bearer is within 3\" of one or more friendly ^^**Leagues of Votann Artillery^^** units, the bearer has the Lone Operative ability, and each time one of those ^^**Artillery^^** units makes a ranged attack that targets an enemy unit visible to the bearer, add 1 to the Hit roll.",
+          "options": [
+            "Quake Supervisor"
+          ]
         },
         {
           "name": "Piledriver",
-          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons."
+          "text": "Each time the bearer's unit is selected to fight, the bearer can use this Enhancement. If it does, spend up to 2YP and, until the end of the phase, add the number of YP you just spent to the Damage characteristic of the bearer's melee weapons.",
+          "options": [
+            "Piledriver"
+          ]
         },
         {
           "name": "Multiwave System Jammer",
-          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is."
+          "text": "Once per battle, in your Movement phase, if the bearer is on the battlefield, it can use this Enhancement. If it does, select one friendly ^^**Cthonian^^** unit that is in Reserves. Until the end of the phase, for the purposes of setting up that unit on the battlefield, treat the current battle round number as one higher than it actually is.",
+          "options": [
+            "Multiwave System Jammer"
+          ]
         },
         {
           "name": "Tactical Alchemy",
-          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP."
+          "text": "In your Command phase, if the bearer's unit is in range of one or more objective markers you control that are not in your deployment zone, you can spend 1YP. If you do, roll one D6: on a 4+, you gain 1CP.",
+          "options": [
+            "Tactical Alchemy"
+          ]
         },
         {
           "name": "Trivârg Cyber Implant",
-          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability."
+          "text": "In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a ^^**Transport^^** this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by model in that unit have the [**^^Sustained Hits 2^^**] ability.",
+          "options": [
+            "Trivârg Cyber Implant"
+          ]
         },
         {
           "name": "Precursive Judgement",
-          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem."
+          "text": "While the bearer's unit is wholly within 6\" of one or more friendly ^^**Leagues of Votann Transport^^** units, you can target the bearer's unit with the Fire Overwatch Stratagem for 0CP and hits are scored on an unmodified Hit roll of 5+ while resolving that Stratagem.",
+          "options": [
+            "Precursive Judgement"
+          ]
         },
         {
           "name": "Signature Restoration",
-          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound."
+          "text": "Each time a friendly ^^**Leagues of Votann^^** model is repaired using the bearer's Forgewrought Expertise ability, that model regains one additional lost wound.",
+          "options": [
+            "Signature Restoration"
+          ]
         },
         {
           "name": "Mercenary Prospector",
-          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP."
+          "text": "Each time an enemy unit is destroyed by the bearer’s unit, gain 2YP.",
+          "options": [
+            "Mercenary Prospector"
+          ]
         },
         {
           "name": "Metaphysical Brokerage",
-          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference."
+          "text": "At the end of your turn, if the bearer is on the battlefield and you gained fewer than 3YP this turn, you gain an amount of YP equal to the difference.",
+          "options": [
+            "Metaphysical Brokerage"
+          ]
         },
         {
           "name": "Etacarn SB9 Targeting Implant",
-          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability."
+          "text": "Each time a model in the bearer’s unit makes an attack, re‑roll a Hit roll of 1. Each time the bearer’s unit is selected to shoot or fight, you can spend 3YP. If you do, until the end of the phase, each time a model in the bearer’s unit makes an attack, that attack has the [SUSTAINED HITS 1] ability.",
+          "options": [
+            "Etacarn SB9 Targeting Implant"
+          ]
         },
         {
           "name": "Asset Manipulator",
-          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit."
+          "text": "At the start of the Command phase, you can spend 3YP. If you do, until the end of the turn, while an enemy unit is within 3” of the bearer, subtract 1 from the Objective Control characteristic of models in that enemy unit.",
+          "options": [
+            "Asset Manipulator"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -2701,7 +3272,10 @@
         }
       ],
       "isCharacter": true,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 1"
+      ]
     },
     {
       "id": "kapricus-defenders",
@@ -2797,7 +3371,10 @@
         },
         {
           "name": "Smoke Launcher",
-          "text": "The bearer has the ^^**Smoke**^^ keyword."
+          "text": "The bearer has the ^^**Smoke**^^ keyword.",
+          "options": [
+            "Smoke launcher"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -2809,7 +3386,11 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Scouts 9\"",
+        "Deadly Demise 1"
+      ]
     },
     {
       "id": "kapricus-carrier",
@@ -2883,7 +3464,10 @@
         },
         {
           "name": "Smoke Launcher",
-          "text": "The bearer has the ^^**Smoke**^^ keyword."
+          "text": "The bearer has the ^^**Smoke**^^ keyword.",
+          "options": [
+            "Smoke launcher"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -2899,7 +3483,11 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 1",
+        "Scouts 9\""
+      ]
     },
     {
       "id": "ironkin-steeljacks-with-heavy-volkanite-disintegrators",
@@ -2985,7 +3573,10 @@
         },
         {
           "name": "Preymark crest",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an enemy unit within range of one or more objective markers, on a Critical Wound, that attack has the [Precision] ability."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an enemy unit within range of one or more objective markers, on a Critical Wound, that attack has the [Precision] ability.",
+          "options": [
+            "Preymark crest"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -3071,7 +3662,10 @@
         },
         {
           "name": "Preymark crest",
-          "text": "Each time a model in the bearer's unit makes an attack that targets an enemy unit within range of one or more objective markers, on a Critical Wound, that attack has the [Precision] ability."
+          "text": "Each time a model in the bearer's unit makes an attack that targets an enemy unit within range of one or more objective markers, on a Critical Wound, that attack has the [Precision] ability.",
+          "options": [
+            "Preymark crest"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -3178,11 +3772,17 @@
       "abilities": [
         {
           "name": "Geomantic Hunters",
-          "text": "Up to twice per battle, in your Shooting phase, when this unit is selected to shoot, it can use this ability. If it does, until the end of the phase, each time a model in this unit makes an attack with its breacher ordnance, you can re-roll the Wound roll."
+          "text": "Up to twice per battle, in your Shooting phase, when this unit is selected to shoot, it can use this ability. If it does, until the end of the phase, each time a model in this unit makes an attack with its breacher ordnance, you can re-roll the Wound roll.",
+          "options": [
+            "Breacher ordnance"
+          ]
         },
         {
           "name": "Destabilising Quakes",
-          "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks made with its tremor shells. That unit must take a Battle-shock test, subtracting 1 from the result."
+          "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks made with its tremor shells. That unit must take a Battle-shock test, subtracting 1 from the result.",
+          "options": [
+            "Tremor shells"
+          ]
         },
         {
           "name": "Guerrilla Adepts",
@@ -3702,27 +4302,45 @@
         },
         {
           "name": "Barrier Tech Repulsion",
-          "text": "Each time a ranged attack targets this unit, subtract 1 from the Hit roll."
+          "text": "Each time a ranged attack targets this unit, subtract 1 from the Hit roll.",
+          "options": [
+            "Barrier Tech Repulsion"
+          ]
         },
         {
           "name": "Exemplar of the Einhyr",
-          "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit."
+          "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit.",
+          "options": [
+            "Exemplar of the Einhyr"
+          ]
         },
         {
           "name": "Forgewrought Expertise",
-          "text": "At the end of your Movement phase, this model can repair one friendly ^^**Leagues of Votann Vehicle, Exoframe**^^ or **^^Ironkin Steeljacks**^^ unit within 3\" of it. One model in that unit regains up to D3 lost wounds. Each unit can only be repaired once per turn."
+          "text": "At the end of your Movement phase, this model can repair one friendly ^^**Leagues of Votann Vehicle, Exoframe**^^ or **^^Ironkin Steeljacks**^^ unit within 3\" of it. One model in that unit regains up to D3 lost wounds. Each unit can only be repaired once per turn.",
+          "options": [
+            "Forgewrought Expertise"
+          ]
         },
         {
           "name": "Kindred Hero",
-          "text": "While this model is leading a unit, weapons equipped by models in that unit have the [^^Lethal Hits^^] ability."
+          "text": "While this model is leading a unit, weapons equipped by models in that unit have the [^^Lethal Hits^^] ability.",
+          "options": [
+            "Kindred Hero"
+          ]
         },
         {
           "name": "Rampart Crest",
-          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save."
+          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save.",
+          "options": [
+            "Rampart Crest"
+          ]
         },
         {
           "name": "Teleport Crest",
-          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability."
+          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability.",
+          "options": [
+            "Teleport Crest"
+          ]
         },
         {
           "name": "Prioritised Efficiency",
@@ -4237,27 +4855,45 @@
         },
         {
           "name": "Barrier Tech Repulsion",
-          "text": "Each time a ranged attack targets this unit, subtract 1 from the Hit roll."
+          "text": "Each time a ranged attack targets this unit, subtract 1 from the Hit roll.",
+          "options": [
+            "Barrier Tech Repulsion"
+          ]
         },
         {
           "name": "Exemplar of the Einhyr",
-          "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit."
+          "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit.",
+          "options": [
+            "Exemplar of the Einhyr"
+          ]
         },
         {
           "name": "Forgewrought Expertise",
-          "text": "At the end of your Movement phase, this model can repair one friendly ^^**Leagues of Votann Vehicle, Exoframe**^^ or **^^Ironkin Steeljacks**^^ unit within 3\" of it. One model in that unit regains up to D3 lost wounds. Each unit can only be repaired once per turn."
+          "text": "At the end of your Movement phase, this model can repair one friendly ^^**Leagues of Votann Vehicle, Exoframe**^^ or **^^Ironkin Steeljacks**^^ unit within 3\" of it. One model in that unit regains up to D3 lost wounds. Each unit can only be repaired once per turn.",
+          "options": [
+            "Forgewrought Expertise"
+          ]
         },
         {
           "name": "Kindred Hero",
-          "text": "While this model is leading a unit, weapons equipped by models in that unit have the [^^Lethal Hits^^] ability."
+          "text": "While this model is leading a unit, weapons equipped by models in that unit have the [^^Lethal Hits^^] ability.",
+          "options": [
+            "Kindred Hero"
+          ]
         },
         {
           "name": "Rampart Crest",
-          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save."
+          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save.",
+          "options": [
+            "Rampart Crest"
+          ]
         },
         {
           "name": "Teleport Crest",
-          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability."
+          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability.",
+          "options": [
+            "Teleport Crest"
+          ]
         },
         {
           "name": "Prioritised Efficiency",
@@ -4772,27 +5408,45 @@
         },
         {
           "name": "Barrier Tech Repulsion",
-          "text": "Each time a ranged attack targets this unit, subtract 1 from the Hit roll."
+          "text": "Each time a ranged attack targets this unit, subtract 1 from the Hit roll.",
+          "options": [
+            "Barrier Tech Repulsion"
+          ]
         },
         {
           "name": "Exemplar of the Einhyr",
-          "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit."
+          "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit.",
+          "options": [
+            "Exemplar of the Einhyr"
+          ]
         },
         {
           "name": "Forgewrought Expertise",
-          "text": "At the end of your Movement phase, this model can repair one friendly ^^**Leagues of Votann Vehicle, Exoframe**^^ or **^^Ironkin Steeljacks**^^ unit within 3\" of it. One model in that unit regains up to D3 lost wounds. Each unit can only be repaired once per turn."
+          "text": "At the end of your Movement phase, this model can repair one friendly ^^**Leagues of Votann Vehicle, Exoframe**^^ or **^^Ironkin Steeljacks**^^ unit within 3\" of it. One model in that unit regains up to D3 lost wounds. Each unit can only be repaired once per turn.",
+          "options": [
+            "Forgewrought Expertise"
+          ]
         },
         {
           "name": "Kindred Hero",
-          "text": "While this model is leading a unit, weapons equipped by models in that unit have the [^^Lethal Hits^^] ability."
+          "text": "While this model is leading a unit, weapons equipped by models in that unit have the [^^Lethal Hits^^] ability.",
+          "options": [
+            "Kindred Hero"
+          ]
         },
         {
           "name": "Rampart Crest",
-          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save."
+          "text": "While the bearer is leading a unit, models in that unit have a 5+ invulnerable save.",
+          "options": [
+            "Rampart Crest"
+          ]
         },
         {
           "name": "Teleport Crest",
-          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability."
+          "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability.",
+          "options": [
+            "Teleport Crest"
+          ]
         },
         {
           "name": "Prioritised Efficiency",
@@ -4896,7 +5550,10 @@
         }
       ],
       "isCharacter": true,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Feel No Pain 4+"
+      ]
     }
   ]
 }

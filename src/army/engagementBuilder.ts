@@ -115,6 +115,13 @@ function incomingHitMod(target: TargetUnit): number {
   return -(target.incoming?.hitPenalty ?? 0);
 }
 
+/** Manual -1-to-Hit defensive toggle. Applies to every attack against the
+ * target, shooting or melee (unlike the auto-detected one above, which models
+ * ranged-only abilities such as Stealth). */
+function manualHitMod(target: TargetUnit): number {
+  return target.defensiveSettings?.minusOneToHit ? -1 : 0;
+}
+
 function furyOfTitanRerolls(scenario: ScenarioFlags): RerollFlags | undefined {
   return scenario.deepStruck ? { hitRerollOnes: true, woundRerollOnes: true } : undefined;
 }
@@ -169,7 +176,7 @@ export function buildShootingEngagements(
       // ability (e.g. Stealth, which is a ranged-only penalty — hence applied
       // here in the shooting builder, not in melee). Engine clamps the total.
       const hitMod =
-        (target.hasCover && !weapon.keywords.ignoresCover ? -1 : 0) + incomingHitMod(target);
+        (target.hasCover && !weapon.keywords.ignoresCover ? -1 : 0) + incomingHitMod(target) + manualHitMod(target);
       const ctx: AttackContext = {
         numAttackingModels: loadout.count,
         weapon,
@@ -215,7 +222,7 @@ export function buildMeleeEngagements(
       weapon,
       target,
       halfRange: false,
-      hitMod: 0,
+      hitMod: manualHitMod(target),
       woundMod,
       strengthBonus: 0,
       grantDevastatingWounds,

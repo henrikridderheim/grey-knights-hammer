@@ -51,6 +51,12 @@ export interface NormalizedWeapon {
 export interface NormalizedAbility {
   name: string;
   text: string;
+  /** Present only when the ability exists solely as part of one or more OPTIONAL
+   * upgrades of this unit (an enhancement, a wargear option, ...) — the names
+   * of those upgrades. Absent = the unit's own, always-on ability. An ability
+   * with `options` must only be applied when the army list actually selects
+   * one of them (see isOptionSelected). */
+  options?: string[];
 }
 
 export interface NormalizedStatline {
@@ -78,6 +84,12 @@ export interface NormalizedUnit {
    * scripts/PIPELINE_NOTES.md. */
   weapons: NormalizedWeapon[];
   abilities: NormalizedAbility[];
+  /** Core abilities with their values, e.g. ["Deadly Demise D6", "Feel No
+   * Pain 5+", "Stealth"]. Kept separate from `abilities` because the source
+   * data stores them as links to core rules (value in a link modifier), not as
+   * ability profiles — see parseCoreAbilities in scripts/fetch-and-parse-data.mjs.
+   * Absent on units with none. */
+  coreAbilities?: string[];
   isCharacter: boolean;
   canLead: string[];
   legends?: boolean;

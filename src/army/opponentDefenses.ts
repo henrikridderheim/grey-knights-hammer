@@ -105,9 +105,49 @@ export function setSharedAbilityPool(names: Iterable<string>): void {
   sharedAbilityPool = new Set(names);
 }
 
+const normName = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
+
+/** Is one of an optional ability's providing upgrades actually taken in the army
+ * list? An upgrade is "taken" if it's the unit's chosen enhancement, or it
+ * matches a wargear line (the export prints taken wargear, e.g. "1x Nullstone
+ * Field Generator (Aura)"). Names are compared ignoring case/punctuation, and a
+ * wargear line may add a suffix to the upgrade's name ("... (Aura)"). */
+export function isOptionSelected(
+  options: readonly string[],
+  wargear: readonly ParsedWargearLine[],
+  enhancement?: string | null
+): boolean {
+  const enh = enhancement ? normName(enhancement) : "";
+  const lines = wargear.flatMap((w) => [w.rawText, w.matchedWeaponName]).filter((x): x is string => !!x).map(normName);
+  return options.some((opt) => {
+    const o = normName(opt);
+    if (!o) return false;
+    if (enh && enh === o) return true;
+    return lines.some((n) => n === o || n.startsWith(o) || (n.length >= 8 && o.startsWith(n)));
+  });
+}
+
 /** Hints that an ability only applies in a specific, unverifiable situation. */
 const CONDITION_HINT =
   /(against|remained stationary|mortal wound|more than \d|within \d|below (half|starting)|each time this unit is selected as the target of a psychic)/i;
+
+/** Text that describes penalties on attacks MADE by a model, with nothing saying
+ * the attacks are made AGAINST this unit — e.g. "each time a model in that unit
+ * makes an attack, subtract 1 from the Hit roll" (a debuff this unit puts on a
+ * selected enemy, like Animus Damper) or "while this model has 1-4 wounds
+ * remaining, each time this model makes an attack, subtract 1 from the Hit roll"
+ * (the model's own damaged-profile penalty). Neither protects this unit from
+ * incoming attacks, so neither may be applied as a -1 to be hit / -1 to be
+ * wounded. Wording that says attacks "target" / "are made against" this unit
+ * is a real defence and is never treated as offensive-only. */
+function isOffensiveOnly(text: string): boolean {
+  const defends =
+    /attacks?\s+(?:that\s+)?targets?\s+(?:this|that|the bearer|it\b)|attacks?\s+(?:is|are)\s+made\s+against\s+(?:this|that|the bearer)/i.test(
+      text
+    );
+  if (defends) return false;
+  return /\b(?:makes?|made)\s+(?:an?\s+)?attacks?\b/i.test(text);
+}
 
 function isDefensiveRelevant(text: string): boolean {
   return /(wound roll|hit roll|feel no pain|damage characteristic|invulnerable|saving throw|cannot be wounded|reduce the damage|halve the damage)/i.test(
@@ -119,24 +159,58 @@ function isDefensiveRelevant(text: string): boolean {
  * DEFENSIVE rules, mapping each to a typed engine effect. Conservative by
  * design: anything with wording we can't confidently model is returned in
  * `unmodeled` for the user to see, not silently applied. */
-export function detectDefensiveAbilities(sheet: NormalizedUnit, wargear: ParsedWargearLine[]): DefenseDetection {
+export function detectDefensiveAbilities(
+  sheet: NormalizedUnit,
+  wargear: ParsedWargearLine[],
+  enhancement?: string | null
+): DefenseDetection {
   const detected: DetectedAbility[] = [];
   const unmodeled: string[] = [];
   const seen = new Set<string>();
   const add = (effect: DefensiveEffect, label: string, source: string, conditional: boolean) => {
     const id = `${sheet.id}:${effect.kind}`;
-    if (seen.has(id)) return; // one of each effect kind per unit
+    if (seen.has(id)) {
+      // One of each effect kind per unit — except Feel No Pain, where a better
+      // (lower) unconditional value found later replaces a worse one.
+      if (effect.kind !== "feelNoPain" || conditional) return;
+      const i = detected.findIndex((d) => d.id === id);
+      const cur = detected[i];
+      if (cur && cur.effect.kind === "feelNoPain" && effect.value < cur.effect.value) {
+        detected[i] = { id, label, source, effect, conditional };
+      }
+      return;
+    }
     seen.add(id);
     detected.push({ id, label, source, effect, conditional });
   };
+
+  // Core abilities (Feel No Pain N+, Stealth, ...). These come from the data
+  // pipeline's `coreAbilities` list, NOT from `abilities` — the source data
+  // stores them as links to core rules, so they never appear as ability text.
+  // They're the unit's own printed rules (not the faction-wide shared pool), so
+  // they're read first and are never excluded by `sharedAbilityPool`.
+  for (const core of sheet.coreAbilities ?? []) {
+    const fnpCore = core.match(/^feel no pain\s*(\d)\+$/i);
+    if (fnpCore) {
+      add({ kind: "feelNoPain", value: Number(fnpCore[1]) }, `Feel No Pain ${fnpCore[1]}+ (core ability)`, "Core ability", false);
+    } else if (/^stealth$/i.test(core)) {
+      add({ kind: "hitPenalty" }, "-1 to be hit (ranged) — Stealth (core ability)", "Core ability: Stealth", false);
+    }
+  }
 
   for (const a of sheet.abilities) {
     // Skip the faction-wide shared pool (see sharedAbilityPool) — those aren't
     // reliably this unit's own abilities. Storm Shield is handled separately
     // below via wargear, so excluding it here doesn't lose it.
     if (sharedAbilityPool.has(a.name)) continue;
+    // An ability that only exists as part of an optional upgrade (an
+    // enhancement, a wargear option) is the unit's only if the list takes it —
+    // the datasheet lists every option a player *could* take, so without this a
+    // C'tan that didn't take Animus Damper would still get its effects.
+    if (a.options && !isOptionSelected(a.options, wargear, enhancement)) continue;
     const t = a.text;
     let matched = false;
+    const offensiveOnly = isOffensiveOnly(t);
 
     // Rugged Resilience (conditional -1 to wound when S > T) — checked before the
     // generic -1-to-wound so it isn't mistaken for an unconditional penalty.
@@ -146,7 +220,7 @@ export function detectDefensiveAbilities(sheet: NormalizedUnit, wargear: ParsedW
     ) {
       add({ kind: "ruggedResilience" }, "Rugged Resilience (-1 to wound if S > T)", a.name, false);
       matched = true;
-    } else if (/subtract 1 from the wound roll/i.test(t)) {
+    } else if (!offensiveOnly && /subtract 1 from the wound roll/i.test(t)) {
       add({ kind: "woundPenalty" }, "-1 to be wounded", a.name, CONDITION_HINT.test(t));
       matched = true;
     }
@@ -157,7 +231,7 @@ export function detectDefensiveAbilities(sheet: NormalizedUnit, wargear: ParsedW
       matched = true;
     }
 
-    if (/^stealth$/i.test(a.name) || /subtract 1 from the hit roll/i.test(t)) {
+    if (/^stealth$/i.test(a.name) || (!offensiveOnly && /subtract 1 from the hit roll/i.test(t))) {
       add({ kind: "hitPenalty" }, "-1 to be hit (ranged)", a.name, CONDITION_HINT.test(t) && !/stealth/i.test(a.name));
       matched = true;
     }
@@ -171,7 +245,7 @@ export function detectDefensiveAbilities(sheet: NormalizedUnit, wargear: ParsedW
       matched = true;
     }
 
-    if (!matched && isDefensiveRelevant(t)) unmodeled.push(a.name);
+    if (!matched && !offensiveOnly && isDefensiveRelevant(t)) unmodeled.push(a.name);
   }
 
   const ss = stormShieldInfo(sheet, wargear);
@@ -205,9 +279,10 @@ export function buildUnitDefense(
   count: number,
   wargear: ParsedWargearLine[],
   disabled: ReadonlySet<string>,
-  isAttachedCharacter?: boolean
+  isAttachedCharacter?: boolean,
+  enhancement?: string | null
 ): UnitDefense {
-  const { detected, unmodeled } = detectDefensiveAbilities(sheet, wargear);
+  const { detected, unmodeled } = detectDefensiveAbilities(sheet, wargear, enhancement);
   const active = detected.filter((d) => !disabled.has(d.id));
 
   const fnpEffect = active.find((d) => d.effect.kind === "feelNoPain")?.effect;

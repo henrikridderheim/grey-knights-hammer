@@ -168,7 +168,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D6+6"
+      ]
     },
     {
       "id": "warbringer-nemesis-titan",
@@ -365,7 +368,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise D6+6"
+      ]
     },
     {
       "id": "warhound-titan",
@@ -504,7 +510,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 2D6"
+      ]
     },
     {
       "id": "warlord-titan",
@@ -744,7 +753,10 @@
         }
       ],
       "isCharacter": false,
-      "canLead": []
+      "canLead": [],
+      "coreAbilities": [
+        "Deadly Demise 2D6+6"
+      ]
     }
   ]
 }
